@@ -1,0 +1,85 @@
+#!/bin/bash
+
+# Script to pull and rotate backups for Minetest.  Keeps 7 daily backups,
+# 5 weekly backups, and infinite monthly backups.
+
+# Rotate files, deleting anything too old.
+# 1: File to rotate.
+# 2: Type of rotation (daily, weekly, &c).
+# 3: Number of rotations to keep.
+rotate() {
+	local file=$1
+	local type=$2
+	local count=$((${3} - 1))
+
+	# Rotate.
+	local newbase="${file/\./-${type}.}"
+	for i in $(seq ${count} -1 1); do
+		local cur="${newbase/\./-${i}.}"
+		local next="${newbase/\./-$((${i} + 1)).}"
+		# Skip missing backups.
+		if [ ! -f "${cur}" ]; then
+			continue
+		fi
+
+		# Rotate.
+		mv "${cur}" "${next}"
+	done
+
+	# Create.
+	ln "${file}" "${newbase/\./-1.}"
+}
+
+# Print usage message and exit the program.
+SOURCE_DEFAULT="/var/lib/minetest/backup.tar.bz2"
+DEST_DEFAULT="cereal-backup.tar.bz2"
+usage_print() {
+	if [ $# -gt 0 ]; then
+		echo "ERROR: $1."
+		echo ""
+	fi
+	echo "USAGE: $0 [SOURCE] [DEST]"
+	echo -e "\tSOURCE: Path to file on remote server (default: '${SOURCE_DEFAULT}')"
+	echo -e "\tDEST: Destination file name (default: '${DEST_DEFAULT}')"
+	if [ $# -gt 0 ]; then
+		exit 1
+	fi
+	exit 0
+}
+
+# Parse arguments.
+if [ $# -gt 2 ]; then
+	usage_print "Too many arguments"
+elif [ $# -gt 0 ]; then
+	if [ "$1" == "-h" -o "$1" == "--help" ]; then
+		usage_print
+	fi
+fi
+SOURCE="${1:-"${SOURCE_DEFAULT}"}"
+DEST="${2:-"${DEST_DEFAULT}"}"
+
+# Grab backup from server.
+set -ex
+scp -o BatchMode=yes mtbackup@mt.frostsnow.net:"${SOURCE}" "${DEST}"
+if [ ! -f "${DEST}" ]; then
+	# Should only really happen when testing.
+	echo "No backup file found, DYING!"
+	exit 1
+fi
+
+# Monthly backups (kept forever).
+if [ $(date +%d) -eq 1 ]; then
+	# Monthly backup.
+	ln "${DEST}" "${DEST/\./-MONTHLY-$(DATE +%Y%M%D).}"
+fi
+
+# Weekly backups.
+if [ $(date +%w) -eq 0 ]; then
+	rotate "${DEST}" WEEKLY 5
+fi
+
+# Daily backups.
+rotate "${DEST}" DAILY 7
+
+# Remove non-rotated file.
+rm "${DEST}"
