@@ -70,7 +70,7 @@ fi
 # Monthly backups (kept forever).
 if [ $(date +%d) -eq 1 ]; then
 	# Monthly backup.
-	ln "${DEST}" "${DEST/\./-MONTHLY-$(DATE +%Y%M%D).}"
+	ln "${DEST}" "${DEST/\./-MONTHLY-$(date +%Y%M%D).}"
 fi
 
 # Weekly backups.
