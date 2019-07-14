@@ -12,11 +12,12 @@ EGIT_COMMIT="563d0c4476ae9f69d48c72e3faf5728bbecf69bd"
 
 LICENSE="CC-BY-3.0 CC-BY-SA-3.0 CC-BY-SA-4.0 CC0-1.0 LGPL-2.1 LGPL-2.1+ MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 IUSE=""
 
 # FIXME: Will break after version 9.
-RDEPEND=">=games-action/minetest-${PV/%.?/}"
+RDEPEND="dev-lua/luasocket
+	>=games-action/minetest-${PV/%.?/}"
 
 src_install() {
 	insinto /usr/share/minetest/games/${PN}
