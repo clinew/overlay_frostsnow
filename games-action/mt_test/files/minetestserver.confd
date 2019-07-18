@@ -10,8 +10,8 @@ GROUP="@GROUP@"
 PIDFILE="/var/run/minetest-@WORLD@.pid"
 
 # executable
-MINETESTBIN="@BINDIR@/minetestserver"
+MINETESTBIN="@BINDIR@/minetest"
 
 # additional arguments for the server
-ARGS="--logfile /var/log/minetest-@WORLD@/minetest-server.log"
+ARGS="--server --logfile /var/log/minetest-@WORLD@/minetest-server.log"
 

@@ -11,7 +11,7 @@ SRC_URI=""
 
 LICENSE=""
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="games-action/mt_cereal_game"
@@ -42,6 +42,7 @@ src_prepare() {
 src_install() {
 	dosym /etc/init.d/minetest-server /etc/init.d/minetest-server.${WORLD}
 	newconfd "${T}"/minetestserver.confd minetest-server.${WORLD}
+	newinitd "${FILESDIR}"/minetestserver.initd minetest-server.${WORLD}
 
 	diropts -o"${PN}" -g"${PN}" -m0700
 	keepdir /var/log/minetest-${WORLD}
