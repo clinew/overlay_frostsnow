@@ -7,8 +7,8 @@ inherit git-r3
 
 DESCRIPTION="Frostsnow's version of the main game for the Minetest game engine"
 EGIT_REPO_URI="https://github.com/clinew/minetest_game"
-EGIT_BRANCH="cereal-5.0.1"
-EGIT_COMMIT="b3da6592787f74c19f07d76f80b3d3440b9c073f"
+EGIT_BRANCH="cereal"
+EGIT_COMMIT="3dd24fc4d11d92deddfc2895b9e2cdc1ae75cecf"
 
 LICENSE="CC-BY-3.0 CC-BY-SA-3.0 CC-BY-SA-4.0 CC0-1.0 LGPL-2.1 LGPL-2.1+ MIT"
 SLOT="0"
