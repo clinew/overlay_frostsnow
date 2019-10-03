@@ -9,12 +9,12 @@ DESCRIPTION="Install a script to backup a Minetest server"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}
-	virtual/cron"
+	sys-process/cronie"
 BDEPEND=""
 
 pkg_setup() {
@@ -27,9 +27,14 @@ src_unpack() {
 }
 
 src_install() {
-	# Install cron job.
-	exeinto /etc/cron.daily
+	# Install script.
+	exeinto /usr/bin
 	doexe ${FILESDIR}/mtbackup
+
+	# Install cron job.
+	insinto /var/spool/cron/crontabs
+	newins ${FILESDIR}/mtbackup.cron mtbackup
+	fowners mtbackup:crontab /var/spool/cron/crontabs/mtbackup
 
 	# Configuration management (evil).
 	addwrite /home/mtbackup
