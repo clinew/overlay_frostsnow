@@ -32,9 +32,10 @@ src_install() {
 	doexe ${FILESDIR}/mtbackup
 
 	# Install cron job.
+	# FIXME: What if this clobbers an existing crontab?
 	insinto /var/spool/cron/crontabs
-	newins ${FILESDIR}/mtbackup.cron mtbackup
-	fowners mtbackup:crontab /var/spool/cron/crontabs/mtbackup
+	newins ${FILESDIR}/mtbackup.cron root
+	fowners root:crontab /var/spool/cron/crontabs/root
 
 	# Configuration management (evil).
 	addwrite /home/mtbackup
