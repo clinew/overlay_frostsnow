@@ -1,1 +1,2 @@
+PATH="/sbin:/bin:/usr/sbin:/usr/bin"
 10 3 * * * mtbackup
