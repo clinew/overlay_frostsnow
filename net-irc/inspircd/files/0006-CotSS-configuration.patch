@@ -1,0 +1,1343 @@
+From f805d484a62b44d23eb224aee1e674665e70b9c2 Mon Sep 17 00:00:00 2001
+From: Wade Cline <wadecline@hotmail.com>
+Date: Sun, 2 Feb 2020 21:58:12 -0800
+Subject: [PATCH 6/6] CotSS configuration
+
+---
+ docs/conf/filter.conf                |  80 -------------
+ docs/conf/inspircd.conf              | 161 ++++++++++++++++-----------
+ docs/conf/links.conf                 |  60 +++++-----
+ docs/conf/modules.conf               |  89 +++++++++------
+ docs/conf/opermotd.txt               |  41 -------
+ docs/conf/opers.conf                 |  47 ++++----
+ docs/conf/providers/irccloud.conf    |  21 ----
+ docs/conf/providers/kiwiirc-com.conf |  19 ----
+ docs/conf/services/anope.conf        |   9 --
+ docs/conf/services/atheme.conf       |   2 +-
+ docs/sql/sqloper.mysql.sql           |  12 --
+ docs/sql/sqloper.pgsql.sql           |  13 ---
+ docs/sql/sqloper.sqlite3.sql         |  10 --
+ 13 files changed, 205 insertions(+), 359 deletions(-)
+ delete mode 100644 docs/conf/filter.conf
+ delete mode 100644 docs/conf/opermotd.txt
+ delete mode 100644 docs/conf/providers/irccloud.conf
+ delete mode 100644 docs/conf/providers/kiwiirc-com.conf
+ delete mode 100644 docs/conf/services/anope.conf
+ delete mode 100644 docs/sql/sqloper.mysql.sql
+ delete mode 100644 docs/sql/sqloper.pgsql.sql
+ delete mode 100644 docs/sql/sqloper.sqlite3.sql
+
+diff --git a/docs/conf/filter.conf b/docs/conf/filter.conf
+deleted file mode 100644
+index fe95687f5..000000000
+--- a/docs/conf/filter.conf
++++ /dev/null
+@@ -1,80 +0,0 @@
+-# Configuration file for the filter module
+-
+-# The tags for this module are formatted as follows:
+-#
+-# <keyword      pattern="any glob pattern here"
+-#               reason="reason for filtering"
+-#               action="action to take"
+-#               flags="filter flags"
+-#               duration="optional duration of the G-line, Z-line or shun">
+-#
+-# Valid actions for 'action' are:
+-#
+-# warn          This allows the line and sends out a notice to all opers
+-#               with +s.
+-#
+-# block         This blocks the line, sends out a notice to all opers with
+-#               +s and informs the user that their message was blocked.
+-#
+-# silent        This blocks the line only, and informs the user that their
+-#               message was blocked, but does not notify opers.
+-#
+-# none          This action causes nothing to be done except logging. This
+-#               is the default action if none is specified.
+-#
+-# kill          This disconnects the user, with the 'reason' parameter as
+-#               the kill reason.
+-#
+-# gline         G-line the user for 'duration' length of time. Durations may
+-#               be specified using the notation 1y2w3d4h5m6s in a similar way to
+-#               other G-lines, omitting the duration or setting it to 0 makes
+-#               any G-lines set by this filter be permanent.
+-#
+-# zline         Z-line the user for 'duration' length of time. Durations may
+-#               be specified using the notation 1y2w3d4h5m6s in a similar way to
+-#               other Z-lines, omitting the duration or setting it to 0 makes
+-#               any Z-lines set by this filter be permanent.
+-#
+-# shun          Shun the user for 'duration' length of time. Durations may
+-#               be specified using the notation 1y2w3d4h5m6s in a similar way to
+-#               other X-lines, omitting the duration or setting it to 0 makes
+-#               any shuns set by this filter be permanent.
+-#               Requires the shun module to be loaded.
+-#
+-# You can add filters from IRC using the /FILTER command. If you do this, they
+-# will be set globally to your entire network.
+-#
+-# Valid characters for 'flags' are one or more of:
+-#
+-# p: Block private and channel messages
+-# n: Block private and channel notices
+-# P: Block part messages
+-# q: Block quit messages
+-# o: Don't match against opers
+-# r: Don't match against registered users
+-# c: Strip color codes from text before trying to match
+-# *: Represents all of the above flags except r
+-# -: Does nothing, a no-op for when you do not want to specify any flags
+-
+-# Example filters:
+-#
+-# <keyword pattern="*qwerty*" reason="You qwertied!" action="block" flags="pn">
+-# <keyword pattern="*killmenow*" reason="As you request." action="kill" flags="*">
+-# <keyword pattern="*blah*" reason="Don't blah!" action="gline" duration="1d6h" flags="-">
+-
+-# An example regexp filter:
+-#
+-# <keyword pattern="^blah.*?$" reason="Don't blah!" action="gline" duration="1d6h" flags="pnPq">
+-
+-# You may specify specific channels that are exempt from being filtered:
+-#<exemptfromfilter target="#opers">
+-#<exemptfromfilter target="#help">
+-
+-# You can also exempt messages from being filtered if they are sent to
+-# specific nicks.
+-# Example that exempts all messages sent *to* NickServ:
+-#<exemptfromfilter target="NickServ">
+-
+-# Note that messages *from* services are never subject to filtering;
+-# <exemptfromfilter> tags are only for exempting messages sent *to* the
+-# configured targets.
+diff --git a/docs/conf/inspircd.conf b/docs/conf/inspircd.conf
+index 4a7aab514..2f3734367 100644
+--- a/docs/conf/inspircd.conf
++++ b/docs/conf/inspircd.conf
+@@ -75,8 +75,8 @@
+ #                                                                     #
+ # Variables may be redefined and may reference other variables.       #
+ # Value expansion happens at the time the tag is read.                #
+-<define name="bindip" value="1.2.2.3">
+-<define name="localips" value="&bindip;/24">
++#<define name="bindip" value="1.2.2.3">
++#<define name="localips" value="&bindip;/24">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-  SERVER DESCRIPTION  -#-#-#-#-#-#-#-#-#-#-#-#-
+ #                                                                     #
+@@ -86,10 +86,10 @@
+ <server
+         # name: Hostname of your server. Does not need to resolve, but
+         # does need to be correct syntax (something.somethingelse.tld).
+-        name="penguin.omega.example.org"
++        name="frostsnow.net"
+ 
+         # description: Server description. Spaces are allowed.
+-        description="Waddle World"
++        description="Hesse"
+ 
+         # id: The SID to use for this server. This should not be uncommented
+         # unless there is a SID conflict. This must be three characters long.
+@@ -99,7 +99,7 @@
+ 
+         # network: Network name given on connect to clients.
+         # Should be the same on all servers on the network.
+-        network="Omega">
++        network="CotSS">
+ 
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-   ADMIN INFORMATION   -#-#-#-#-#-#-#-#-#-#-#-#
+@@ -110,14 +110,14 @@
+ 
+ <admin
+        # name: Real Name
+-       name="Johnny English"
++       name="Frostsnow"
+ 
+        # nick: Nickname (preferably what you use on the network)
+-       nick="MI5"
++       nick="frostsnow"
+ 
+        # email: email address. Does not have to be valid
+        # but should be for the users to be able to contact you.
+-       email="MI5@the.best.secret.agent">
++       email="/msg HelpServ help">
+ 
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-   PORT CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-
+@@ -160,7 +160,7 @@
+       #
+       # You will need to load the ssl_openssl module for OpenSSL, ssl_gnutls
+       # for GnuTLS and ssl_mbedtls for mbedTLS.
+-      ssl="gnutls"
++      ssl="openssl"
+ 
+       # defer: When this is non-zero, connections will not be handed over to
+       # the daemon from the operating system before data is ready.
+@@ -201,7 +201,7 @@
+     # shut down cleanly and left a zombie socket behind.
+     #replace="yes">
+ 
+-<bind address="" port="6660-6669" type="clients">
++#<bind address="" port="6660-6669" type="clients">
+ 
+ # Listener accepting HTML5 WebSocket connections.
+ # Requires the websocket module and SHA-1 hashing support (provided by the sha1
+@@ -222,8 +222,9 @@
+ # completely link-compatible and can be used alongside each other on each end
+ # of the link without any significant issues.
+ 
+-<bind address="" port="7000,7001" type="servers">
+-<bind address="1.2.3.4" port="7005" type="servers" ssl="openssl">
++# Services.
++<bind address="127.0.0.1" port="7000" type="servers">
++#<bind address="1.2.3.4" port="7005" type="servers" ssl="openssl">
+ 
+ 
+ #-#-#-#-#-#-#-#-#-#-  CONNECTIONS CONFIGURATION  -#-#-#-#-#-#-#-#-#-#-#
+@@ -253,29 +254,29 @@
+ #<include file="examples/providers/kiwiirc-com.conf.example">
+ 
+ # A connect class with <connect:deny> set denies connections from the specified host/IP range.
+-<connect
++#<connect
+          # deny: Will not let people connect if they have specified host/IP.
+-         deny="3ffe::0/32"
++         #deny="3ffe::0/32"
+ 
+          # reason: The message that users will see if they match a deny block.
+-         reason="The 6bone address space is deprecated">
++         #reason="The 6bone address space is deprecated">
+ 
+ # A connect class with <connect:allow> set allows c from the specified host/IP range.
+-<connect
++#<connect
+          # name: Name to use for this connect block. Mainly used for
+          # connect class inheriting.
+-         name="secret"
++         #name="secret"
+ 
+          # parent: This setting is to specify if this connect class
+          # inherits settings from any other. Put the other class's name
+          # in here to use its settings as a template - for example,  if
+          # you only want to adjust sendq and a password
+-         parent="main"
++         #parent="main"
+ 
+          # allow: The IP address or hostname of clients that can use this
+          # class. You can specify either an exact match, a glob match, or
+          # a CIDR range here.
+-         allow="203.0.113.*"
++         #allow="203.0.113.*"
+ 
+          # hash: the hash function this password is hashed with. Requires the
+          # module for the selected function (bcrypt, md5, sha1, or sha256) and
+@@ -287,37 +288,37 @@
+          #hash="bcrypt"
+ 
+          # password: Password to use for this block/user(s)
+-         password="secret"
++         #password="secret"
+ 
+          # maxchans: Maximum number of channels a user in this class
+          # be in at one time.
+-         maxchans="20"
++         #maxchans="20"
+ 
+          # timeout: How long the server will wait before disconnecting
+          # a user if they do not do anything on connect.
+          # (Note, this is a client-side thing, if the client does not
+          # send /NICK, /USER or /PASS)
+-         timeout="20"
++         #timeout="20"
+ 
+          # localmax: Maximum local connections per IP (or CIDR mask, see below).
+-         localmax="3"
++         #localmax="3"
+ 
+          # globalmax: Maximum global (network-wide) connections per IP (or CIDR mask, see below).
+-         globalmax="3"
++         #globalmax="3"
+ 
+          # maxconnwarn: Enable warnings when localmax or globalmax are reached (defaults to on)
+-         maxconnwarn="off"
++         #maxconnwarn="off"
+ 
+          # resolvehostnames: If disabled, no DNS lookups will be performed on connecting users
+          # in this class. This can save a lot of resources on very busy servers.
+-         resolvehostnames="yes"
++         #resolvehostnames="yes"
+ 
+          # usednsbl: Defines whether or not users in this class are subject to DNSBL. Default is yes.
+          # This setting only has effect when the dnsbl module is loaded.
+          #usednsbl="yes"
+ 
+          # useident: Defines if users in this class MUST respond to a ident query or not.
+-         useident="no"
++         #useident="no"
+ 
+          # usests: Whether a STS policy should be advertised to users in this class.
+          # This setting only has effect when the ircv3_sts module is loaded.
+@@ -328,14 +329,14 @@
+          #webirc="name"
+ 
+          # limit: How many users are allowed in this class
+-         limit="5000"
++         #limit="5000"
+ 
+          # modes: User modes that are set on users in this block on connect.
+          # Enabling this option requires that the conn_umodes module be loaded.
+          # This entry is highly recommended to use for/with IP cloaking/masking.
+          # For the example to work, this also requires that the cloaking
+          # module be loaded as well.
+-         modes="+x"
++         #modes="+x"
+ 
+          # requireident: Require that users of this block have a valid ident response.
+          # Requires the ident module to be loaded.
+@@ -371,11 +372,33 @@
+          # Underline:     \u
+          # See https://defs.ircdocs.horse/info/formatting.html for more information
+          # on client support for formatting characters.
+-         motd="secretmotd"
++         #motd="secretmotd"
+ 
+          # port: What port range this user is allowed to connect on. (optional)
+          # The ports MUST be set to listen in the bind blocks above.
+-         port="6697,9999">
++         #port="6697,9999">
++
++# Hack to get cert-only sign-on working.
++<connect
++	name="prereg"
++	allow="*"
++	maxchans="0"
++	timeout="10"
++	pingfreq="60"
++	hardsendq="1048576"
++	softsendq="8192"
++	recvq="8192"
++	threshold="10"
++	commandrate="1000"
++	fakelag="on"
++	localmax="3"
++	globalmax="3"
++	useident="no"
++	limit="23"
++	modes=""
++	registered="false"
++	port="6697"
++>
+ 
+ <connect
+          # name: Name to use for this connect block. Mainly used for
+@@ -389,7 +412,7 @@
+ 
+          # maxchans: Maximum number of channels a user in this class
+          # be in at one time.
+-         maxchans="20"
++         maxchans="23"
+ 
+          # timeout: How long the server will wait before disconnecting
+          # a user if they do not do anything on connect.
+@@ -398,7 +421,7 @@
+          timeout="20"
+ 
+          # pingfreq: How often the server tries to ping connecting clients.
+-         pingfreq="2m"
++         pingfreq="256"
+ 
+          # hardsendq: maximum amount of data allowed in a client's send queue
+          # before they are dropped. Keep this value higher than the length of
+@@ -421,7 +444,7 @@
+          #
+          # If you are not using fakelag, this should be at least 20 to avoid excess flood kills
+          # from processing some commands.
+-         threshold="10"
++         threshold="20"
+ 
+          # commandrate: This specifies the maximum rate that commands can be processed.
+          # If commands are sent more rapidly, the user's penalty will increase and they will
+@@ -446,7 +469,7 @@
+ 
+          # resolvehostnames: If disabled, no DNS lookups will be performed on connecting users
+          # in this class. This can save a lot of resources on very busy servers.
+-         resolvehostnames="yes"
++         resolvehostnames="no"
+ 
+          # useident: Defines if users in this class must respond to a ident query or not.
+          useident="no"
+@@ -463,8 +486,16 @@
+          # This entry is highly recommended to use for/with IP cloaking/masking.
+          # For the example to work, this also requires that the cloaking
+          # module be loaded as well.
+-         modes="+x">
++         #modes="+x"
++         modes="+I"
+ 
++         # requiressl: Require that users of this block use an SSL connection.
++         # This can also be set to "trusted", as to only accept certificates
++         # issued by a certificate authority that you can configure in the
++         # settings of the SSL module that you're using.
++         # Requires the sslinfo module to be loaded.
++         requiressl="trusted"
++>
+ 
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-  CIDR CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-
+@@ -494,11 +525,11 @@
+ 
+ # This file has all the information about oper classes, types and o:lines.
+ # You *MUST* edit it.
+-#<include file="/etc/inspircd/opers.conf">
++<include file="/etc/inspircd/opers.conf">
+ 
+ # This file has all the information about server links and ulined servers.
+ # You *MUST* edit it if you intend to link servers.
+-#<include file="/etc/inspircd/links.conf">
++<include file="/etc/inspircd/links.conf">
+ 
+ #-#-#-#-#-#-#-#-#-#-  MISCELLANEOUS CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
+ #                                                                     #
+@@ -517,7 +548,7 @@
+ # If these values are not defined, InspIRCd uses the default DNS resolver
+ # of your system.
+ 
+-<dns
++#<dns
+      # server: DNS server to use to attempt to resolve IP's to hostnames.
+      # in most cases, you won't need to change this, as inspircd will
+      # automatically detect the nameserver depending on /etc/resolv.conf
+@@ -528,7 +559,7 @@
+      # server="127.0.0.1"
+ 
+      # timeout: time to wait to try to resolve DNS/hostname.
+-     timeout="5">
++     #timeout="5">
+ 
+ # An example of using an IPv6 nameserver
+ #<dns server="::1" timeout="5">
+@@ -543,7 +574,7 @@
+ # the default of 'inspircd.pid' is used.                              #
+ #                                                                     #
+ 
+-#<pid file="/var/run/inspircd/inspircd.pid">
++<pid file="/var/run/inspircd/inspircd.pid">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#- LIST MODE LIMITS #-#-#-#-#-#-#-#-#-#-#-#-#-#
+ #                                                                     #
+@@ -575,7 +606,7 @@
+ <options
+          # prefixquit: What (if anything) users' quit messages
+          # should be prefixed with.
+-         prefixquit="Quit: "
++         #prefixquit="Quit: "
+ 
+          # suffixquit: What (if anything) users' quit messages
+          # should be suffixed with.
+@@ -583,12 +614,12 @@
+ 
+          # prefixpart: What (if anything) users' part messages
+          # should be prefixed with.
+-         prefixpart="&quot;"
++         #prefixpart="&quot;"
+          # NOTE: Use "\"" instead of "&quot;" if not using <config format="xml">
+ 
+          # suffixpart: What (if anything) users' part message
+          # should be suffixed with.
+-         suffixpart="&quot;"
++         #suffixpart="&quot;"
+ 
+          # fixedquit: Set all users' quit messages to this value.
+          #fixedquit=""
+@@ -627,11 +658,11 @@
+          # defaultbind: Sets the default for <bind> tags without an address. Choices are
+          # ipv4 or ipv6; if not specified, IPv6 will be used if your system has support,
+          # falling back to IPv4 otherwise.
+-         defaultbind="auto"
++         defaultbind="ipv4"
+ 
+          # hostintopic: If enabled, channels will show the host of the topic setter
+          # in the topic. If set to no, it will only show the nick of the topic setter.
+-         hostintopic="yes"
++         hostintopic="no"
+ 
+          # pingwarning: If a server does not respond to a ping within this period,
+          # it will send a notice to opers with snomask +l informing that the server
+@@ -639,7 +670,7 @@
+          pingwarning="15"
+ 
+          # serverpingfreq: How often pings are sent between servers.
+-         serverpingfreq="1m"
++         serverpingfreq="256"
+ 
+          # splitwhois: Whether to split private/secret channels from normal channels
+          # in WHOIS responses. Possible values for this are:
+@@ -654,7 +685,7 @@
+ 
+          # xlinemessage: This is the text that is sent to a user when they are
+          # banned from the server.
+-         xlinemessage="You're banned! Email irc@example.com with the ERROR line below for help."
++         xlinemessage="You're banned."
+ 
+          # allowzerolimit: If enabled then allow a limit of 0 to be set on channels.
+          # This is non-standard behaviour and should only be enabled if you need to
+@@ -784,7 +815,7 @@
+           hidebans="no"
+ 
+           # hidekills: If defined, replaces who executed a /KILL with a custom string.
+-          hidekills=""
++          #hidekills=""
+ 
+           # hideulinekills: Hide kills from clients of ulined servers from server notices.
+           hideulinekills="yes"
+@@ -934,7 +965,7 @@
+ # The following log tag is highly default and uncustomised. It is recommended you
+ # sort out your own log tags. This is just here so you get some output.
+ 
+-<log method="file" type="* -USERINPUT -USEROUTPUT" level="default" target="ircd.log">
++<log method="file" type="* -USERINPUT -USEROUTPUT" level="default" target="/var/log/inspircd/ircd.log" flush="1">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-  WHOWAS OPTIONS   -#-#-#-#-#-#-#-#-#-#-#-#-#
+ #                                                                     #
+@@ -956,7 +987,7 @@
+         # before being pruned. Time may be specified in seconds,
+         # or in the following format: 1y2w3d4h5m6s. Minimum is
+         # 1 hour.
+-        maxkeep="3d">
++        maxkeep="1w">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-  BAN OPTIONS  -#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ #                                                                     #
+@@ -965,12 +996,12 @@
+ # Your server.                                                        #
+ #                                                                     #
+ 
+-<badip
++#<badip
+        # ipmask: IP range to ban. Wildcards and CIDR can be used.
+-       ipmask="192.0.2.69"
++       #ipmask="192.0.2.69"
+ 
+        # reason: Reason to display when user is disconnected.
+-       reason="No porn here thanks.">
++       #reason="No porn here thanks.">
+ 
+ <badnick
+          # nick: Nick to disallow. Wildcards are supported.
+@@ -979,25 +1010,25 @@
+          # reason: Reason to display on /NICK.
+          reason="Reserved for a network service">
+ 
+-<badhost
++#<badhost
+          # host: ident@hostname to ban.
+          # Wildcards and CIDR (if you specify an IP) can be used.
+-         host="*@banneduser.example.net"
++         #host="*@banneduser.example.net"
+ 
+          # reason: Reason to display when user is disconnected
+-         reason="Evading Bans">
++         #reason="Evading Bans">
+ 
+ <badhost host="root@*" reason="Don't IRC as root!">
+-<badhost host="*@198.51.100.0/24" reason="This subnet is bad.">
++#<badhost host="*@198.51.100.0/24" reason="This subnet is bad.">
+ 
+ # exception: Hosts that are exempt from [KGZ]-lines.
+-<exception
++#<exception
+            # host: ident@hostname to exempt.
+            # Wildcards and CIDR (if you specify an IP) can be used.
+-           host="*@serverop.example.com"
++           #host="*@serverop.example.com"
+ 
+            # reason: Reason for exception. Only shown in /STATS e.
+-           reason="Oper's hostname">
++           #reason="Oper's hostname">
+ 
+ #-#-#-#-#-#-#-#-#-#-#- INSANE BAN OPTIONS  -#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ #                                                                     #
+@@ -1041,7 +1072,7 @@
+ # provide almost all the features of InspIRCd. :)                     #
+ #                                                                     #
+ # The default does nothing -- we include it for simplicity for you.   #
+-#<include file="/etc/inspircd/modules.conf">
++<include file="/etc/inspircd/modules.conf">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-# SERVICES CONFIGURATION  #-#-#-#-#-#-#-#-#-#-#-#
+ #                                                                     #
+@@ -1050,13 +1081,13 @@
+ # exemptions for services pseudoclients:                              #
+ #
+ # Anope users should uncomment this:
+-#<include file="/etc/inspircd/aliases/anope.conf">
++#<include file="examples/services/anope.conf.example">
+ #
+ # Atheme users should uncomment this:
+-#<include file="/etc/inspircd/aliases/atheme.conf">
++<include file="/etc/inspircd/services/atheme.conf">
+ #
+ # Users of other services should uncomment this:
+-#<include file="/etc/inspircd/aliases/generic.conf">
++#<include file="examples/services/generic.conf.example">
+ 
+ #########################################################################
+ #                                                                       #
+diff --git a/docs/conf/links.conf b/docs/conf/links.conf
+index 09b3bb3d5..b7aeea80b 100644
+--- a/docs/conf/links.conf
++++ b/docs/conf/links.conf
+@@ -17,11 +17,11 @@
+ <link
+       # name: The name of the remote server. This must match
+       # the <server:name> value of the remote server.
+-      name="hub.example.org"
++      name="services.irc.frostsnow.net"
+ 
+       # ipaddr: The IP address of the remote server.
+       # Can also be a hostname, but hostname must resolve.
+-      ipaddr="penguin.example.org"
++      ipaddr="localhost"
+ 
+       # port: The port to connect to the server on.
+       # It must be bound as a server port on the other server.
+@@ -29,7 +29,7 @@
+ 
+       # allowmask: Range of IP addresses to allow for this link.
+       # Can be a CIDR (see example).
+-      allowmask="203.0.113.0/24 127.0.0.0/8 2001:db8::/32"
++      allowmask="127.0.0.0/8"
+ 
+       # timeout: If defined, this option defines how long the server
+       # will wait to consider the connect attempt failed and try the
+@@ -45,7 +45,7 @@
+       # You will need to load the ssl_openssl module for OpenSSL, ssl_gnutls
+       # for GnuTLS and ssl_mbedtls for mbedTLS. The server port that you
+       # connect to must be capable of accepting this type of connection.
+-      ssl="gnutls"
++      #ssl="gnutls"
+ 
+       # fingerprint: If defined, this option will force servers to be
+       # authenticated using SSL certificate fingerprints. See
+@@ -54,7 +54,7 @@
+       #fingerprint=""
+ 
+       # bind: Local IP address to bind to.
+-      bind="1.2.3.4"
++      #bind="127.0.0.1"
+ 
+       # statshidden: Defines if IP is shown to opers when
+       # /STATS c is invoked.
+@@ -62,50 +62,50 @@
+ 
+       # hidden: If this is set to yes, this server and its "child"
+       # servers will not be shown when users do a /MAP or /LINKS.
+-      hidden="no"
++      hidden="yes"
+ 
+       # passwords: The passwords we send and receive.
+       # The remote server will have these passwords reversed.
+       # Passwords that contain a space character or begin with
+       # a colon (:) are invalid and may not be used.
+-      sendpass="outgoing!password"
+-      recvpass="incoming!password">
++      sendpass="FIXME-SECRET
++      recvpass="FIXME-SECRET>
+ 
+ # A duplicate of the first link block without comments,
+ # if you like copying & pasting.
+-<link name="hub.example.org"
+-      ipaddr="penguin.example.org"
+-      port="7000"
+-      allowmask="203.0.113.0/24 127.0.0.0/8 2001:db8::/32"
+-      timeout="5m"
+-      ssl="gnutls"
+-      bind="1.2.3.4"
+-      statshidden="no"
+-      hidden="no"
+-      sendpass="outgoing!password"
+-      recvpass="incoming!password">
++#<link name="hub.example.org"
++#      ipaddr="penguin.example.org"
++#      port="7000"
++#      allowmask="203.0.113.0/24 127.0.0.0/8 2001:db8::/32"
++#      timeout="5m"
++#      ssl="gnutls"
++#      bind="1.2.3.4"
++#      statshidden="no"
++#      hidden="no"
++#      sendpass="outgoing!password"
++#      recvpass="incoming!password">
+ 
+ # Link block for services. Options are the same as for the first
+ # link block (depending on what your services package supports).
+-<link name="services.example.com"
+-      ipaddr="localhost"
+-      port="7000"
+-      allowmask="127.0.0.0/8"
+-      sendpass="penguins"
+-      recvpass="polarbears">
++#<link name="services.example.com"
++#      ipaddr="localhost"
++#      port="7000"
++#      allowmask="127.0.0.0/8"
++#      sendpass="penguins"
++#      recvpass="polarbears">
+ 
+ # Simple autoconnect block. This enables automatic connections to a server.
+ # Recommended setup is to have leaves connect to the hub, and have no
+ # automatic connections started by the hub.
+-<autoconnect period="10m" server="hub.example.org">
++#<autoconnect period="10m" server="hub.example.org">
+ 
+ # Failover autoconnect block. If you have multiple hubs, or want your network
+ # to automatically link even if the hub is down, you can specify multiple
+ # space separated servers to autoconnect; they will be tried in a round
+ # robin fashion until one succeeds. Period defines the time for restarting
+ # a single loop.
+-<autoconnect period="2m"
+-	server="hub.us.example.org hub.eu.example.org leaf.eu.example.org">
++#<autoconnect period="2m"
++#	server="hub.us.example.org hub.eu.example.org leaf.eu.example.org">
+ 
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-# U-LINES CONFIGURATION #-#-#-#-#-#-#-#-#-#-#-#-#
+@@ -117,8 +117,8 @@
+ # not generate quit and connect notices, which can cut down on noise    #
+ # to opers on the network.                                              #
+ #                                                                       #
+-<uline server="services.example.com" silent="yes">
++<uline server="services.irc.frostsnow.net" silent="no">
+ 
+ # Once you have edited this file you can remove this line. This is just to
+ # ensure that you don't hastily include the file without reading it.
+-<die reason="Using links.conf.example without editing it is a security risk">
++#<die reason="Using links.conf.example without editing it is a security risk">
+diff --git a/docs/conf/modules.conf b/docs/conf/modules.conf
+index ea51e9b67..e6327cc17 100644
+--- a/docs/conf/modules.conf
++++ b/docs/conf/modules.conf
+@@ -46,7 +46,7 @@
+ # function without this module but when it is loaded their features will
+ # be enhanced (for example the addition of HMAC authentication).
+ #
+-#<module name="sha256">
++<module name="sha256">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Abbreviation module: Provides the ability to abbreviate commands a-la
+@@ -164,7 +164,7 @@
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Allowinvite module: Gives channel mode +A to allow all users to use
+ # /INVITE, and extban A to deny invite from specific masks.
+-#<module name="allowinvite">
++<module name="allowinvite">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Alltime module: Shows time on all connected servers at once.
+@@ -177,7 +177,7 @@
+ # users that send overly capitalised messages to channels. Unlike the
+ # blockcaps module this module is more flexible as it has more options
+ # for punishment and allows channels to configure their own punishment
+-# policies.
++# policies.
+ #<module name="anticaps">
+ #
+ # You may also configure the characters which anticaps considers to be
+@@ -278,7 +278,7 @@
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Block color module: Blocking color-coded messages with chan mode +c.
+-#<module name="blockcolor">
++<module name="blockcolor">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Botmode module: Adds the user mode +B. If set on a user, it will
+@@ -444,16 +444,16 @@
+ # characters in the channel name such as bold, colorcodes, etc. which
+ # can be quite annoying and allow users to on occasion have a channel
+ # that looks like the name of another channel on the network.
+-#<module name="channames">
++<module name="channames">
+ 
+-#<channames
++<channames
+ 	# denyrange: characters or range of characters to deny in channel
+ 	# names.
+-	#denyrange="2,3"
++	denyrange="2,3,15,22,31"
+ 
+ 	# allowrange: characters or range of characters to specifically allow
+ 	# in channel names.
+-	#allowrange="">
++	allowrange="">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Channelban: Implements extended ban j:, which stops anyone already
+@@ -628,7 +628,7 @@
+ # Connectban: Provides IP connection throttling. Any IP range that
+ # connects too many times (configurable) in an hour is Z-lined for a
+ # (configurable) duration, and their count resets to 0.
+-#<module name="connectban">
++<module name="connectban">
+ #
+ # ipv4cidr and ipv6cidr allow you to turn the comparison from
+ # individual IP addresses (32 and 128 bits) into CIDR masks, to allow
+@@ -640,6 +640,7 @@
+ #<connectban threshold="10" duration="10m" ipv4cidr="32" ipv6cidr="128"
+ # A custom ban message may optionally be specified.
+ # banmessage="Your IP range has been attempting to connect too many times in too short a duration. Wait a while, and you will be able to connect.">
++<connectban threshold="10" duration="10m" ipv4cidr="32" ipv6cidr="128" banmessage="Your IP range has been attempting to connect too many times in too short a duration. Wait a while, and you will be able to connect.">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Connection throttle module.
+@@ -978,7 +979,7 @@
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Hide chans module: Allows users to hide their channels list from non-
+ # opers by setting user mode +I on themselves.
+-#<module name="hidechans">
++<module name="hidechans">
+ #
+ # This mode can optionally prevent opers from seeing channels on a +I
+ # user, for more privacy if set to true.
+@@ -1018,11 +1019,11 @@
+ # Hide oper module: Allows opers to hide their oper status from non-
+ # opers by setting user mode +H on themselves.
+ # This module is oper-only.
+-#<module name="hideoper">
++<module name="hideoper">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Hostchange module: Allows a different style of cloaking.
+-#<module name="hostchange">
++<module name="hostchange">
+ #
+ #-#-#-#-#-#-#-#-#-#-#-  HOSTCHANGE  CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
+ #                                                                     #
+@@ -1032,6 +1033,7 @@
+ #<hostchange mask="*root@*" action="addnick" prefix="example/users/">
+ #<hostchange mask="a@example.com" action="set" value="foo.bar.baz">
+ #<hostchange mask="*@localhost" ports="7000,7001,7005-7007" action="set" value="blahblah.foo">
++<hostchange mask="*" action="addnick" suffix=".frostsnow.net">
+ 
+ # hostcycle: If loaded, when a user gets a host or ident set, it will
+ # cycle them in all their channels. If not loaded it will simply change
+@@ -1162,7 +1164,7 @@
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # IRCv3 client-to-client tags module: Provides the message-tags IRCv3
+-# extension which allows clients to add extra data to their messages.
++# extension which allows clients to add extra data to their messages.
+ # This is used to support new IRCv3 features such as replies and ids.
+ #<module name="ircv3_ctctags">
+ 
+@@ -1171,7 +1173,7 @@
+ # extension which allows capable clients to get an acknowledgement when
+ # their messages are delivered and learn what modifications, if any,
+ # were applied to them.
+-#<module name="ircv3_echomessage">
++<module name="ircv3_echomessage">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # IRCv3 invite-notify module: Provides the invite-notify IRCv3
+@@ -1222,11 +1224,11 @@
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Anti auto rejoin: Adds support for prevention of auto-rejoin (+J).
+-#<module name="kicknorejoin">
++<module name="kicknorejoin">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Knock module: Adds the /KNOCK command and channel mode +K.
+-#<module name="knock">
++<module name="knock">
+ #
+ # This setting specifies what to do when someone successfully /KNOCKs.
+ # If set to "notice", then a NOTICE will be sent to the channel.
+@@ -1235,7 +1237,7 @@
+ # If set to "numeric" then a 710 numeric will be sent to the channel.
+ # This allows easier scripting but not all clients support it.
+ # If set to "both" then (surprise!) both will be sent.
+-#<knock notify="notice">
++<knock notify="notice">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # LDAP module: Allows other SQL modules to access a LDAP database
+@@ -1354,7 +1356,7 @@
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Message flood module: Adds message/notice flood protection via
+ # channel mode +f.
+-#<module name="messageflood">
++<module name="messageflood">
+ #
+ # The weight to give each message type. TAGMSGs are considered to be
+ # 1/5 of a NOTICE or PRIVMSG to avoid users being accidentally flooded
+@@ -1442,7 +1444,7 @@
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # No CTCP module: Adds the channel mode +C and user mode +T to block
+ # CTCPs and extban 'C' to block CTCPs sent by specific users.
+-#<module name="noctcp">
++<module name="noctcp">
+ #
+ # The +T user mode is not enabled by default to enable link compatibility
+ # with 2.0 servers. You can enable it by uncommenting this:
+@@ -1587,7 +1589,7 @@
+ # and/or as the 'modes' parameter of the <oper> tag.
+ # This module is oper-only. For the user equivalent, see the
+ # conn_umodes module.
+-#<module name="opermodes">
++<module name="opermodes">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Password forwarding module: Forwards a password users can send on
+@@ -1596,19 +1598,19 @@
+ # using their connect password.
+ #<module name="passforward">
+ 
+-<passforward
++#<passforward
+ 		# nick: nick to forward connect passwords to.
+-		nick="NickServ"
++		#nick="NickServ"
+ 
+ 		# forwardmsg: Message to send to users using a connect password.
+ 		# $nick will be the users' nick, $nickrequired will be the nick
+ 		# of where the password is going (the nick above).
+ 		# You can also use $user for the user ident string.
+-		forwardmsg="NOTICE $nick :*** Forwarding PASS to $nickrequired"
++		#forwardmsg="NOTICE $nick :*** Forwarding PASS to $nickrequired"
+ 
+ 		# cmd: Command for the user to run when it receives a connect
+ 		# password.
+-		cmd="SQUERY $nickrequired :IDENTIFY $pass">
++		#cmd="PRIVMSG $nickrequired :IDENTIFY $pass">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Password hash module: Allows hashed passwords to be used.
+@@ -1710,7 +1712,7 @@
+ # Optional - If you specify to use the randquote module, then specify #
+ # below the path to the quotes file.                                  #
+ #                                                                     #
+-#<randquote file="quotes.txt">
++<randquote file="quotes.txt">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Redirect module: Adds channel mode +L which redirects users to      #
+@@ -1978,7 +1980,7 @@
+ # +b R: (stop matching account names from joining)
+ # +b U:n!u@h (blocks matching unregistered users)
+ #
+-#<module name="services_account">
++<module name="services_account">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Sethost module: Adds the /SETHOST command.
+@@ -2091,11 +2093,11 @@
+ #
+ # Does not do anything useful without a working SSL module and the
+ # sslinfo module (see below).
+-#<module name="sslmodes">
++<module name="sslmodes">
+ #
+ # The +z user mode is not enabled by default to enable link compatibility
+ # with 2.0 servers. You can enable it by uncommenting this:
+-#<sslmodes enableumode="yes">
++<sslmodes enableumode="yes">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # SSL rehash signal module: Allows the SSL modules to be rehashed by
+@@ -2103,7 +2105,7 @@
+ # This modules is in extras. Re-run configure with:
+ # ./configure --enable-extras=m_sslrehashsignal.cpp
+ # and run make install, then uncomment this module to enable it.
+-#<module name="sslrehashsignal">
++<module name="sslrehashsignal">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # GnuTLS SSL module: Adds support for SSL/TLS connections using GnuTLS,
+@@ -2131,7 +2133,7 @@
+ # For how to use the oper features, please see the first
+ # example <oper> tag in opers.conf.
+ #
+-#<module name="sslinfo">
++<module name="sslinfo">
+ #
+ # If you want to prevent users from viewing SSL certificate information
+ # and fingerprints of other users, set operonly to yes.
+@@ -2151,12 +2153,29 @@
+ # if enabled. You must answer 'yes' in ./configure when asked or symlink
+ # the source for this module from the directory src/modules/extra, if
+ # you want to enable this, or it will not load.
+-#<module name="ssl_openssl">
++<module name="ssl_openssl">
+ #
+ #-#-#-#-#-#-#-#-#-#-#- OPENSSL CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-#
+ #                                                                     #
+ # ssl_openssl is too complex to describe here, see the docs:          #
+ # https://docs.inspircd.org/3/modules/ssl_openssl                     #
++<openssl
++	cafile="/etc/ssl/frostsnow.net/certs/client_cas.pem"
++	certfile="/etc/ssl/frostsnow.net/certs/cert.pem"
++	keyfile="/etc/ssl/frostsnow.net/private/key.pem"
++	dhfile="/etc/ssl/frostsnow.net/dhparams.pem"
++	hash="sha256"
++	ciphers="HIGH:@STRENGTH"
++	customcontextoptions="true"
++	cipherserverpref="on"
++	compression="false"
++	#crlfile="/etc/ssl/frostsnow.net/crl/crl.pem"
++	crlpath="/etc/ssl/frostsnow.net/crl"
++	crlmode="chain"
++	sslv3="false"
++	peer_keysize_min="rsaEncryption:4096"
++	peer_sigalg="RSA-SHA512"
++>
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Strip color module: Adds channel mode +S that strips color codes and
+@@ -2226,10 +2245,10 @@
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # SVSHold module: Implements SVSHOLD. Like Q-lines, but can only be   #
+ # added/removed by Services.                                          #
+-#<module name="svshold">
++<module name="svshold">
+ # SVSHOLD does not generate server notices by default, you can turn
+ # notices on by uncommenting the next line.
+-#<svshold silent="false">
++<svshold silent="false">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # SWHOIS module: Allows you to add arbitrary lines to user WHOIS.
+@@ -2264,7 +2283,7 @@
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Uninvite module: Adds the /UNINVITE command which lets users remove
+ # pending invites from channels without waiting for the user to join.
+-#<module name="uninvite">
++<module name="uninvite">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Userip module: Adds the /USERIP command.
+@@ -2348,4 +2367,4 @@
+ # tree protocol (see the READ THIS BIT section above).
+ # You will almost always want to load this.
+ #
+-#<module name="spanningtree">
++<module name="spanningtree">
+diff --git a/docs/conf/opermotd.txt b/docs/conf/opermotd.txt
+deleted file mode 100644
+index 73ad28621..000000000
+--- a/docs/conf/opermotd.txt
++++ /dev/null
+@@ -1,41 +0,0 @@
+-
+- _____                        _____   _____    _____      _
+-|_   _|                      |_   _| |  __ \  / ____|    | |
+-  | |    _ __    ___   _ __    | |   | |__) || |       __| |
+-  | |   | '_ \  / __| | '_ \   | |   |  _  / | |      / _` |
+- _| |_  | | | | \__ \ | |_) | _| |_  | | \ \ | |____ | (_| |
+-|_____| |_| |_| |___/ | .__/ |_____| |_|  \_\ \_____| \__,_|
+-    __________________| |_______________________________
+-   |__________________|_|_______________________________|
+-
+-                        Putting the ricer in IRCer since 2007
+-
+-       //\
+-       V  \    WELCOME TO AN INSPIRCD NETWORK
+-        \  \_    If you see this, I am probably new.
+-         \,'.`-.   If I'm not new, my owner is lazy.
+-          |\ `. `.
+-          ( \  `. `-.                        _,.-:\
+-           \ \   `.  `-._             __..--' ,-';/
+-            \ `.   `-.   `-..___..---'   _.--' ,'/
+-             `. `.    `-._        __..--'    ,' /
+-               `. `-_     ``--..''       _.-' ,'
+-                 `-_ `-.___        __,--'   ,'
+-                    `-.__  `----"""    __.-'
+-                         `--..____..--'
+-
+-        -- To change, see opermotd.txt         ---
+-       /                                          \
+-      /   * Web: https://www.inspircd.org          \
+-      |   * IRC: irc.inspircd.org #inspircd        |
+-      |   * Docs: https://docs.inspircd.org        |
+-      |   * Bugs: https://inspircd.org/bugs        |
+-      |                                            |
+-      | We hope you like this software. Please do  |
+-      | make  sure  you  put  some  effort  into   |
+-      | your configuration, though, so you love it.|
+-      | Enjoy.                                     |
+-      |                                            |
+-      \                   -- The InspIRCd Team    /
+-       -------------------------------------------
+-
+diff --git a/docs/conf/opers.conf b/docs/conf/opers.conf
+index 082009da9..919689a9f 100644
+--- a/docs/conf/opers.conf
++++ b/docs/conf/opers.conf
+@@ -72,7 +72,7 @@
+     classes="SACommands OperChat BanControl HostCloak Shutdown ServerLink"
+ 
+     # vhost: Host that opers of this type get when they log in (oper up). This is optional.
+-    vhost="netadmin.omega.example.org"
++    #vhost="netadmin.omega.example.org"
+ 
+     # maxchans: Maximum number of channels opers of this type can be in at once.
+     maxchans="60"
+@@ -80,10 +80,10 @@
+     # modes: User modes besides +o that are set on an oper of this type
+     # when they oper up. Used for snomasks and other things.
+     # Requires the opermodes module to be loaded.
+-    modes="+s +cCqQ">
++    modes="+HI">
+ 
+-<type name="GlobalOp" classes="SACommands OperChat BanControl HostCloak ServerLink" vhost="serverop.omega.example.org">
+-<type name="Helper" classes="HostCloak" vhost="helper.omega.example.org">
++#<type name="GlobalOp" classes="SACommands OperChat BanControl HostCloak ServerLink" vhost="serverop.omega.example.org">
++#<type name="Helper" classes="HostCloak" vhost="helper.omega.example.org">
+ 
+ 
+ #-#-#-#-#-#-#-#-#-#-#-  OPERATOR CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#
+@@ -96,16 +96,16 @@
+ <oper
+       # name: Oper login that is used to oper up (/OPER <username> <password>).
+       # Remember: This is case sensitive.
+-      name="Attila"
++      name="frostsnow"
+ 
+       # password: Case-sensitive, unhashed (plaintext).
+-      password="s3cret"
++      #password="s3cret"
+ 
+       # host: What hostnames and IPs are allowed to use this operator account.
+       # Multiple options can be separated by spaces and CIDRs are allowed.
+       # You can use just * or *@* for this section, but it is not recommended
+       # for security reasons.
+-      host="attila@inspircd.org *@2001:db8::/32"
++      host="127.0.0.0/8"
+ 
+       # ** ADVANCED ** This option is disabled by default.
+       # fingerprint: When using the sslinfo module, you may specify
+@@ -115,42 +115,43 @@
+       # a matching SSL client certificate, which is very difficult to
+       # forge (impossible unless preimage attacks on the hash exist).
+       # If the sslinfo module isn't loaded, this option will be ignored.
+-      #fingerprint="67cb9dc013248a829bb2171ed11becd4"
++      #fingerprint="FIXME-SECRET
++      fingerprint="FIXME-SECRET
+ 
+       # autologin: If an SSL certificate fingerprint for this oper is specified,
+       # you can have the oper block automatically log in. This moves all security
+       # of the oper block to the protection of the client certificate, so be sure
+       # that the private key is well-protected! Requires the sslinfo module.
+-      #autologin="on"
++      autologin="on"
+ 
+       # sslonly: If on, this oper can only oper up if they're using an SSL connection.
+       # Setting this option adds a decent bit of security. Highly recommended
+       # if the oper is on wifi, or specifically, unsecured wifi. Note that it
+       # is redundant to specify this option if you specify a fingerprint.
+       # This setting only takes effect if the sslinfo module is loaded.
+-      #sslonly="yes"
++      sslonly="yes"
+ 
+       # vhost: Overrides the vhost in the type block. Class and modes may also
+       # be overridden.
+-      vhost="attila.example.org"
++      #vhost="attila.example.org"
+ 
+       # type: Which type of operator this person is; see the block
+       # above for the list of types. NOTE: This is case-sensitive as well.
+       type="NetAdmin">
+ 
+ # Operator with a plaintext password and no comments, for easy copy & paste.
+-<oper
+-      name="Brain"
+-      password="youshouldhashthis"
+-      host="brain@dialup15.isp.test.com *@localhost *@example.com *@2001:db8::/32"
++#<oper
++      #name="Brain"
++      #password="youshouldhashthis"
++      #host="brain@dialup15.isp.test.com *@localhost *@example.com *@2001:db8::/32"
+       #fingerprint="67cb9dc013248a829bb2171ed11becd4"
+-      type="NetAdmin">
++      #type="NetAdmin">
+ 
+ # Operator with a hashed password. It is highly recommended to use hashed passwords.
+-<oper
++#<oper
+       # name: Oper login that is used to oper up (/OPER <username> <password>).
+       # Remember: This is case sensitive.
+-      name="Adam"
++      #name="Adam"
+ 
+       # hash: The hash function this password is hashed with. Requires the
+       # module for the selected function (bcrypt, md5, sha1, or sha256) and
+@@ -159,23 +160,23 @@
+       # You may also use any of the above other than bcrypt prefixed with
+       # either "hmac-" or "pbkdf2-hmac-" (requires the pbkdf2 module).
+       # Create hashed passwords with: /MKPASSWD <hashtype> <plaintext>.
+-      hash="bcrypt"
++      #hash="bcrypt"
+ 
+       # password: A hash of the password (see above option) hashed
+       # with /MKPASSWD <hashtype> <plaintext>. See the password_hash module
+       # in modules.conf for more information about password hashing.
+-      password="qQmv3LcF$Qh63wzmtUqWp9OXnLwe7yv1GcBwHpq59k2a0UrY8xe0"
++      #password="qQmv3LcF$Qh63wzmtUqWp9OXnLwe7yv1GcBwHpq59k2a0UrY8xe0"
+ 
+       # host: What hostnames and IPs are allowed to use this operator account.
+       # Multiple options can be separated by spaces and CIDRs are allowed.
+       # You can use just * or *@* for this section, but it is not recommended
+       # for security reasons.
+-      host="*@127.0.0.1 *@192.0.2.40 *@198.51.100.4"
++      #host="*@127.0.0.1 *@192.0.2.40 *@198.51.100.4"
+ 
+       # type: Which type of operator this person is; see the block
+       # above for the list of types. NOTE: This is case-sensitive as well.
+-      type="Helper">
++      #type="Helper">
+ 
+ # Once you have edited this file you can remove this line. This is just to
+ # ensure that you don't hastily include the file without reading it.
+-<die reason="Using opers.conf without editing it is a security risk">
++#<die reason="Using opers.conf.example without editing it is a security risk">
+diff --git a/docs/conf/providers/irccloud.conf b/docs/conf/providers/irccloud.conf
+deleted file mode 100644
+index f31d31977..000000000
+--- a/docs/conf/providers/irccloud.conf
++++ /dev/null
+@@ -1,21 +0,0 @@
+-# This file contains connect classes which are used by IRCCloud users.
+-# See https://www.irccloud.com for more information on IRCCloud and
+-# https://www.irccloud.com/networks for more information on supporting
+-# IRCloud on your network.
+-
+-<connect name="IRCCloud"
+-         parent="main"
+-         globalmax="100"
+-         localmax="100">
+-
+-<connect name="IRCCloud-Brockwell"  parent="IRCCloud" allow="192.184.10.118">
+-<connect name="IRCCloud-Charlton"   parent="IRCCloud" allow="192.184.9.112">
+-<connect name="IRCCloud-Ealing"     parent="IRCCloud" allow="192.184.9.110">
+-<connect name="IRCCloud-Hathersage" parent="IRCCloud" allow="192.184.8.73">
+-<connect name="IRCCloud-Highgate"   parent="IRCCloud" allow="192.184.9.108">
+-<connect name="IRCCloud-Stonehaven" parent="IRCCloud" allow="192.184.8.103">
+-<connect name="IRCCloud-Tooting"    parent="IRCCloud" allow="192.184.10.9">
+-
+-# This is not typically needed as each user has their own IPv6 but if you have
+-# <cidr:ipv6clone> set to a value lower than 128 you will need to enable this.
+-#<connect name="IRCCloud-IPv6" parent="IRCCloud" allow="2001:67c:2f08::/48">
+diff --git a/docs/conf/providers/kiwiirc-com.conf b/docs/conf/providers/kiwiirc-com.conf
+deleted file mode 100644
+index e923e9956..000000000
+--- a/docs/conf/providers/kiwiirc-com.conf
++++ /dev/null
+@@ -1,19 +0,0 @@
+-# This file contains connect classes which are used by KiwiIRC.com users.
+-# See https://kiwiirc.com for more information on KiwiIRC.com.
+-
+-<connect name="KiwiIRC.com"
+-         parent="main"
+-         globalmax="100"
+-         localmax="100"
+-         registered="no"
+-         resolvehostnames="no"
+-         usednsbl="no"
+-         useident="no">
+-
+-<connect name="KiwiIRC.com-1" parent="KiwiIRC.com" allow="107.161.19.53">
+-<connect name="KiwiIRC.com-2" parent="KiwiIRC.com" allow="107.161.19.109">
+-<connect name="KiwiIRC.com-3" parent="KiwiIRC.com" allow="109.169.31.4">
+-
+-<exception host="*@107.161.19.53" reason="KiwiIRC.com WebIRC Gateway">
+-<exception host="*@107.161.19.109" reason="KiwiIRC.com WebIRC Gateway">
+-<exception host="*@107.169.31.4" reason="KiwiIRC.com WebIRC Gateway">
+diff --git a/docs/conf/services/anope.conf b/docs/conf/services/anope.conf
+deleted file mode 100644
+index b1179eb8c..000000000
+--- a/docs/conf/services/anope.conf
++++ /dev/null
+@@ -1,9 +0,0 @@
+-# This file contains aliases and nickname reservations which are used
+-# by Anope. See https://www.anope.org for more information on Anope.
+-
+-# This file inherits from the generic config to avoid repetition.
+-<include file="examples/services/generic.conf">
+-
+-# /GLOBAL <message>
+-# Sends a global notice.
+-<alias text="GLOBAL" format="*" replace="SQUERY $requirement :GLOBAL $2-" requires="Global" uline="yes" operonly="yes">
+diff --git a/docs/conf/services/atheme.conf b/docs/conf/services/atheme.conf
+index 7605251db..d26d9f533 100644
+--- a/docs/conf/services/atheme.conf
++++ b/docs/conf/services/atheme.conf
+@@ -3,7 +3,7 @@
+ # information on Atheme.
+ 
+ # This file inherits from the generic config to avoid repetition.
+-<include file="examples/services/generic.conf">
++<include file="services/generic.conf">
+ 
+ # Long hand aliases for services pseudoclients.
+ <alias text="ALIS"      replace="SQUERY $requirement :$2-" requires="ALIS"      uline="yes">
+diff --git a/docs/sql/sqloper.mysql.sql b/docs/sql/sqloper.mysql.sql
+deleted file mode 100644
+index a8a2b7e1d..000000000
+--- a/docs/sql/sqloper.mysql.sql
++++ /dev/null
+@@ -1,12 +0,0 @@
+-CREATE TABLE ircd_opers (
+-  id bigint(20) NOT NULL auto_increment,
+-  name text NOT NULL,
+-  password text NOT NULL,
+-  hash text,
+-  host text NOT NULL,
+-  type text NOT NULL,
+-  fingerprint text,
+-  autologin tinyint(1) NOT NULL DEFAULT 0,
+-  active tinyint(1) NOT NULL DEFAULT 1,
+-  PRIMARY KEY  (id)
+-) ENGINE=MyISAM;
+diff --git a/docs/sql/sqloper.pgsql.sql b/docs/sql/sqloper.pgsql.sql
+deleted file mode 100644
+index 954bc84fa..000000000
+--- a/docs/sql/sqloper.pgsql.sql
++++ /dev/null
+@@ -1,13 +0,0 @@
+-CREATE TABLE ircd_opers (
+-    "id" serial NOT NULL,
+-    "name" text NOT NULL,
+-    "password" text NOT NULL,
+-    "hash" text,
+-    "host" text NOT NULL,
+-    "type" text NOT NULL,
+-    "fingerprint" text,
+-    "autologin" smallint NOT NULL DEFAULT 0,
+-    "active" smallint NOT NULL DEFAULT 1
+-);
+-ALTER TABLE ONLY ircd_opers
+-    ADD CONSTRAINT ircd_opers_pkey PRIMARY KEY (id);
+diff --git a/docs/sql/sqloper.sqlite3.sql b/docs/sql/sqloper.sqlite3.sql
+deleted file mode 100644
+index 6aec5a118..000000000
+--- a/docs/sql/sqloper.sqlite3.sql
++++ /dev/null
+@@ -1,10 +0,0 @@
+-CREATE TABLE ircd_opers (
+-id integer primary key,
+-name text NOT NULL,
+-password text NOT NULL,
+-hash text,
+-host text NOT NULL,
+-type text NOT NULL,
+-fingerprint text,
+-autologin integer NOT NULL DEFAULT 0,
+-active integer NOT NULL DEFAULT 1);
+-- 
+2.24.1
+
