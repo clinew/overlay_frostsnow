@@ -1,23 +1,30 @@
-From f805d484a62b44d23eb224aee1e674665e70b9c2 Mon Sep 17 00:00:00 2001
+From bfbda3a2a1575e091e287debe99c847548e87281 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 2 Feb 2020 21:58:12 -0800
 Subject: [PATCH 6/6] CotSS configuration
 
 ---
- docs/conf/filter.conf                |  80 -------------
- docs/conf/inspircd.conf              | 161 ++++++++++++++++-----------
- docs/conf/links.conf                 |  60 +++++-----
- docs/conf/modules.conf               |  89 +++++++++------
- docs/conf/opermotd.txt               |  41 -------
- docs/conf/opers.conf                 |  47 ++++----
- docs/conf/providers/irccloud.conf    |  21 ----
- docs/conf/providers/kiwiirc-com.conf |  19 ----
- docs/conf/services/anope.conf        |   9 --
- docs/conf/services/atheme.conf       |   2 +-
- docs/sql/sqloper.mysql.sql           |  12 --
- docs/sql/sqloper.pgsql.sql           |  13 ---
- docs/sql/sqloper.sqlite3.sql         |  10 --
- 13 files changed, 205 insertions(+), 359 deletions(-)
+ docs/conf/codepages/ascii.conf          |  37 ------
+ docs/conf/codepages/latin1.conf         |  42 -------
+ docs/conf/codepages/rfc1459.conf        |  41 ------
+ docs/conf/codepages/strict-rfc1459.conf |  40 ------
+ docs/conf/filter.conf                   |  80 ------------
+ docs/conf/inspircd.conf                 | 161 ++++++++++++++----------
+ docs/conf/links.conf                    |  60 ++++-----
+ docs/conf/modules.conf                  |  91 ++++++++------
+ docs/conf/opermotd.txt                  |  38 ------
+ docs/conf/opers.conf                    |  47 +++----
+ docs/conf/providers/irccloud.conf       |  21 ----
+ docs/conf/providers/kiwiirc-com.conf    |  19 ---
+ docs/conf/services/anope.conf           |   9 --
+ docs/sql/sqloper.mysql.sql              |  12 --
+ docs/sql/sqloper.pgsql.sql              |  13 --
+ docs/sql/sqloper.sqlite3.sql            |  10 --
+ 16 files changed, 205 insertions(+), 516 deletions(-)
+ delete mode 100644 docs/conf/codepages/ascii.conf
+ delete mode 100644 docs/conf/codepages/latin1.conf
+ delete mode 100644 docs/conf/codepages/rfc1459.conf
+ delete mode 100644 docs/conf/codepages/strict-rfc1459.conf
  delete mode 100644 docs/conf/filter.conf
  delete mode 100644 docs/conf/opermotd.txt
  delete mode 100644 docs/conf/providers/irccloud.conf
@@ -27,6 +34,190 @@ Subject: [PATCH 6/6] CotSS configuration
  delete mode 100644 docs/sql/sqloper.pgsql.sql
  delete mode 100644 docs/sql/sqloper.sqlite3.sql
 
+diff --git a/docs/conf/codepages/ascii.conf b/docs/conf/codepages/ascii.conf
+deleted file mode 100644
+index 7c5ecdd85..000000000
+--- a/docs/conf/codepages/ascii.conf
++++ /dev/null
+@@ -1,37 +0,0 @@
+-# This file contains ASCII codepage rules for use with the codepage module.
+-
+-<codepage name="ascii">
+-
+-<cpchars index="45">                        # -
+-<cpchars begin="48"  end="57">              # 01234567899
+-<cpchars begin="65"  end="90"  front="yes"> # ABCDEFGHIJKLMNOPQRSTUVWXYZ
+-<cpchars begin="91"  end="96"  front="yes"> # [\]^_`
+-<cpchars begin="97"  end="122" front="yes"> # abcdefghijklmnopqrstuvwxyz
+-<cpchars begin="123" end="125" front="yes"> # {|}
+-
+-<cpcase lower="97"  upper="65"> # a => A
+-<cpcase lower="98"  upper="66"> # b => B
+-<cpcase lower="99"  upper="67"> # c => C
+-<cpcase lower="100" upper="68"> # d => D
+-<cpcase lower="101" upper="69"> # e => E
+-<cpcase lower="102" upper="70"> # f => F
+-<cpcase lower="103" upper="71"> # g => G
+-<cpcase lower="104" upper="72"> # h => H
+-<cpcase lower="105" upper="73"> # i => I
+-<cpcase lower="106" upper="74"> # j => J
+-<cpcase lower="107" upper="75"> # k => K
+-<cpcase lower="108" upper="76"> # l => L
+-<cpcase lower="109" upper="77"> # m => M
+-<cpcase lower="110" upper="78"> # n => N
+-<cpcase lower="111" upper="79"> # o => O
+-<cpcase lower="112" upper="80"> # p => P
+-<cpcase lower="113" upper="81"> # q => Q
+-<cpcase lower="114" upper="82"> # r => R
+-<cpcase lower="115" upper="83"> # s => S
+-<cpcase lower="116" upper="84"> # t => T
+-<cpcase lower="117" upper="85"> # u => U
+-<cpcase lower="118" upper="86"> # v => V
+-<cpcase lower="119" upper="87"> # w => W
+-<cpcase lower="120" upper="88"> # x => X
+-<cpcase lower="121" upper="89"> # y => Y
+-<cpcase lower="122" upper="90"> # z => Z
+diff --git a/docs/conf/codepages/latin1.conf b/docs/conf/codepages/latin1.conf
+deleted file mode 100644
+index f5c6b98dc..000000000
+--- a/docs/conf/codepages/latin1.conf
++++ /dev/null
+@@ -1,42 +0,0 @@
+-# This file contains ISO 8859-1 codepage rules for use with the codepage module.
+-
+-<codepage name="latin1">
+-
+-<cpchars begin="192" end="214" front="yes"> # ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ
+-<cpchars begin="216" end="246" front="yes"> # ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö
+-<cpchars begin="248" end="255" front="yes"> # øùúûüýþÿ
+-
+-<cpcase lower="83"  upper="223"> # ß => S
+-<cpcase lower="192" upper="224"> # à => À
+-<cpcase lower="193" upper="225"> # á => Á
+-<cpcase lower="194" upper="226"> # â => Â
+-<cpcase lower="195" upper="227"> # ã => Ã
+-<cpcase lower="196" upper="228"> # ä => Ä
+-<cpcase lower="197" upper="229"> # å => Å
+-<cpcase lower="198" upper="230"> # æ => Æ
+-<cpcase lower="199" upper="231"> # ç => Ç
+-<cpcase lower="200" upper="232"> # è => È
+-<cpcase lower="201" upper="233"> # é => É
+-<cpcase lower="202" upper="234"> # ê => Ê
+-<cpcase lower="203" upper="235"> # ë => Ë
+-<cpcase lower="204" upper="236"> # ì => Ì
+-<cpcase lower="205" upper="237"> # í => Í
+-<cpcase lower="206" upper="238"> # î => Î
+-<cpcase lower="207" upper="239"> # ï => Ï
+-<cpcase lower="208" upper="240"> # ð => Ð
+-<cpcase lower="209" upper="241"> # ñ => Ñ
+-<cpcase lower="210" upper="242"> # ò => Ò
+-<cpcase lower="211" upper="243"> # ó => Ó
+-<cpcase lower="212" upper="244"> # ô => Ô
+-<cpcase lower="213" upper="245"> # õ => Õ
+-<cpcase lower="214" upper="246"> # ö => Ö
+-<cpcase lower="216" upper="248"> # ø => Ø
+-<cpcase lower="217" upper="249"> # ù => Ù
+-<cpcase lower="218" upper="250"> # ú => Ú
+-<cpcase lower="219" upper="251"> # û => Û
+-<cpcase lower="220" upper="252"> # ü => Ü
+-<cpcase lower="221" upper="253"> # ý => Ý
+-<cpcase lower="222" upper="254"> # þ => Þ
+-
+-# Include the ASCII rules to avoid duplication.
+-<include file="/etc/inspircd/codepages/ascii.conf">
+diff --git a/docs/conf/codepages/rfc1459.conf b/docs/conf/codepages/rfc1459.conf
+deleted file mode 100644
+index 32f453044..000000000
+--- a/docs/conf/codepages/rfc1459.conf
++++ /dev/null
+@@ -1,41 +0,0 @@
+-# This file contains RFC 1459 codepage rules for use with the codepage module.
+-
+-<codepage name="rfc1459">
+-
+-<cpchars index="45">                        # -
+-<cpchars begin="48"  end="57">              # 01234567899
+-<cpchars begin="65"  end="90"  front="yes"> # ABCDEFGHIJKLMNOPQRSTUVWXYZ
+-<cpchars begin="91"  end="96"  front="yes"> # [\]^_`
+-<cpchars begin="97"  end="122" front="yes"> # abcdefghijklmnopqrstuvwxyz
+-<cpchars begin="123" end="125" front="yes"> # {|}
+-
+-<cpcase lower="97"  upper="65"> # a => A
+-<cpcase lower="98"  upper="66"> # b => B
+-<cpcase lower="99"  upper="67"> # c => C
+-<cpcase lower="100" upper="68"> # d => D
+-<cpcase lower="101" upper="69"> # e => E
+-<cpcase lower="102" upper="70"> # f => F
+-<cpcase lower="103" upper="71"> # g => G
+-<cpcase lower="104" upper="72"> # h => H
+-<cpcase lower="105" upper="73"> # i => I
+-<cpcase lower="106" upper="74"> # j => J
+-<cpcase lower="107" upper="75"> # k => K
+-<cpcase lower="108" upper="76"> # l => L
+-<cpcase lower="109" upper="77"> # m => M
+-<cpcase lower="110" upper="78"> # n => N
+-<cpcase lower="111" upper="79"> # o => O
+-<cpcase lower="112" upper="80"> # p => P
+-<cpcase lower="113" upper="81"> # q => Q
+-<cpcase lower="114" upper="82"> # r => R
+-<cpcase lower="115" upper="83"> # s => S
+-<cpcase lower="116" upper="84"> # t => T
+-<cpcase lower="117" upper="85"> # u => U
+-<cpcase lower="118" upper="86"> # v => V
+-<cpcase lower="119" upper="87"> # w => W
+-<cpcase lower="120" upper="88"> # x => X
+-<cpcase lower="121" upper="89"> # y => Y
+-<cpcase lower="122" upper="90"> # z => Z
+-<cpcase lower="123" upper="91"> # { => [
+-<cpcase lower="124" upper="92"> # | => \
+-<cpcase lower="125" upper="93"> # } => ]
+-<cpcase lower="126" upper="94"> # ~ => ^
+diff --git a/docs/conf/codepages/strict-rfc1459.conf b/docs/conf/codepages/strict-rfc1459.conf
+deleted file mode 100644
+index b14e477e8..000000000
+--- a/docs/conf/codepages/strict-rfc1459.conf
++++ /dev/null
+@@ -1,40 +0,0 @@
+-# This file contains strict RFC 1459 codepage rules for use with the codepage module.
+-
+-<codepage name="rfc1459">
+-
+-<cpchars index="45">                        # -
+-<cpchars begin="48"  end="57">              # 01234567899
+-<cpchars begin="65"  end="90"  front="yes"> # ABCDEFGHIJKLMNOPQRSTUVWXYZ
+-<cpchars begin="91"  end="96"  front="yes"> # [\]^_`
+-<cpchars begin="97"  end="122" front="yes"> # abcdefghijklmnopqrstuvwxyz
+-<cpchars begin="123" end="125" front="yes"> # {|}
+-
+-<cpcase lower="97"  upper="65"> # a => A
+-<cpcase lower="98"  upper="66"> # b => B
+-<cpcase lower="99"  upper="67"> # c => C
+-<cpcase lower="100" upper="68"> # d => D
+-<cpcase lower="101" upper="69"> # e => E
+-<cpcase lower="102" upper="70"> # f => F
+-<cpcase lower="103" upper="71"> # g => G
+-<cpcase lower="104" upper="72"> # h => H
+-<cpcase lower="105" upper="73"> # i => I
+-<cpcase lower="106" upper="74"> # j => J
+-<cpcase lower="107" upper="75"> # k => K
+-<cpcase lower="108" upper="76"> # l => L
+-<cpcase lower="109" upper="77"> # m => M
+-<cpcase lower="110" upper="78"> # n => N
+-<cpcase lower="111" upper="79"> # o => O
+-<cpcase lower="112" upper="80"> # p => P
+-<cpcase lower="113" upper="81"> # q => Q
+-<cpcase lower="114" upper="82"> # r => R
+-<cpcase lower="115" upper="83"> # s => S
+-<cpcase lower="116" upper="84"> # t => T
+-<cpcase lower="117" upper="85"> # u => U
+-<cpcase lower="118" upper="86"> # v => V
+-<cpcase lower="119" upper="87"> # w => W
+-<cpcase lower="120" upper="88"> # x => X
+-<cpcase lower="121" upper="89"> # y => Y
+-<cpcase lower="122" upper="90"> # z => Z
+-<cpcase lower="123" upper="91"> # { => [
+-<cpcase lower="124" upper="92"> # | => \
+-<cpcase lower="125" upper="93"> # } => ]
 diff --git a/docs/conf/filter.conf b/docs/conf/filter.conf
 deleted file mode 100644
 index fe95687f5..000000000
@@ -114,7 +305,7 @@ index fe95687f5..000000000
 -# <exemptfromfilter> tags are only for exempting messages sent *to* the
 -# configured targets.
 diff --git a/docs/conf/inspircd.conf b/docs/conf/inspircd.conf
-index 4a7aab514..2f3734367 100644
+index 55535b1a0..c0270f9d3 100644
 --- a/docs/conf/inspircd.conf
 +++ b/docs/conf/inspircd.conf
 @@ -75,8 +75,8 @@
@@ -199,7 +390,7 @@ index 4a7aab514..2f3734367 100644
  
  #-#-#-#-#-#-#-#-#-#-  CONNECTIONS CONFIGURATION  -#-#-#-#-#-#-#-#-#-#-#
 @@ -253,29 +254,29 @@
- #<include file="examples/providers/kiwiirc-com.conf.example">
+ #<include file="/etc/inspircd/providers/kiwiirc-com.conf">
  
  # A connect class with <connect:deny> set denies connections from the specified host/IP range.
 -<connect
@@ -575,7 +766,7 @@ index 4a7aab514..2f3734367 100644
  #
  # Anope users should uncomment this:
 -#<include file="/etc/inspircd/aliases/anope.conf">
-+#<include file="examples/services/anope.conf.example">
++#<include file="/etc/inspircd/services/anope.conf">
  #
  # Atheme users should uncomment this:
 -#<include file="/etc/inspircd/aliases/atheme.conf">
@@ -583,12 +774,12 @@ index 4a7aab514..2f3734367 100644
  #
  # Users of other services should uncomment this:
 -#<include file="/etc/inspircd/aliases/generic.conf">
-+#<include file="examples/services/generic.conf.example">
++#<include file="/etc/inspircd/services/generic.conf">
  
  #########################################################################
  #                                                                       #
 diff --git a/docs/conf/links.conf b/docs/conf/links.conf
-index 09b3bb3d5..b7aeea80b 100644
+index 22db1bdab..672abeb3b 100644
 --- a/docs/conf/links.conf
 +++ b/docs/conf/links.conf
 @@ -17,11 +17,11 @@
@@ -715,10 +906,10 @@ index 09b3bb3d5..b7aeea80b 100644
  
  # Once you have edited this file you can remove this line. This is just to
  # ensure that you don't hastily include the file without reading it.
--<die reason="Using links.conf.example without editing it is a security risk">
-+#<die reason="Using links.conf.example without editing it is a security risk">
+-<die reason="Using links.conf without editing it is a security risk">
++#<die reason="Using links.conf without editing it is a security risk">
 diff --git a/docs/conf/modules.conf b/docs/conf/modules.conf
-index ea51e9b67..e6327cc17 100644
+index b55d368fb..8655f7ed5 100644
 --- a/docs/conf/modules.conf
 +++ b/docs/conf/modules.conf
 @@ -46,7 +46,7 @@
@@ -757,7 +948,7 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Botmode module: Adds the user mode +B. If set on a user, it will
-@@ -444,16 +444,16 @@
+@@ -445,16 +445,16 @@
  # characters in the channel name such as bold, colorcodes, etc. which
  # can be quite annoying and allow users to on occasion have a channel
  # that looks like the name of another channel on the network.
@@ -778,7 +969,7 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Channelban: Implements extended ban j:, which stops anyone already
-@@ -628,7 +628,7 @@
+@@ -643,7 +643,7 @@
  # Connectban: Provides IP connection throttling. Any IP range that
  # connects too many times (configurable) in an hour is Z-lined for a
  # (configurable) duration, and their count resets to 0.
@@ -787,7 +978,7 @@ index ea51e9b67..e6327cc17 100644
  #
  # ipv4cidr and ipv6cidr allow you to turn the comparison from
  # individual IP addresses (32 and 128 bits) into CIDR masks, to allow
-@@ -640,6 +640,7 @@
+@@ -655,6 +655,7 @@
  #<connectban threshold="10" duration="10m" ipv4cidr="32" ipv6cidr="128"
  # A custom ban message may optionally be specified.
  # banmessage="Your IP range has been attempting to connect too many times in too short a duration. Wait a while, and you will be able to connect.">
@@ -795,7 +986,16 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Connection throttle module.
-@@ -978,7 +979,7 @@
+@@ -747,7 +748,7 @@
+ # D - deaf to user messages and notices.
+ # The +D user mode is not enabled by default to enable link compatibility
+ # with 2.0 servers.
+-#<module name="deaf">
++<module name="deaf">
+ #
+ #-#-#-#-#-#-#-#-#-#-#-#-  DEAF CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-#
+ #  bypasschars       - Characters that bypass deaf to a regular user.
+@@ -993,7 +994,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Hide chans module: Allows users to hide their channels list from non-
  # opers by setting user mode +I on themselves.
@@ -804,7 +1004,7 @@ index ea51e9b67..e6327cc17 100644
  #
  # This mode can optionally prevent opers from seeing channels on a +I
  # user, for more privacy if set to true.
-@@ -1018,11 +1019,11 @@
+@@ -1033,11 +1034,11 @@
  # Hide oper module: Allows opers to hide their oper status from non-
  # opers by setting user mode +H on themselves.
  # This module is oper-only.
@@ -818,7 +1018,7 @@ index ea51e9b67..e6327cc17 100644
  #
  #-#-#-#-#-#-#-#-#-#-#-  HOSTCHANGE  CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1032,6 +1033,7 @@
+@@ -1047,6 +1048,7 @@
  #<hostchange mask="*root@*" action="addnick" prefix="example/users/">
  #<hostchange mask="a@example.com" action="set" value="foo.bar.baz">
  #<hostchange mask="*@localhost" ports="7000,7001,7005-7007" action="set" value="blahblah.foo">
@@ -826,7 +1026,7 @@ index ea51e9b67..e6327cc17 100644
  
  # hostcycle: If loaded, when a user gets a host or ident set, it will
  # cycle them in all their channels. If not loaded it will simply change
-@@ -1162,7 +1164,7 @@
+@@ -1177,7 +1179,7 @@
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # IRCv3 client-to-client tags module: Provides the message-tags IRCv3
@@ -835,7 +1035,7 @@ index ea51e9b67..e6327cc17 100644
  # This is used to support new IRCv3 features such as replies and ids.
  #<module name="ircv3_ctctags">
  
-@@ -1171,7 +1173,7 @@
+@@ -1186,7 +1188,7 @@
  # extension which allows capable clients to get an acknowledgement when
  # their messages are delivered and learn what modifications, if any,
  # were applied to them.
@@ -844,7 +1044,7 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # IRCv3 invite-notify module: Provides the invite-notify IRCv3
-@@ -1222,11 +1224,11 @@
+@@ -1243,11 +1245,11 @@
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Anti auto rejoin: Adds support for prevention of auto-rejoin (+J).
@@ -858,7 +1058,7 @@ index ea51e9b67..e6327cc17 100644
  #
  # This setting specifies what to do when someone successfully /KNOCKs.
  # If set to "notice", then a NOTICE will be sent to the channel.
-@@ -1235,7 +1237,7 @@
+@@ -1256,7 +1258,7 @@
  # If set to "numeric" then a 710 numeric will be sent to the channel.
  # This allows easier scripting but not all clients support it.
  # If set to "both" then (surprise!) both will be sent.
@@ -867,7 +1067,7 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # LDAP module: Allows other SQL modules to access a LDAP database
-@@ -1354,7 +1356,7 @@
+@@ -1375,7 +1377,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Message flood module: Adds message/notice flood protection via
  # channel mode +f.
@@ -876,7 +1076,7 @@ index ea51e9b67..e6327cc17 100644
  #
  # The weight to give each message type. TAGMSGs are considered to be
  # 1/5 of a NOTICE or PRIVMSG to avoid users being accidentally flooded
-@@ -1442,7 +1444,7 @@
+@@ -1466,7 +1468,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # No CTCP module: Adds the channel mode +C and user mode +T to block
  # CTCPs and extban 'C' to block CTCPs sent by specific users.
@@ -885,7 +1085,7 @@ index ea51e9b67..e6327cc17 100644
  #
  # The +T user mode is not enabled by default to enable link compatibility
  # with 2.0 servers. You can enable it by uncommenting this:
-@@ -1587,7 +1589,7 @@
+@@ -1611,7 +1613,7 @@
  # and/or as the 'modes' parameter of the <oper> tag.
  # This module is oper-only. For the user equivalent, see the
  # conn_umodes module.
@@ -894,7 +1094,7 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Password forwarding module: Forwards a password users can send on
-@@ -1596,19 +1598,19 @@
+@@ -1620,19 +1622,19 @@
  # using their connect password.
  #<module name="passforward">
  
@@ -918,7 +1118,7 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Password hash module: Allows hashed passwords to be used.
-@@ -1710,7 +1712,7 @@
+@@ -1734,7 +1736,7 @@
  # Optional - If you specify to use the randquote module, then specify #
  # below the path to the quotes file.                                  #
  #                                                                     #
@@ -927,7 +1127,7 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Redirect module: Adds channel mode +L which redirects users to      #
-@@ -1978,7 +1980,7 @@
+@@ -2002,7 +2004,7 @@
  # +b R: (stop matching account names from joining)
  # +b U:n!u@h (blocks matching unregistered users)
  #
@@ -936,7 +1136,7 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Sethost module: Adds the /SETHOST command.
-@@ -2091,11 +2093,11 @@
+@@ -2115,11 +2117,11 @@
  #
  # Does not do anything useful without a working SSL module and the
  # sslinfo module (see below).
@@ -950,7 +1150,7 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SSL rehash signal module: Allows the SSL modules to be rehashed by
-@@ -2103,7 +2105,7 @@
+@@ -2127,7 +2129,7 @@
  # This modules is in extras. Re-run configure with:
  # ./configure --enable-extras=m_sslrehashsignal.cpp
  # and run make install, then uncomment this module to enable it.
@@ -959,7 +1159,7 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # GnuTLS SSL module: Adds support for SSL/TLS connections using GnuTLS,
-@@ -2131,7 +2133,7 @@
+@@ -2155,7 +2157,7 @@
  # For how to use the oper features, please see the first
  # example <oper> tag in opers.conf.
  #
@@ -968,7 +1168,7 @@ index ea51e9b67..e6327cc17 100644
  #
  # If you want to prevent users from viewing SSL certificate information
  # and fingerprints of other users, set operonly to yes.
-@@ -2151,12 +2153,29 @@
+@@ -2175,12 +2177,29 @@
  # if enabled. You must answer 'yes' in ./configure when asked or symlink
  # the source for this module from the directory src/modules/extra, if
  # you want to enable this, or it will not load.
@@ -999,7 +1199,7 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Strip color module: Adds channel mode +S that strips color codes and
-@@ -2226,10 +2245,10 @@
+@@ -2250,10 +2269,10 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SVSHold module: Implements SVSHOLD. Like Q-lines, but can only be   #
  # added/removed by Services.                                          #
@@ -1012,7 +1212,7 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SWHOIS module: Allows you to add arbitrary lines to user WHOIS.
-@@ -2264,7 +2283,7 @@
+@@ -2288,7 +2307,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Uninvite module: Adds the /UNINVITE command which lets users remove
  # pending invites from channels without waiting for the user to join.
@@ -1021,7 +1221,7 @@ index ea51e9b67..e6327cc17 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Userip module: Adds the /USERIP command.
-@@ -2348,4 +2367,4 @@
+@@ -2379,4 +2398,4 @@
  # tree protocol (see the READ THIS BIT section above).
  # You will almost always want to load this.
  #
@@ -1029,26 +1229,25 @@ index ea51e9b67..e6327cc17 100644
 +<module name="spanningtree">
 diff --git a/docs/conf/opermotd.txt b/docs/conf/opermotd.txt
 deleted file mode 100644
-index 73ad28621..000000000
+index 68671a081..000000000
 --- a/docs/conf/opermotd.txt
 +++ /dev/null
-@@ -1,41 +0,0 @@
--
+@@ -1,38 +0,0 @@
 - _____                        _____   _____    _____      _
 -|_   _|                      |_   _| |  __ \  / ____|    | |
 -  | |    _ __    ___   _ __    | |   | |__) || |       __| |
 -  | |   | '_ \  / __| | '_ \   | |   |  _  / | |      / _` |
 - _| |_  | | | | \__ \ | |_) | _| |_  | | \ \ | |____ | (_| |
 -|_____| |_| |_| |___/ | .__/ |_____| |_|  \_\ \_____| \__,_|
--    __________________| |_______________________________
--   |__________________|_|_______________________________|
+- _____________________| |__________________________________
+-|_____________________|_|__________________________________|
 -
--                        Putting the ricer in IRCer since 2007
+-                         \iPowering IRC communities since 2006\x
 -
 -       //\
--       V  \    WELCOME TO AN INSPIRCD NETWORK
--        \  \_    If you see this, I am probably new.
--         \,'.`-.   If I'm not new, my owner is lazy.
+-       V  \    \bWELCOME TO AN \c13I\c04N\c07S\c08P\c03I\c10R\c12C\c06D\c99 NETWORK\x
+-        \  \_    If you see this, I'm probably new.
+-         \,'.`-.   If I'm not new, my owner is lazy. ;-)
 -          |\ `. `.
 -          ( \  `. `-.                        _,.-:\
 -           \ \   `.  `-._             __..--' ,-';/
@@ -1059,23 +1258,21 @@ index 73ad28621..000000000
 -                    `-.__  `----"""    __.-'
 -                         `--..____..--'
 -
--        -- To change, see opermotd.txt         ---
--       /                                          \
--      /   * Web: https://www.inspircd.org          \
--      |   * IRC: irc.inspircd.org #inspircd        |
--      |   * Docs: https://docs.inspircd.org        |
--      |   * Bugs: https://inspircd.org/bugs        |
--      |                                            |
--      | We hope you like this software. Please do  |
--      | make  sure  you  put  some  effort  into   |
--      | your configuration, though, so you love it.|
--      | Enjoy.                                     |
--      |                                            |
--      \                   -- The InspIRCd Team    /
--       -------------------------------------------
--
+-      +-- To change this see \bopermotd.txt        \x --+
+-      |                                             |
+-      |   * \bWeb:\x https://www.inspircd.org           |
+-      |   * \bIRC:\x irc.inspircd.org #inspircd         |
+-      |   * \bDocs:\x https://docs.inspircd.org         |
+-      |   * \bBugs:\x https://inspircd.org/bugs         |
+-      |                                             |
+-      | We hope you like this software.  Please do  |
+-      | make sure to customise your configuration,  |
+-      | though, so you love it.  Enjoy.             |
+-      |                                             |
+-      |                        -- The InspIRCd Team |
+-      +---------------------------------------------+
 diff --git a/docs/conf/opers.conf b/docs/conf/opers.conf
-index 082009da9..919689a9f 100644
+index 082009da9..11d9d5173 100644
 --- a/docs/conf/opers.conf
 +++ b/docs/conf/opers.conf
 @@ -72,7 +72,7 @@
@@ -1204,7 +1401,7 @@ index 082009da9..919689a9f 100644
  # Once you have edited this file you can remove this line. This is just to
  # ensure that you don't hastily include the file without reading it.
 -<die reason="Using opers.conf without editing it is a security risk">
-+#<die reason="Using opers.conf.example without editing it is a security risk">
++#<die reason="Using opers.conf without editing it is a security risk">
 diff --git a/docs/conf/providers/irccloud.conf b/docs/conf/providers/irccloud.conf
 deleted file mode 100644
 index f31d31977..000000000
@@ -1259,7 +1456,7 @@ index e923e9956..000000000
 -<exception host="*@107.169.31.4" reason="KiwiIRC.com WebIRC Gateway">
 diff --git a/docs/conf/services/anope.conf b/docs/conf/services/anope.conf
 deleted file mode 100644
-index b1179eb8c..000000000
+index 69a1ab50a..000000000
 --- a/docs/conf/services/anope.conf
 +++ /dev/null
 @@ -1,9 +0,0 @@
@@ -1267,24 +1464,11 @@ index b1179eb8c..000000000
 -# by Anope. See https://www.anope.org for more information on Anope.
 -
 -# This file inherits from the generic config to avoid repetition.
--<include file="examples/services/generic.conf">
+-<include file="/etc/inspircd/services/generic.conf">
 -
 -# /GLOBAL <message>
 -# Sends a global notice.
 -<alias text="GLOBAL" format="*" replace="SQUERY $requirement :GLOBAL $2-" requires="Global" uline="yes" operonly="yes">
-diff --git a/docs/conf/services/atheme.conf b/docs/conf/services/atheme.conf
-index 7605251db..d26d9f533 100644
---- a/docs/conf/services/atheme.conf
-+++ b/docs/conf/services/atheme.conf
-@@ -3,7 +3,7 @@
- # information on Atheme.
- 
- # This file inherits from the generic config to avoid repetition.
--<include file="examples/services/generic.conf">
-+<include file="services/generic.conf">
- 
- # Long hand aliases for services pseudoclients.
- <alias text="ALIS"      replace="SQUERY $requirement :$2-" requires="ALIS"      uline="yes">
 diff --git a/docs/sql/sqloper.mysql.sql b/docs/sql/sqloper.mysql.sql
 deleted file mode 100644
 index a8a2b7e1d..000000000

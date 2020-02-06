@@ -1,4 +1,4 @@
-From 3f139413b5d043317b13a812a2e9e495da3bc6c8 Mon Sep 17 00:00:00 2001
+From 23cc46dd9c30a0854e326feb1ad0a0ca79985515 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 22 Dec 2017 20:38:29 -0800
 Subject: [PATCH 1/6] Fix OpenSSL 1.0.x wrapper.
@@ -10,10 +10,10 @@ and be called within another expression.
  1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 221a3076a..a42b8bdd3 100644
+index c27626639..d40feee52 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -76,9 +76,13 @@
+@@ -83,9 +83,13 @@
  # define OpenSSL_version SSLeay_version
  # define X509_getm_notAfter X509_get_notAfter
  # define X509_getm_notBefore X509_get_notBefore

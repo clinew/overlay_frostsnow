@@ -1,32 +1,40 @@
-From 82a0e5d45ed935e8a0528f6b752927dd4bd3952f Mon Sep 17 00:00:00 2001
+From 0d3f309c4f6955ce9d960a88b12ff0ba2cf0f6dc Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
-Date: Sun, 2 Feb 2020 21:30:34 -0800
+Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 5/6] Fix build paths
 
 ---
- docs/conf/{filter.conf.example => filter.conf}   |  0
- docs/conf/{helpop.conf.example => helpop.conf}   |  0
- .../{inspircd.conf.example => inspircd.conf}     | 16 ++++++++--------
- docs/conf/{links.conf.example => links.conf}     |  0
- docs/conf/{modules.conf.example => modules.conf} | 12 ++++++------
- docs/conf/{motd.txt.example => motd.txt}         |  2 +-
- docs/conf/{opermotd.txt.example => opermotd.txt} |  2 +-
- docs/conf/{opers.conf.example => opers.conf}     |  2 +-
- .../{irccloud.conf.example => irccloud.conf}     |  0
- ...kiwiirc-com.conf.example => kiwiirc-com.conf} |  0
- docs/conf/{quotes.txt.example => quotes.txt}     |  0
- .../services/{anope.conf.example => anope.conf}  |  2 +-
- .../{atheme.conf.example => atheme.conf}         |  2 +-
- .../{generic.conf.example => generic.conf}       |  0
- make/template/main.mk                            | 15 +++++++--------
- 15 files changed, 26 insertions(+), 27 deletions(-)
+ .../{ascii.conf.example => ascii.conf}        |  0
+ .../{latin1.conf.example => latin1.conf}      |  2 +-
+ .../{rfc1459.conf.example => rfc1459.conf}    |  0
+ ...c1459.conf.example => strict-rfc1459.conf} |  0
+ .../conf/{filter.conf.example => filter.conf} |  0
+ .../conf/{helpop.conf.example => helpop.conf} |  0
+ .../{inspircd.conf.example => inspircd.conf}  | 22 +++++++++----------
+ docs/conf/{links.conf.example => links.conf}  |  2 +-
+ .../{modules.conf.example => modules.conf}    | 20 ++++++++---------
+ docs/conf/{motd.txt.example => motd.txt}      |  2 +-
+ .../{opermotd.txt.example => opermotd.txt}    |  2 +-
+ docs/conf/{opers.conf.example => opers.conf}  |  2 +-
+ .../{irccloud.conf.example => irccloud.conf}  |  0
+ ...iirc-com.conf.example => kiwiirc-com.conf} |  0
+ docs/conf/{quotes.txt.example => quotes.txt}  |  0
+ .../{anope.conf.example => anope.conf}        |  2 +-
+ .../{atheme.conf.example => atheme.conf}      |  2 +-
+ .../{generic.conf.example => generic.conf}    |  0
+ make/template/main.mk                         | 19 ++++++++--------
+ 19 files changed, 37 insertions(+), 38 deletions(-)
+ rename docs/conf/codepages/{ascii.conf.example => ascii.conf} (100%)
+ rename docs/conf/codepages/{latin1.conf.example => latin1.conf} (97%)
+ rename docs/conf/codepages/{rfc1459.conf.example => rfc1459.conf} (100%)
+ rename docs/conf/codepages/{strict-rfc1459.conf.example => strict-rfc1459.conf} (100%)
  rename docs/conf/{filter.conf.example => filter.conf} (100%)
  rename docs/conf/{helpop.conf.example => helpop.conf} (100%)
- rename docs/conf/{inspircd.conf.example => inspircd.conf} (99%)
- rename docs/conf/{links.conf.example => links.conf} (100%)
+ rename docs/conf/{inspircd.conf.example => inspircd.conf} (98%)
+ rename docs/conf/{links.conf.example => links.conf} (98%)
  rename docs/conf/{modules.conf.example => modules.conf} (99%)
- rename docs/conf/{motd.txt.example => motd.txt} (97%)
- rename docs/conf/{opermotd.txt.example => opermotd.txt} (97%)
+ rename docs/conf/{motd.txt.example => motd.txt} (96%)
+ rename docs/conf/{opermotd.txt.example => opermotd.txt} (96%)
  rename docs/conf/{opers.conf.example => opers.conf} (99%)
  rename docs/conf/providers/{irccloud.conf.example => irccloud.conf} (100%)
  rename docs/conf/providers/{kiwiirc-com.conf.example => kiwiirc-com.conf} (100%)
@@ -35,6 +43,31 @@ Subject: [PATCH 5/6] Fix build paths
  rename docs/conf/services/{atheme.conf.example => atheme.conf} (98%)
  rename docs/conf/services/{generic.conf.example => generic.conf} (100%)
 
+diff --git a/docs/conf/codepages/ascii.conf.example b/docs/conf/codepages/ascii.conf
+similarity index 100%
+rename from docs/conf/codepages/ascii.conf.example
+rename to docs/conf/codepages/ascii.conf
+diff --git a/docs/conf/codepages/latin1.conf.example b/docs/conf/codepages/latin1.conf
+similarity index 97%
+rename from docs/conf/codepages/latin1.conf.example
+rename to docs/conf/codepages/latin1.conf
+index 3beb002fd..f5c6b98dc 100644
+--- a/docs/conf/codepages/latin1.conf.example
++++ b/docs/conf/codepages/latin1.conf
+@@ -39,4 +39,4 @@
+ <cpcase lower="222" upper="254"> # þ => Þ
+ 
+ # Include the ASCII rules to avoid duplication.
+-<include file="examples/codepages/ascii.conf.example">
++<include file="/etc/inspircd/codepages/ascii.conf">
+diff --git a/docs/conf/codepages/rfc1459.conf.example b/docs/conf/codepages/rfc1459.conf
+similarity index 100%
+rename from docs/conf/codepages/rfc1459.conf.example
+rename to docs/conf/codepages/rfc1459.conf
+diff --git a/docs/conf/codepages/strict-rfc1459.conf.example b/docs/conf/codepages/strict-rfc1459.conf
+similarity index 100%
+rename from docs/conf/codepages/strict-rfc1459.conf.example
+rename to docs/conf/codepages/strict-rfc1459.conf
 diff --git a/docs/conf/filter.conf.example b/docs/conf/filter.conf
 similarity index 100%
 rename from docs/conf/filter.conf.example
@@ -44,12 +77,25 @@ similarity index 100%
 rename from docs/conf/helpop.conf.example
 rename to docs/conf/helpop.conf
 diff --git a/docs/conf/inspircd.conf.example b/docs/conf/inspircd.conf
-similarity index 99%
+similarity index 98%
 rename from docs/conf/inspircd.conf.example
 rename to docs/conf/inspircd.conf
-index dbd56d2fe..4a7aab514 100644
+index dbd56d2fe..55535b1a0 100644
 --- a/docs/conf/inspircd.conf.example
 +++ b/docs/conf/inspircd.conf
+@@ -247,10 +247,10 @@
+ # This can be done by using <connect registered="no">                 #
+ 
+ # To enable IRCCloud on your network uncomment this:
+-#<include file="examples/providers/irccloud.conf.example">
++#<include file="/etc/inspircd/providers/irccloud.conf">
+ 
+ # To enable KiwiIRC.com on your network uncomment this:
+-#<include file="examples/providers/kiwiirc-com.conf.example">
++#<include file="/etc/inspircd/providers/kiwiirc-com.conf">
+ 
+ # A connect class with <connect:deny> set denies connections from the specified host/IP range.
+ <connect
 @@ -494,11 +494,11 @@
  
  # This file has all the information about oper classes, types and o:lines.
@@ -82,6 +128,15 @@ index dbd56d2fe..4a7aab514 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#- LIST MODE LIMITS #-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
+@@ -693,7 +693,7 @@
+          #                    messages (requires the stripcolor module).
+          #  - topiclock       Channel mode +t - limits changing the topic to (half)ops
+          # You can also configure this on a per-channel basis with a channel mode.
+-         # See m_exemptchanops in modules.conf.example for more details.
++         # See m_exemptchanops in modules.conf for more details.
+          exemptchanops="censor:o filter:o nickflood:o nonick:v regmoderated:o"
+ 
+          # invitebypassmodes: This allows /INVITE to bypass other channel modes.
 @@ -1041,7 +1041,7 @@
  # provide almost all the features of InspIRCd. :)                     #
  #                                                                     #
@@ -109,17 +164,41 @@ index dbd56d2fe..4a7aab514 100644
  #########################################################################
  #                                                                       #
 diff --git a/docs/conf/links.conf.example b/docs/conf/links.conf
-similarity index 100%
+similarity index 98%
 rename from docs/conf/links.conf.example
 rename to docs/conf/links.conf
+index 09b3bb3d5..22db1bdab 100644
+--- a/docs/conf/links.conf.example
++++ b/docs/conf/links.conf
+@@ -121,4 +121,4 @@
+ 
+ # Once you have edited this file you can remove this line. This is just to
+ # ensure that you don't hastily include the file without reading it.
+-<die reason="Using links.conf.example without editing it is a security risk">
++<die reason="Using links.conf without editing it is a security risk">
 diff --git a/docs/conf/modules.conf.example b/docs/conf/modules.conf
 similarity index 99%
 rename from docs/conf/modules.conf.example
 rename to docs/conf/modules.conf
-index 639f02335..ea51e9b67 100644
+index d68248163..b55d368fb 100644
 --- a/docs/conf/modules.conf.example
 +++ b/docs/conf/modules.conf
-@@ -838,7 +838,7 @@
+@@ -576,10 +576,10 @@
+ # and case mapping.
+ #
+ # You should include one of the following files to set your codepage:
+-#<include file="examples/codepages/ascii.conf.example">
+-#<include file="examples/codepages/latin1.conf.example">
+-#<include file="examples/codepages/rfc1459.conf.example">
+-#<include file="examples/codepages/strict-rfc1459.conf.example">
++#<include file="/etc/inspircd/codepages/ascii.conf">
++#<include file="/etc/inspircd/codepages/latin1.conf">
++#<include file="/etc/inspircd/codepages/rfc1459.conf">
++#<include file="/etc/inspircd/codepages/strict-rfc1459.conf">
+ #
+ # You can also define a custom codepage. For details on how to do this
+ # please refer to the docs site:
+@@ -853,7 +853,7 @@
  # anticaps, auditorium-see, auditorium-vis, blockcaps, blockcolor,    #
  # censor, filter, flood, nickflood, noctcp, nonick, nonotice,         #
  # regmoderated, stripcolor, and topiclock.                            #
@@ -128,7 +207,7 @@ index 639f02335..ea51e9b67 100644
  # detailed list of the restriction modes that can be exempted.        #
  # These are settable using: /MODE #chan +X <restriction>:<status>     #
  #<module name="exemptchanops">
-@@ -874,7 +874,7 @@
+@@ -889,7 +889,7 @@
  # Your choice of regex engine must match on all servers network-wide. #
  #                                                                     #
  # To learn more about the configuration of this module, read          #
@@ -137,7 +216,7 @@ index 639f02335..ea51e9b67 100644
  # filters and shows how to add exemptions.                            #
  #                                                                     #
  #-#-#-#-#-#-#-#-#-#-#-  FILTER  CONFIGURATION  -#-#-#-#-#-#-#-#-#-#-#-#
-@@ -883,7 +883,7 @@
+@@ -898,7 +898,7 @@
  # specify below the path to the filter.conf file, or define some      #
  # <keyword> tags.                                                     #
  #                                                                     #
@@ -146,7 +225,7 @@ index 639f02335..ea51e9b67 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Flash Policy Daemon module: Allows Flash IRC clients (e.g. LightIRC)#
-@@ -973,7 +973,7 @@
+@@ -988,7 +988,7 @@
  # If you specify to use the helpop module, then specify below the     #
  # path to the helpop.conf file.                                       #
  #                                                                     #
@@ -155,7 +234,7 @@ index 639f02335..ea51e9b67 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Hide chans module: Allows users to hide their channels list from non-
-@@ -1551,7 +1551,7 @@
+@@ -1575,7 +1575,7 @@
  # onoper        - If on, the message is sent on /OPER, otherwise it's #
  #                 only sent when /OPERMOTD is used.                   #
  #                                                                     #
@@ -164,7 +243,7 @@ index 639f02335..ea51e9b67 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Override module: Adds support for oper override.
-@@ -2129,7 +2129,7 @@
+@@ -2153,7 +2153,7 @@
  # connections in order to oper up. It is highly recommended to load
  # this module if you use SSL on your network.
  # For how to use the oper features, please see the first
@@ -174,37 +253,37 @@ index 639f02335..ea51e9b67 100644
  #<module name="sslinfo">
  #
 diff --git a/docs/conf/motd.txt.example b/docs/conf/motd.txt
-similarity index 97%
+similarity index 96%
 rename from docs/conf/motd.txt.example
 rename to docs/conf/motd.txt
-index c5266f844..34d85d965 100644
+index 9281cd4b9..a4ac6964b 100644
 --- a/docs/conf/motd.txt.example
 +++ b/docs/conf/motd.txt
-@@ -24,7 +24,7 @@
+@@ -23,7 +23,7 @@
                      `-.__  `----"""    __.-'
                           `--..____..--'
  
--        ---- To change, see motd.txt.example -----
-+        ---- To change, see motd.txt         -----
-        /                                          \
-       /   * Web: https://www.inspircd.org          \
-       |   * IRC: irc.inspircd.org #inspircd        |
+-      +---- To change this see \bmotd.txt.example\x ----+
++      +---- To change this see \bmotd.txt        \x ----+
+       |                                             |
+       |   * \bWeb:\x https://www.inspircd.org           |
+       |   * \bIRC:\x irc.inspircd.org #inspircd         |
 diff --git a/docs/conf/opermotd.txt.example b/docs/conf/opermotd.txt
-similarity index 97%
+similarity index 96%
 rename from docs/conf/opermotd.txt.example
 rename to docs/conf/opermotd.txt
-index 7e1c82f33..73ad28621 100644
+index a25d90380..68671a081 100644
 --- a/docs/conf/opermotd.txt.example
 +++ b/docs/conf/opermotd.txt
-@@ -24,7 +24,7 @@
+@@ -23,7 +23,7 @@
                      `-.__  `----"""    __.-'
                           `--..____..--'
  
--        -- To change, see opermotd.txt.example ---
-+        -- To change, see opermotd.txt         ---
-        /                                          \
-       /   * Web: https://www.inspircd.org          \
-       |   * IRC: irc.inspircd.org #inspircd        |
+-      +-- To change this see \bopermotd.txt.example\x --+
++      +-- To change this see \bopermotd.txt        \x --+
+       |                                             |
+       |   * \bWeb:\x https://www.inspircd.org           |
+       |   * \bIRC:\x irc.inspircd.org #inspircd         |
 diff --git a/docs/conf/opers.conf.example b/docs/conf/opers.conf
 similarity index 99%
 rename from docs/conf/opers.conf.example
@@ -234,7 +313,7 @@ diff --git a/docs/conf/services/anope.conf.example b/docs/conf/services/anope.co
 similarity index 86%
 rename from docs/conf/services/anope.conf.example
 rename to docs/conf/services/anope.conf
-index 5c8f859ff..b1179eb8c 100644
+index 5c8f859ff..69a1ab50a 100644
 --- a/docs/conf/services/anope.conf.example
 +++ b/docs/conf/services/anope.conf
 @@ -2,7 +2,7 @@
@@ -242,7 +321,7 @@ index 5c8f859ff..b1179eb8c 100644
  
  # This file inherits from the generic config to avoid repetition.
 -<include file="examples/services/generic.conf.example">
-+<include file="examples/services/generic.conf">
++<include file="/etc/inspircd/services/generic.conf">
  
  # /GLOBAL <message>
  # Sends a global notice.
@@ -250,7 +329,7 @@ diff --git a/docs/conf/services/atheme.conf.example b/docs/conf/services/atheme.
 similarity index 98%
 rename from docs/conf/services/atheme.conf.example
 rename to docs/conf/services/atheme.conf
-index d509522b8..7605251db 100644
+index d509522b8..c1e906ff7 100644
 --- a/docs/conf/services/atheme.conf.example
 +++ b/docs/conf/services/atheme.conf
 @@ -3,7 +3,7 @@
@@ -258,7 +337,7 @@ index d509522b8..7605251db 100644
  
  # This file inherits from the generic config to avoid repetition.
 -<include file="examples/services/generic.conf.example">
-+<include file="examples/services/generic.conf">
++<include file="/etc/inspircd/services/generic.conf">
  
  # Long hand aliases for services pseudoclients.
  <alias text="ALIS"      replace="SQUERY $requirement :$2-" requires="ALIS"      uline="yes">
@@ -267,38 +346,42 @@ similarity index 100%
 rename from docs/conf/services/generic.conf.example
 rename to docs/conf/services/generic.conf
 diff --git a/make/template/main.mk b/make/template/main.mk
-index 1e6ba5cd0..3751937eb 100644
+index a57595c9d..42fef2563 100644
 --- a/make/template/main.mk
 +++ b/make/template/main.mk
-@@ -210,9 +210,9 @@ install: target
+@@ -220,10 +220,10 @@ install: target
  	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(BINPATH)
  	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(CONPATH)
  	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(DATPATH)
+-	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(EXAPATH)/codepages
 -	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(EXAPATH)/providers
 -	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(EXAPATH)/services
 -	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(EXAPATH)/sql
++	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(CONPATH)/codepages
 +	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(CONPATH)/providers
 +	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(CONPATH)/services
 +	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(CONPATH)/sql
  	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(LOGPATH)
  	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(MANPATH)
  	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(MODPATH)
-@@ -229,10 +229,10 @@ endif
+@@ -240,11 +240,11 @@ endif
  	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/inspircd.1 $(MANPATH) 2>/dev/null
  	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/inspircd-genssl.1 $(MANPATH) 2>/dev/null
  	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_BIN) tools/genssl $(BINPATH)/inspircd-genssl 2>/dev/null
 -	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/*.example $(EXAPATH)
+-	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/codepages/*.example $(EXAPATH)/codepages
 -	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/providers/*.example $(EXAPATH)/providers
 -	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/services/*.example $(EXAPATH)/services
 -	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/sql/*.sql $(EXAPATH)/sql
 +	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/*.{conf,txt} $(CONPATH)
++	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/codepages/* $(CONPATH)/codepages
 +	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/providers/* $(CONPATH)/providers
 +	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/services/* $(CONPATH)/services
 +	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/sql/*.sql $(CONPATH)/sql
  	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_PRV) *.pem $(CONPATH) 2>/dev/null
  	@echo ""
  	@echo "*************************************"
-@@ -246,7 +246,6 @@ endif
+@@ -258,7 +258,6 @@ endif
  	@echo '  Data:' $(DATPATH)
  	@echo 'To start the ircd, run:' $(SCRPATH)/inspircd start
  	@echo 'Remember to create your config file:' $(CONPATH)/inspircd.conf

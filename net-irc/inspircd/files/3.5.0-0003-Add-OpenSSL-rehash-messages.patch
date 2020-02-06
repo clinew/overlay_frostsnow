@@ -1,18 +1,18 @@
-From 6088128c5a6aa3c194c1c100f19679894d78f6ab Mon Sep 17 00:00:00 2001
+From 7a41d073aae17c1a5d3e5e99f5c3376b9ea83b6f Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 1 Dec 2017 00:15:38 -0800
 Subject: [PATCH 3/6] Add OpenSSL rehash messages.
 
 ---
- src/modules/extra/m_ssl_openssl.cpp | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ src/modules/extra/m_ssl_openssl.cpp | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index a6009b1d4..be528d03d 100644
+index ec12e3814..d13e49a9d 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -1147,12 +1147,21 @@ class ModuleSSLOpenSSL : public Module
- 		if (param != "ssl")
+@@ -1154,6 +1154,10 @@ class ModuleSSLOpenSSL : public Module
+ 		if (!irc::equals(param, "ssl"))
  			return;
  
 +		ServerInstance->SNO->WriteGlobalSno('a', (user ? (user->nick + " is r") : "R") + "ehashing OpenSSL module on " + ServerInstance->Config->ServerName);
@@ -22,9 +22,7 @@ index a6009b1d4..be528d03d 100644
  		try
  		{
  			ReadProfiles();
-+			ServerInstance->SNO->WriteGlobalSno('a', "*** Successfully rehashed OpenSSL module on " + ServerInstance->Config->ServerName);
-+			if (user)
-+				user->WriteRemoteNotice("*** Successfully rehashed OpenSSL module.");
+@@ -1161,6 +1165,8 @@ class ModuleSSLOpenSSL : public Module
  		}
  		catch (ModuleException& ex)
  		{
