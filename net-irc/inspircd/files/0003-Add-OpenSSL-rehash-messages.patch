@@ -1,4 +1,4 @@
-From 7a41d073aae17c1a5d3e5e99f5c3376b9ea83b6f Mon Sep 17 00:00:00 2001
+From f3161cde230883d4789a4c91f1c46d6fb3b5aa42 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 1 Dec 2017 00:15:38 -0800
 Subject: [PATCH 3/6] Add OpenSSL rehash messages.
@@ -8,11 +8,11 @@ Subject: [PATCH 3/6] Add OpenSSL rehash messages.
  1 file changed, 6 insertions(+)
 
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index ec12e3814..d13e49a9d 100644
+index 0341ad2c6..f830b99aa 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -1154,6 +1154,10 @@ class ModuleSSLOpenSSL : public Module
- 		if (!irc::equals(param, "ssl"))
+@@ -1157,6 +1157,10 @@ class ModuleSSLOpenSSL : public Module
+ 		if (!irc::equals(param, "tls") && !irc::equals(param, "ssl"))
  			return;
  
 +		ServerInstance->SNO->WriteGlobalSno('a', (user ? (user->nick + " is r") : "R") + "ehashing OpenSSL module on " + ServerInstance->Config->ServerName);
@@ -22,7 +22,7 @@ index ec12e3814..d13e49a9d 100644
  		try
  		{
  			ReadProfiles();
-@@ -1161,6 +1165,8 @@ class ModuleSSLOpenSSL : public Module
+@@ -1164,6 +1168,8 @@ class ModuleSSLOpenSSL : public Module
  		}
  		catch (ModuleException& ex)
  		{
@@ -32,5 +32,5 @@ index ec12e3814..d13e49a9d 100644
  		}
  	}
 -- 
-2.24.1
+2.26.2
 

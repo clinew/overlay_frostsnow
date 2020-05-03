@@ -1,4 +1,4 @@
-From 0d3f309c4f6955ce9d960a88b12ff0ba2cf0f6dc Mon Sep 17 00:00:00 2001
+From 8cef3a7ef5193ba59b8dc2252df2e0adab5135ab Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 5/6] Fix build paths
@@ -80,10 +80,10 @@ diff --git a/docs/conf/inspircd.conf.example b/docs/conf/inspircd.conf
 similarity index 98%
 rename from docs/conf/inspircd.conf.example
 rename to docs/conf/inspircd.conf
-index dbd56d2fe..55535b1a0 100644
+index 73a188a4f..14d06d70f 100644
 --- a/docs/conf/inspircd.conf.example
 +++ b/docs/conf/inspircd.conf
-@@ -247,10 +247,10 @@
+@@ -250,10 +250,10 @@
  # This can be done by using <connect registered="no">                 #
  
  # To enable IRCCloud on your network uncomment this:
@@ -96,7 +96,7 @@ index dbd56d2fe..55535b1a0 100644
  
  # A connect class with <connect:deny> set denies connections from the specified host/IP range.
  <connect
-@@ -494,11 +494,11 @@
+@@ -497,11 +497,11 @@
  
  # This file has all the information about oper classes, types and o:lines.
  # You *MUST* edit it.
@@ -110,7 +110,7 @@ index dbd56d2fe..55535b1a0 100644
  
  #-#-#-#-#-#-#-#-#-#-  MISCELLANEOUS CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -507,7 +507,7 @@
+@@ -510,7 +510,7 @@
  #
  #   motd - displayed on connect and when a user executes /MOTD
  # Modules can also define their own files
@@ -119,7 +119,7 @@ index dbd56d2fe..55535b1a0 100644
  
  # Example of an executable file include. Note this will be read on rehash,
  # not when the command is run.
-@@ -543,7 +543,7 @@
+@@ -546,7 +546,7 @@
  # the default of 'inspircd.pid' is used.                              #
  #                                                                     #
  
@@ -128,7 +128,7 @@ index dbd56d2fe..55535b1a0 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#- LIST MODE LIMITS #-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -693,7 +693,7 @@
+@@ -700,7 +700,7 @@
           #                    messages (requires the stripcolor module).
           #  - topiclock       Channel mode +t - limits changing the topic to (half)ops
           # You can also configure this on a per-channel basis with a channel mode.
@@ -137,7 +137,7 @@ index dbd56d2fe..55535b1a0 100644
           exemptchanops="censor:o filter:o nickflood:o nonick:v regmoderated:o"
  
           # invitebypassmodes: This allows /INVITE to bypass other channel modes.
-@@ -1041,7 +1041,7 @@
+@@ -1048,7 +1048,7 @@
  # provide almost all the features of InspIRCd. :)                     #
  #                                                                     #
  # The default does nothing -- we include it for simplicity for you.   #
@@ -146,7 +146,7 @@ index dbd56d2fe..55535b1a0 100644
  
  #-#-#-#-#-#-#-#-#-#-#-# SERVICES CONFIGURATION  #-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1050,13 +1050,13 @@
+@@ -1057,13 +1057,13 @@
  # exemptions for services pseudoclients:                              #
  #
  # Anope users should uncomment this:
@@ -167,7 +167,7 @@ diff --git a/docs/conf/links.conf.example b/docs/conf/links.conf
 similarity index 98%
 rename from docs/conf/links.conf.example
 rename to docs/conf/links.conf
-index 09b3bb3d5..22db1bdab 100644
+index 256ac10f9..40f5be35d 100644
 --- a/docs/conf/links.conf.example
 +++ b/docs/conf/links.conf
 @@ -121,4 +121,4 @@
@@ -180,7 +180,7 @@ diff --git a/docs/conf/modules.conf.example b/docs/conf/modules.conf
 similarity index 99%
 rename from docs/conf/modules.conf.example
 rename to docs/conf/modules.conf
-index d68248163..b55d368fb 100644
+index 85180d78d..c9f8dfd93 100644
 --- a/docs/conf/modules.conf.example
 +++ b/docs/conf/modules.conf
 @@ -576,10 +576,10 @@
@@ -234,7 +234,7 @@ index d68248163..b55d368fb 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Hide chans module: Allows users to hide their channels list from non-
-@@ -1575,7 +1575,7 @@
+@@ -1576,7 +1576,7 @@
  # onoper        - If on, the message is sent on /OPER, otherwise it's #
  #                 only sent when /OPERMOTD is used.                   #
  #                                                                     #
@@ -243,9 +243,9 @@ index d68248163..b55d368fb 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Override module: Adds support for oper override.
-@@ -2153,7 +2153,7 @@
+@@ -2167,7 +2167,7 @@
  # connections in order to oper up. It is highly recommended to load
- # this module if you use SSL on your network.
+ # this module if you use TLS (SSL) on your network.
  # For how to use the oper features, please see the first
 -# example <oper> tag in opers.conf.example.
 +# example <oper> tag in opers.conf.
@@ -288,10 +288,10 @@ diff --git a/docs/conf/opers.conf.example b/docs/conf/opers.conf
 similarity index 99%
 rename from docs/conf/opers.conf.example
 rename to docs/conf/opers.conf
-index 7cad2589c..082009da9 100644
+index d8c266b1f..9517b3685 100644
 --- a/docs/conf/opers.conf.example
 +++ b/docs/conf/opers.conf
-@@ -178,4 +178,4 @@
+@@ -182,4 +182,4 @@
  
  # Once you have edited this file you can remove this line. This is just to
  # ensure that you don't hastily include the file without reading it.
@@ -390,5 +390,5 @@ index a57595c9d..42fef2563 100644
  GNUmakefile: make/template/main.mk src/version.sh configure @CONFIGURE_CACHE_FILE@
  	./configure --update
 -- 
-2.24.1
+2.26.2
 

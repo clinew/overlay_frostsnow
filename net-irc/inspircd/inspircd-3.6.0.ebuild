@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -33,12 +33,12 @@ DEPEND="${RDEPEND}"
 
 DOCS=( docs/. )
 PATCHES=(
-    "${FILESDIR}"/${PV}-0001-Fix-OpenSSL-1.0.x-wrapper.patch
-	"${FILESDIR}"/${PV}-0002-Add-logging-for-OpenSSL-connections.patch
-	"${FILESDIR}"/${PV}-0003-Add-OpenSSL-rehash-messages.patch
-	"${FILESDIR}"/${PV}-0004-m_ssl_openssl-Add-strong-peer-cert-validation.patch
-	"${FILESDIR}"/${PV}-0005-Fix-build-paths.patch
-	"${FILESDIR}"/${PV}-0006-CotSS-configuration.patch
+	"${FILESDIR}"/0001-Fix-OpenSSL-1.0.x-wrapper.patch
+	"${FILESDIR}"/0002-Add-logging-for-OpenSSL-connections.patch
+	"${FILESDIR}"/0003-Add-OpenSSL-rehash-messages.patch
+	"${FILESDIR}"/0004-m_ssl_openssl-Add-strong-peer-cert-validation.patch
+	"${FILESDIR}"/0005-Fix-build-paths.patch
+	"${FILESDIR}"/0006-CotSS-configuration.patch
 )
 
 src_prepare() {

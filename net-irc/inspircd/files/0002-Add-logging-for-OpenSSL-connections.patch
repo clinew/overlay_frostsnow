@@ -1,4 +1,4 @@
-From d178a006a97bf383abc18ccb32fd2a0705c1873c Mon Sep 17 00:00:00 2001
+From d41932e3d4e25cd752facb2fc449cede2f9157f9 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 2/6] Add logging for OpenSSL connections.
@@ -11,10 +11,10 @@ verification.
  2 files changed, 122 insertions(+), 30 deletions(-)
 
 diff --git a/include/modules/ssl.h b/include/modules/ssl.h
-index 88a6751e4..b4bcae105 100644
+index 2227c4b13..1064ed62f 100644
 --- a/include/modules/ssl.h
 +++ b/include/modules/ssl.h
-@@ -45,9 +45,9 @@ class ssl_cert : public refcountbase
+@@ -46,9 +46,9 @@ class ssl_cert : public refcountbase
  	std::string issuer;
  	std::string error;
  	std::string fingerprint;
@@ -26,8 +26,8 @@ index 88a6751e4..b4bcae105 100644
  
  	/** Get certificate distinguished name
  	 * @return Certificate DN
-@@ -156,6 +156,7 @@ class SSLIOHook : public IOHook
- 	/** Peer SSL certificate, set by the SSL module
+@@ -157,6 +157,7 @@ class SSLIOHook : public IOHook
+ 	/** Peer TLS (SSL) certificate, set by the TLS (SSL) module
  	 */
  	reference<ssl_cert> certificate;
 +	std::vector<reference<ssl_cert>> chain;
@@ -35,7 +35,7 @@ index 88a6751e4..b4bcae105 100644
  	/** Reduce elements in a send queue by appending later elements to the first element until there are no more
  	 * elements to append or a desired length is reached
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index d40feee52..ec12e3814 100644
+index 03b137728..0341ad2c6 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -549,37 +549,88 @@ class OpenSSLIOHook : public SSLIOHook
@@ -239,7 +239,7 @@ index d40feee52..ec12e3814 100644
  	}
  
  	void SSLInfoCallback(int where, int rc)
-@@ -1034,7 +1123,9 @@ class ModuleSSLOpenSSL : public Module
+@@ -1037,7 +1126,9 @@ class ModuleSSLOpenSSL : public Module
  	ModuleSSLOpenSSL()
  	{
  		// Initialize OpenSSL
@@ -251,5 +251,5 @@ index d40feee52..ec12e3814 100644
  		biomethods = OpenSSL::BIOMethod::alloc();
  	}
 -- 
-2.24.1
+2.26.2
 
