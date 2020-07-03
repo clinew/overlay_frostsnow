@@ -1,7 +1,7 @@
 From d41932e3d4e25cd752facb2fc449cede2f9157f9 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
-Subject: [PATCH 2/6] Add logging for OpenSSL connections.
+Subject: [PATCH 2/7] Add logging for OpenSSL connections.
 
 Specifically, log both handshake failures and certificiate
 verification.

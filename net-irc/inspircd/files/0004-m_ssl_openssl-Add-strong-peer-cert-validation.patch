@@ -1,7 +1,7 @@
 From 8b60b44f5651f40e701d6096d40d29bbda837e32 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 2 Mar 2018 22:44:32 -0800
-Subject: [PATCH 4/6] m_ssl_openssl Add strong peer cert validation.
+Subject: [PATCH 4/7] m_ssl_openssl Add strong peer cert validation.
 
 Allow the user to configure a whitelist of key types and minimum key
 size pairs for the client certificate chain.  Also allow a whitelist of

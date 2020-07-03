@@ -37,8 +37,9 @@ PATCHES=(
 	"${FILESDIR}"/0002-Add-logging-for-OpenSSL-connections.patch
 	"${FILESDIR}"/0003-Add-OpenSSL-rehash-messages.patch
 	"${FILESDIR}"/0004-m_ssl_openssl-Add-strong-peer-cert-validation.patch
-	"${FILESDIR}"/0005-Fix-build-paths.patch
-	"${FILESDIR}"/0006-CotSS-configuration.patch
+	"${FILESDIR}"/0005-Warn-on-old-client-certificate.patch
+	"${FILESDIR}"/0006-Fix-build-paths.patch
+	"${FILESDIR}"/0007-CotSS-configuration.patch
 )
 
 src_prepare() {

@@ -1,7 +1,7 @@
-From 9c611a3d80194cee40180d8334a1bcd29795940f Mon Sep 17 00:00:00 2001
+From 526fc811f55dc666b96f54bde67176ec92e84038 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 2 Feb 2020 21:58:12 -0800
-Subject: [PATCH 6/6] CotSS configuration
+Subject: [PATCH 7/7] CotSS configuration
 
 ---
  docs/conf/codepages/ascii.conf          |  37 ------
@@ -909,7 +909,7 @@ index 40f5be35d..a1cf970c9 100644
 -<die reason="Using links.conf without editing it is a security risk">
 +#<die reason="Using links.conf without editing it is a security risk">
 diff --git a/docs/conf/modules.conf b/docs/conf/modules.conf
-index c9f8dfd93..11e686075 100644
+index c9f8dfd93..18bccb5ad 100644
 --- a/docs/conf/modules.conf
 +++ b/docs/conf/modules.conf
 @@ -46,7 +46,7 @@
@@ -1162,17 +1162,17 @@ index c9f8dfd93..11e686075 100644
  # ssl_openssl is too complex to describe here, see the docs:          #
  # https://docs.inspircd.org/3/modules/ssl_openssl                     #
 +<openssl
-+	cafile="/etc/ssl/frostsnow.net/certs/client_cas.pem"
-+	certfile="/etc/ssl/frostsnow.net/certs/cert.pem"
-+	keyfile="/etc/ssl/frostsnow.net/private/key.pem"
-+	dhfile="/etc/ssl/frostsnow.net/dhparams.pem"
++	cafile="/var/lib/afr/cotss/ca_transitional.pem"
++	certfile="/var/lib/afr/cotss/certs_transitional.pem"
++	keyfile="/var/lib/afr/cotss/service/private/service.pem"
++	dhfile="/etc/inspircd/dhparams.pem"
 +	hash="sha256"
 +	ciphers="HIGH:@STRENGTH"
 +	customcontextoptions="true"
 +	cipherserverpref="on"
 +	compression="false"
-+	#crlfile="/etc/ssl/frostsnow.net/crl/crl.pem"
-+	crlpath="/etc/ssl/frostsnow.net/crl"
++	crlfile="/var/lib/afr/cotss/crl_transitional.pem"
++	#crlpath="/etc/ssl/frostsnow.net/crl"
 +	crlmode="chain"
 +	sslv3="false"
 +	peer_keysize_min="rsaEncryption:4096"
