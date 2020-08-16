@@ -1,4 +1,4 @@
-From 8b60b44f5651f40e701d6096d40d29bbda837e32 Mon Sep 17 00:00:00 2001
+From 3ea89897afd28f21202fa51d5ed62a65399f3f08 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 2 Mar 2018 22:44:32 -0800
 Subject: [PATCH 4/7] m_ssl_openssl Add strong peer cert validation.
@@ -40,10 +40,10 @@ index 000000000..37bff3159
 +	#peer_sigalg="RSA-SHA512"
 +>
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index f830b99aa..37a2f32bd 100644
+index 4925ee663..23c76735d 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -154,6 +154,13 @@ namespace OpenSSL
+@@ -161,6 +161,13 @@ namespace OpenSSL
  		SSL_CTX* const ctx;
  		long ctx_options;
  
@@ -57,7 +57,7 @@ index f830b99aa..37a2f32bd 100644
  	 public:
  		Context(SSL_CTX* context)
  			: ctx(context)
-@@ -273,6 +280,57 @@ namespace OpenSSL
+@@ -280,6 +287,57 @@ namespace OpenSSL
  			}
  		}
  
@@ -115,7 +115,7 @@ index f830b99aa..37a2f32bd 100644
  
  		long GetDefaultContextOptions() const
  		{
-@@ -454,11 +512,20 @@ namespace OpenSSL
+@@ -461,11 +519,20 @@ namespace OpenSSL
  			const std::string crlmode = tag->getString("crlmode", "chain", 1);
  			ctx.SetCRL(crlfile, crlpath, crlmode);
  
@@ -136,7 +136,7 @@ index f830b99aa..37a2f32bd 100644
  		const std::string& GetName() const { return name; }
  		SSL* CreateServerSession() { return ctx.CreateServerSession(); }
  		SSL* CreateClientSession() { return clictx.CreateClientSession(); }
-@@ -702,6 +769,72 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -709,6 +776,72 @@ class OpenSSLIOHook : public SSLIOHook
  		{
  			certinfo->error = "Not activated, or expired certificate";
  		}

@@ -1,4 +1,4 @@
-From d41932e3d4e25cd752facb2fc449cede2f9157f9 Mon Sep 17 00:00:00 2001
+From cc70d7c37ae2e7aba2ffb7b24278f5008ebac1b8 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 2/7] Add logging for OpenSSL connections.
@@ -11,7 +11,7 @@ verification.
  2 files changed, 122 insertions(+), 30 deletions(-)
 
 diff --git a/include/modules/ssl.h b/include/modules/ssl.h
-index 2227c4b13..1064ed62f 100644
+index ac2e367fd..6840bc515 100644
 --- a/include/modules/ssl.h
 +++ b/include/modules/ssl.h
 @@ -46,9 +46,9 @@ class ssl_cert : public refcountbase
@@ -35,10 +35,10 @@ index 2227c4b13..1064ed62f 100644
  	/** Reduce elements in a send queue by appending later elements to the first element until there are no more
  	 * elements to append or a desired length is reached
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 03b137728..0341ad2c6 100644
+index 39347932a..7d05dea69 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -549,37 +549,88 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -556,37 +556,88 @@ class OpenSSLIOHook : public SSLIOHook
  	issl_status status;
  	bool data_to_write;
  
@@ -136,7 +136,7 @@ index 03b137728..0341ad2c6 100644
  
  			status = ISSL_OPEN;
  
-@@ -587,10 +638,13 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -594,10 +645,13 @@ class OpenSSLIOHook : public SSLIOHook
  
  			return 1;
  		}
@@ -154,7 +154,7 @@ index 03b137728..0341ad2c6 100644
  		return -1;
  	}
  
-@@ -604,26 +658,14 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -611,26 +665,14 @@ class OpenSSLIOHook : public SSLIOHook
  		sess = NULL;
  		certificate = NULL;
  		status = ISSL_NONE;
@@ -183,7 +183,7 @@ index 03b137728..0341ad2c6 100644
  		if (!SelfSigned)
  		{
  			certinfo->unknownsigner = false;
-@@ -660,8 +702,55 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -667,8 +709,55 @@ class OpenSSLIOHook : public SSLIOHook
  		{
  			certinfo->error = "Not activated, or expired certificate";
  		}
@@ -239,7 +239,7 @@ index 03b137728..0341ad2c6 100644
  	}
  
  	void SSLInfoCallback(int where, int rc)
-@@ -1037,7 +1126,9 @@ class ModuleSSLOpenSSL : public Module
+@@ -1047,7 +1136,9 @@ class ModuleSSLOpenSSL : public Module
  	ModuleSSLOpenSSL()
  	{
  		// Initialize OpenSSL
