@@ -1,4 +1,4 @@
-From ef5c6c90d5ae43f0be98aac5053fbf94a0a982b6 Mon Sep 17 00:00:00 2001
+From 956515ad0c26bceab55de0ad6b2b4ce7204a1f45 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 1 Dec 2017 00:15:38 -0800
 Subject: [PATCH 3/7] Add OpenSSL rehash messages.
@@ -8,7 +8,7 @@ Subject: [PATCH 3/7] Add OpenSSL rehash messages.
  1 file changed, 6 insertions(+)
 
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 7d05dea69..4925ee663 100644
+index adc4146c5..38d1e8238 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -1167,6 +1167,10 @@ class ModuleSSLOpenSSL : public Module
