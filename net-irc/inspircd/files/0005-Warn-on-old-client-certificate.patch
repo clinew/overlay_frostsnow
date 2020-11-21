@@ -1,4 +1,4 @@
-From bc704027ad605d2479dad5c5de804204c0a8891d Mon Sep 17 00:00:00 2001
+From dcfdb98c0bf4eea366989610218f3b1df126de90 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 14 Jun 2020 22:28:23 -0700
 Subject: [PATCH 5/7] Warn on old client certificate
@@ -8,7 +8,7 @@ Subject: [PATCH 5/7] Warn on old client certificate
  1 file changed, 10 insertions(+)
 
 diff --git a/src/modules/m_sslinfo.cpp b/src/modules/m_sslinfo.cpp
-index 70e065257..8d8d5d1f3 100644
+index 0054e3ed7..b258665c8 100644
 --- a/src/modules/m_sslinfo.cpp
 +++ b/src/modules/m_sslinfo.cpp
 @@ -302,6 +302,16 @@ class ModuleSSLInfo

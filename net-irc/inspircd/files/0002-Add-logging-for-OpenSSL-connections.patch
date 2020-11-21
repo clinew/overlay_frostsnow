@@ -1,4 +1,4 @@
-From 65100a01015c000ef3ff05ededb7cc6ae72f525c Mon Sep 17 00:00:00 2001
+From 637966d9d49970200da28d14ddedcd1c46ad28ef Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 2/7] Add logging for OpenSSL connections.

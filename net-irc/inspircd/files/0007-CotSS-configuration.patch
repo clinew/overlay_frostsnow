@@ -1,4 +1,4 @@
-From 90068992859989726f84bf7fddabcf820a7f6609 Mon Sep 17 00:00:00 2001
+From 1f89ba66bbb891c782efa1e4842c0837910b12fd Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 2 Feb 2020 21:58:12 -0800
 Subject: [PATCH 7/7] CotSS configuration
@@ -1382,7 +1382,7 @@ index 9517b3685..de2bb0263 100644
 +#<die reason="Using opers.conf without editing it is a security risk">
 diff --git a/docs/conf/providers/irccloud.conf b/docs/conf/providers/irccloud.conf
 deleted file mode 100644
-index 8ecb77b83..000000000
+index 725c7f5bc..000000000
 --- a/docs/conf/providers/irccloud.conf
 +++ /dev/null
 @@ -1,27 +0,0 @@
@@ -1396,23 +1396,23 @@ index 8ecb77b83..000000000
 -         globalmax="100"
 -         localmax="100">
 -
--<connect name="IRCCloud-Brockwell"  parent="IRCCloud" allow="192.184.10.118">
--<connect name="IRCCloud-Charlton"   parent="IRCCloud" allow="192.184.9.112">
--<connect name="IRCCloud-Ealing"     parent="IRCCloud" allow="192.184.9.110">
--<connect name="IRCCloud-Hathersage" parent="IRCCloud" allow="192.184.8.73">
--<connect name="IRCCloud-Highgate"   parent="IRCCloud" allow="192.184.9.108">
--<connect name="IRCCloud-Stonehaven" parent="IRCCloud" allow="192.184.8.103">
--<connect name="IRCCloud-Tinside"    parent="IRCCloud" allow="5.254.36.57">
--<connect name="IRCCloud-Tooting"    parent="IRCCloud" allow="192.184.10.9">
+-<connect name="IRCCloud (Brockwell)"  parent="IRCCloud" allow="192.184.10.118">
+-<connect name="IRCCloud (Charlton)"   parent="IRCCloud" allow="192.184.9.112">
+-<connect name="IRCCloud (Ealing)"     parent="IRCCloud" allow="192.184.9.110">
+-<connect name="IRCCloud (Hathersage)" parent="IRCCloud" allow="192.184.8.73">
+-<connect name="IRCCloud (Highgate)"   parent="IRCCloud" allow="192.184.9.108">
+-<connect name="IRCCloud (Stonehaven)" parent="IRCCloud" allow="192.184.8.103">
+-<connect name="IRCCloud (Tinside)"    parent="IRCCloud" allow="5.254.36.57">
+-<connect name="IRCCloud (Tooting)"    parent="IRCCloud" allow="192.184.10.9">
 -
 -# This block has not yet been added to the connection pool but will be in the
 -# future. It is included here for future proofing purposes.
--<connect name="IRCCloud-Unnamed" parent="IRCCloud" allow="5.254.36.56/29">
+-<connect name="IRCCloud (Unnamed)" parent="IRCCloud" allow="5.254.36.56/29">
 -
 -# These are not typically needed as each user has their own IPv6 but if you have
 -# <cidr:ipv6clone> set to a value lower than 128 you will need to enable this.
--#<connect name="IRCCloud-IPv6-1" parent="IRCCloud" allow="2001:67c:2f08::/48">
--#<connect name="IRCCloud-IPV6-2" parent="IRCCloud" allow="2a03:5180:f::/64">
+-#<connect name="IRCCloud (IPv6 #1)" parent="IRCCloud" allow="2001:67c:2f08::/48">
+-#<connect name="IRCCloud (IPv6 #2)" parent="IRCCloud" allow="2a03:5180:f::/64">
 diff --git a/docs/conf/services/anope.conf b/docs/conf/services/anope.conf
 deleted file mode 100644
 index 69a1ab50a..000000000

@@ -1,4 +1,4 @@
-From 4f2d999559375e5bd6bb5c1fb08c4d148396ae1c Mon Sep 17 00:00:00 2001
+From 3badeae2a2d278840cd78b1adca28e55f94f65f9 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 22 Dec 2017 20:38:29 -0800
 Subject: [PATCH 1/7] Fix OpenSSL 1.0.x wrapper.
