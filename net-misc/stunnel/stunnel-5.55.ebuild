@@ -1,14 +1,12 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-
-# Remove me when setuid & setgid bug fixed.
 
 EAPI="6"
 
 inherit ssl-cert multilib systemd user
 
 DESCRIPTION="TLS/SSL - Port Wrapper"
-HOMEPAGE="http://www.stunnel.org/index.html"
+HOMEPAGE="https://www.stunnel.org/index.html"
 SRC_URI="ftp://ftp.stunnel.org/stunnel/archive/${PV%%.*}.x/${P}.tar.gz
 	http://www.usenix.org.uk/mirrors/stunnel/archive/${PV%%.*}.x/${P}.tar.gz
 	http://ftp.nluug.nl/pub/networking/stunnel/archive/${PV%%.*}.x/${P}.tar.gz
@@ -19,12 +17,11 @@ SRC_URI="ftp://ftp.stunnel.org/stunnel/archive/${PV%%.*}.x/${P}.tar.gz
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="alpha amd64 ~arm hppa ~ia64 ~mips ppc ppc64 ~s390 sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x86-macos"
-IUSE="ipv6 libressl selinux stunnel3 tcpd"
+KEYWORDS="~alpha amd64 arm hppa ~ia64 ~mips ppc ppc64 ~s390 sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x86-macos"
+IUSE="ipv6 selinux stunnel3 tcpd"
 
-DEPEND="tcpd? ( sys-apps/tcp-wrappers )
-	!libressl? ( dev-libs/openssl:0= )
-	libressl? ( dev-libs/libressl:0= )"
+DEPEND="dev-libs/openssl:0=
+	tcpd? ( sys-apps/tcp-wrappers )"
 RDEPEND="${DEPEND}
 	stunnel3? ( dev-lang/perl )
 	selinux? ( sec-policy/selinux-stunnel )"
@@ -40,9 +37,6 @@ src_prepare() {
 	# Hack away generation of certificate
 	sed -i -e "s/^install-data-local:/do-not-run-this:/" \
 		tools/Makefile.in || die "sed failed"
-
-	# bug 656420
-	eapply "${FILESDIR}"/${P}-libressl.patch
 
 	echo "CONFIG_PROTECT=\"/etc/stunnel/stunnel.conf\"" > "${T}"/20stunnel
 
