@@ -1,0 +1,14 @@
+# /etc/conf.d/valheim: config file for /etc/init.d/valheim
+
+# Server name.
+NAME="My server"
+
+# Port to listen on.
+# Be aware that the actual value used by the server appears to be this +1.
+PORT=2456
+
+# World name.
+WORLD="Dedicated"
+
+# Server password.  Minimum 5 characters and cannot match server name.
+PASSWORD="secret"

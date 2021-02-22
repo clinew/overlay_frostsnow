@@ -1,0 +1,12 @@
+#!/sbin/openrc-run
+# Copyright 2021 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+description="Valheim dedicated server"
+command="/opt/valheim/start_server_gentoo.sh"
+command_user="valheim:valheim"
+supervisor=supervise-daemon
+
+depend() {
+	need net
+}
