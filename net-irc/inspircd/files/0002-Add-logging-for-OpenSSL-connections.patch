@@ -1,4 +1,4 @@
-From 637966d9d49970200da28d14ddedcd1c46ad28ef Mon Sep 17 00:00:00 2001
+From 8ac5ecd16b29934e2cffbd6a110a384f95cf27fe Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 2/7] Add logging for OpenSSL connections.
@@ -35,7 +35,7 @@ index ac2e367fd..6840bc515 100644
  	/** Reduce elements in a send queue by appending later elements to the first element until there are no more
  	 * elements to append or a desired length is reached
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 565196ecc..adc4146c5 100644
+index c1fbec11f..03786dcd4 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -556,37 +556,88 @@ class OpenSSLIOHook : public SSLIOHook

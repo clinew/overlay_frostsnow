@@ -1,4 +1,4 @@
-From dcfdb98c0bf4eea366989610218f3b1df126de90 Mon Sep 17 00:00:00 2001
+From 40dc50672ead41e380c1d4bba1ebde2e41f0aac8 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 14 Jun 2020 22:28:23 -0700
 Subject: [PATCH 5/7] Warn on old client certificate
@@ -8,10 +8,10 @@ Subject: [PATCH 5/7] Warn on old client certificate
  1 file changed, 10 insertions(+)
 
 diff --git a/src/modules/m_sslinfo.cpp b/src/modules/m_sslinfo.cpp
-index 0054e3ed7..b258665c8 100644
+index 5b22a97b4..58ac50776 100644
 --- a/src/modules/m_sslinfo.cpp
 +++ b/src/modules/m_sslinfo.cpp
-@@ -302,6 +302,16 @@ class ModuleSSLInfo
+@@ -362,6 +362,16 @@ class ModuleSSLInfo
  			text.append(" and your TLS (SSL) client certificate fingerprint is ").append(cert->GetFingerprint());
  		user->WriteNotice(text);
  
