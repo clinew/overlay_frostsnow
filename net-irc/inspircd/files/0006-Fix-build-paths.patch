@@ -1,30 +1,36 @@
-From 53ced2a0e16982f9df6c703f2e13348b1fb28b94 Mon Sep 17 00:00:00 2001
+From 14f031aca39d23f715d2dade62c06459a8c4bfb7 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 6/7] Fix build paths
 
 ---
  .../{ascii.conf.example => ascii.conf}        |  0
- .../{latin1.conf.example => latin1.conf}      |  2 +-
+ ...so-8859-1.conf.example => iso-8859-1.conf} |  2 +-
+ ...so-8859-2.conf.example => iso-8859-2.conf} |  2 +-
  .../{rfc1459.conf.example => rfc1459.conf}    |  0
  ...c1459.conf.example => strict-rfc1459.conf} |  0
  .../conf/{filter.conf.example => filter.conf} |  0
  .../conf/{helpop.conf.example => helpop.conf} |  0
- .../{inspircd.conf.example => inspircd.conf}  | 20 +++++++++----------
+ .../{inspircd.conf.example => inspircd.conf}  | 20 ++++++-------
  docs/conf/{links.conf.example => links.conf}  |  2 +-
- .../{modules.conf.example => modules.conf}    | 20 +++++++++----------
+ .../{modules.conf.example => modules.conf}    | 28 +++++++++----------
+ .../{openssl.conf.example => openssl.conf}    |  0
  docs/conf/{motd.txt.example => motd.txt}      |  2 +-
  .../{opermotd.txt.example => opermotd.txt}    |  2 +-
  docs/conf/{opers.conf.example => opers.conf}  |  2 +-
+ .../{dronebl.conf.example => dronebl.conf}    |  0
+ ...{efnet-rbl.conf.example => efnet-rbl.conf} |  0
  .../{irccloud.conf.example => irccloud.conf}  |  0
+ .../{torexit.conf.example => torexit.conf}    |  0
  docs/conf/{quotes.txt.example => quotes.txt}  |  0
  .../{anope.conf.example => anope.conf}        |  2 +-
  .../{atheme.conf.example => atheme.conf}      |  2 +-
  .../{generic.conf.example => generic.conf}    |  0
- make/template/main.mk                         | 19 +++++++++---------
- 18 files changed, 36 insertions(+), 37 deletions(-)
+ make/template/main.mk                         | 19 ++++++-------
+ 23 files changed, 41 insertions(+), 42 deletions(-)
  rename docs/conf/codepages/{ascii.conf.example => ascii.conf} (100%)
- rename docs/conf/codepages/{latin1.conf.example => latin1.conf} (97%)
+ rename docs/conf/codepages/{iso-8859-1.conf.example => iso-8859-1.conf} (97%)
+ rename docs/conf/codepages/{iso-8859-2.conf.example => iso-8859-2.conf} (97%)
  rename docs/conf/codepages/{rfc1459.conf.example => rfc1459.conf} (100%)
  rename docs/conf/codepages/{strict-rfc1459.conf.example => strict-rfc1459.conf} (100%)
  rename docs/conf/{filter.conf.example => filter.conf} (100%)
@@ -32,10 +38,14 @@ Subject: [PATCH 6/7] Fix build paths
  rename docs/conf/{inspircd.conf.example => inspircd.conf} (99%)
  rename docs/conf/{links.conf.example => links.conf} (98%)
  rename docs/conf/{modules.conf.example => modules.conf} (99%)
+ rename docs/conf/modules/{openssl.conf.example => openssl.conf} (100%)
  rename docs/conf/{motd.txt.example => motd.txt} (96%)
  rename docs/conf/{opermotd.txt.example => opermotd.txt} (96%)
  rename docs/conf/{opers.conf.example => opers.conf} (99%)
+ rename docs/conf/providers/{dronebl.conf.example => dronebl.conf} (100%)
+ rename docs/conf/providers/{efnet-rbl.conf.example => efnet-rbl.conf} (100%)
  rename docs/conf/providers/{irccloud.conf.example => irccloud.conf} (100%)
+ rename docs/conf/providers/{torexit.conf.example => torexit.conf} (100%)
  rename docs/conf/{quotes.txt.example => quotes.txt} (100%)
  rename docs/conf/services/{anope.conf.example => anope.conf} (86%)
  rename docs/conf/services/{atheme.conf.example => atheme.conf} (98%)
@@ -45,15 +55,28 @@ diff --git a/docs/conf/codepages/ascii.conf.example b/docs/conf/codepages/ascii.
 similarity index 100%
 rename from docs/conf/codepages/ascii.conf.example
 rename to docs/conf/codepages/ascii.conf
-diff --git a/docs/conf/codepages/latin1.conf.example b/docs/conf/codepages/latin1.conf
+diff --git a/docs/conf/codepages/iso-8859-1.conf.example b/docs/conf/codepages/iso-8859-1.conf
 similarity index 97%
-rename from docs/conf/codepages/latin1.conf.example
-rename to docs/conf/codepages/latin1.conf
-index 3beb002fd..f5c6b98dc 100644
---- a/docs/conf/codepages/latin1.conf.example
-+++ b/docs/conf/codepages/latin1.conf
+rename from docs/conf/codepages/iso-8859-1.conf.example
+rename to docs/conf/codepages/iso-8859-1.conf
+index 83a772600..e0c90b938 100644
+--- a/docs/conf/codepages/iso-8859-1.conf.example
++++ b/docs/conf/codepages/iso-8859-1.conf
 @@ -39,4 +39,4 @@
  <cpcase lower="222" upper="254"> # þ => Þ
+ 
+ # Include the ASCII rules to avoid duplication.
+-<include file="examples/codepages/ascii.conf.example">
++<include file="/etc/inspircd/codepages/ascii.conf">
+diff --git a/docs/conf/codepages/iso-8859-2.conf.example b/docs/conf/codepages/iso-8859-2.conf
+similarity index 97%
+rename from docs/conf/codepages/iso-8859-2.conf.example
+rename to docs/conf/codepages/iso-8859-2.conf
+index df41d88fb..6da773be5 100644
+--- a/docs/conf/codepages/iso-8859-2.conf.example
++++ b/docs/conf/codepages/iso-8859-2.conf
+@@ -57,4 +57,4 @@
+ <cpcase lower="254" upper="222"> # ţ => Ţ
  
  # Include the ASCII rules to avoid duplication.
 -<include file="examples/codepages/ascii.conf.example">
@@ -78,7 +101,7 @@ diff --git a/docs/conf/inspircd.conf.example b/docs/conf/inspircd.conf
 similarity index 99%
 rename from docs/conf/inspircd.conf.example
 rename to docs/conf/inspircd.conf
-index cdfb6f3c2..f0d17ceff 100644
+index f07f21cdd..a731c0c1c 100644
 --- a/docs/conf/inspircd.conf.example
 +++ b/docs/conf/inspircd.conf
 @@ -242,7 +242,7 @@
@@ -161,7 +184,7 @@ diff --git a/docs/conf/links.conf.example b/docs/conf/links.conf
 similarity index 98%
 rename from docs/conf/links.conf.example
 rename to docs/conf/links.conf
-index 3b25e86f4..1208253a6 100644
+index 19d770d35..32986de9d 100644
 --- a/docs/conf/links.conf.example
 +++ b/docs/conf/links.conf
 @@ -143,4 +143,4 @@
@@ -174,25 +197,44 @@ diff --git a/docs/conf/modules.conf.example b/docs/conf/modules.conf
 similarity index 99%
 rename from docs/conf/modules.conf.example
 rename to docs/conf/modules.conf
-index d236d6cb9..8c80c5352 100644
+index 6eb61cc38..edc0d69e8 100644
 --- a/docs/conf/modules.conf.example
 +++ b/docs/conf/modules.conf
-@@ -617,10 +617,10 @@
+@@ -617,11 +617,11 @@
  #<module name="codepage">
  #
  # You should include one of the following files to set your codepage:
 -#<include file="examples/codepages/ascii.conf.example">
--#<include file="examples/codepages/latin1.conf.example">
+-#<include file="examples/codepages/iso-8859-1.conf.example">
+-#<include file="examples/codepages/iso-8859-2.conf.example">
 -#<include file="examples/codepages/rfc1459.conf.example">
 -#<include file="examples/codepages/strict-rfc1459.conf.example">
 +#<include file="/etc/inspircd/codepages/ascii.conf">
-+#<include file="/etc/inspircd/codepages/latin1.conf">
++#<include file="/etc/inspircd/codepages/iso-8859-1.conf">
++#<include file="/etc/inspircd/codepages/iso-8859-2.conf">
 +#<include file="/etc/inspircd/codepages/rfc1459.conf">
 +#<include file="/etc/inspircd/codepages/strict-rfc1459.conf">
  #
  # You can also define a custom codepage. For details on how to do this
  # please refer to the docs site:
-@@ -904,7 +904,7 @@
+@@ -890,13 +890,13 @@
+ # more of the following example configs for popular DNSBLs:           #
+ #                                                                     #
+ # DroneBL (https://dronebl.org)                                       #
+-#<include file="examples/providers/dronebl.conf.example">
++#<include file="/etc/inspircd/providers/dronebl.conf">
+ #                                                                     #
+ # EFnet RBL (https://rbl.efnetrbl.org)                                #
+-#<include file="examples/providers/efnet-rbl.conf.example">
++#<include file="/etc/inspircd/providers/efnet-rbl.conf">
+ #                                                                     #
+ # dan.me.uk Tor exit node DNSBL (https://www.dan.me.uk/dnsbl)         #
+-#<include file="examples/providers/torexit.conf.example">
++#<include file="/etc/inspircd/providers/torexit.conf">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # Exempt channel operators module: Provides support for allowing      #
+@@ -905,7 +905,7 @@
  # anticaps, auditorium-see, auditorium-vis, blockcaps, blockcolor,    #
  # censor, filter, flood, nickflood, noctcp, nonick, nonotice,         #
  # regmoderated, stripcolor, and topiclock.                            #
@@ -201,7 +243,7 @@ index d236d6cb9..8c80c5352 100644
  # detailed list of the restriction modes that can be exempted.        #
  # These are settable using: /MODE #chan +X <restriction>:<status>     #
  # Furthermore, the exemptions configured in <options:exemptchanops>   #
-@@ -942,7 +942,7 @@
+@@ -943,7 +943,7 @@
  # Your choice of regex engine must match on all servers network-wide. #
  #                                                                     #
  # To learn more about the configuration of this module, read          #
@@ -210,7 +252,7 @@ index d236d6cb9..8c80c5352 100644
  # filters and shows how to add exemptions.                            #
  #                                                                     #
  #-#-#-#-#-#-#-#-#-#-#-  FILTER  CONFIGURATION  -#-#-#-#-#-#-#-#-#-#-#-#
-@@ -951,7 +951,7 @@
+@@ -952,7 +952,7 @@
  # specify below the path to the filter.conf file, or define some      #
  # <keyword> tags.                                                     #
  #                                                                     #
@@ -219,7 +261,7 @@ index d236d6cb9..8c80c5352 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Flash Policy Daemon module: Allows Flash IRC clients (e.g. LightIRC)#
-@@ -1041,7 +1041,7 @@
+@@ -1042,7 +1042,7 @@
  # If you specify to use the helpop module, then specify below the     #
  # path to the helpop.conf file.                                       #
  #                                                                     #
@@ -228,7 +270,7 @@ index d236d6cb9..8c80c5352 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Hide chans module: Allows users to hide their channels list from non-
-@@ -1646,7 +1646,7 @@
+@@ -1647,7 +1647,7 @@
  # onoper        - If on, the message is sent on /OPER, otherwise it's #
  #                 only sent when /OPERMOTD is used.                   #
  #                                                                     #
@@ -237,7 +279,7 @@ index d236d6cb9..8c80c5352 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Override module: Adds support for oper override.
-@@ -2260,7 +2260,7 @@
+@@ -2261,7 +2261,7 @@
  # connections in order to oper up. It is highly recommended to load
  # this module if you use TLS (SSL) on your network.
  # For how to use the oper features, please see the first
@@ -246,6 +288,10 @@ index d236d6cb9..8c80c5352 100644
  #
  #<module name="sslinfo">
  #
+diff --git a/docs/conf/modules/openssl.conf.example b/docs/conf/modules/openssl.conf
+similarity index 100%
+rename from docs/conf/modules/openssl.conf.example
+rename to docs/conf/modules/openssl.conf
 diff --git a/docs/conf/motd.txt.example b/docs/conf/motd.txt
 similarity index 96%
 rename from docs/conf/motd.txt.example
@@ -291,10 +337,22 @@ index d8c266b1f..9517b3685 100644
  # ensure that you don't hastily include the file without reading it.
 -<die reason="Using opers.conf.example without editing it is a security risk">
 +<die reason="Using opers.conf without editing it is a security risk">
+diff --git a/docs/conf/providers/dronebl.conf.example b/docs/conf/providers/dronebl.conf
+similarity index 100%
+rename from docs/conf/providers/dronebl.conf.example
+rename to docs/conf/providers/dronebl.conf
+diff --git a/docs/conf/providers/efnet-rbl.conf.example b/docs/conf/providers/efnet-rbl.conf
+similarity index 100%
+rename from docs/conf/providers/efnet-rbl.conf.example
+rename to docs/conf/providers/efnet-rbl.conf
 diff --git a/docs/conf/providers/irccloud.conf.example b/docs/conf/providers/irccloud.conf
 similarity index 100%
 rename from docs/conf/providers/irccloud.conf.example
 rename to docs/conf/providers/irccloud.conf
+diff --git a/docs/conf/providers/torexit.conf.example b/docs/conf/providers/torexit.conf
+similarity index 100%
+rename from docs/conf/providers/torexit.conf.example
+rename to docs/conf/providers/torexit.conf
 diff --git a/docs/conf/quotes.txt.example b/docs/conf/quotes.txt
 similarity index 100%
 rename from docs/conf/quotes.txt.example
@@ -380,5 +438,5 @@ index a8783aa05..de9bbaa4e 100644
  GNUmakefile: make/template/main.mk src/version.sh configure @CONFIGURE_CACHE_FILE@
  	./configure --update
 -- 
-2.26.2
+2.31.1
 

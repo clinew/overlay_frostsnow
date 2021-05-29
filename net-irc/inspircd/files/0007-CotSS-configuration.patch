@@ -1,11 +1,11 @@
-From a1213763119ba3d460d57c87c857cacc606b71b0 Mon Sep 17 00:00:00 2001
+From bdb92efed1790b8b15dc14b6242c6b58c6b53895 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 2 Feb 2020 21:58:12 -0800
 Subject: [PATCH 7/7] CotSS configuration
 
 ---
  docs/conf/codepages/ascii.conf          |  37 ------
- docs/conf/codepages/latin1.conf         |  42 ------
+ docs/conf/codepages/iso-8859-1.conf     |  42 ------
  docs/conf/codepages/rfc1459.conf        |  41 ------
  docs/conf/codepages/strict-rfc1459.conf |  40 ------
  docs/conf/filter.conf                   |  80 ------------
@@ -21,7 +21,7 @@ Subject: [PATCH 7/7] CotSS configuration
  docs/sql/sqloper.sqlite3.sql            |  10 --
  15 files changed, 216 insertions(+), 511 deletions(-)
  delete mode 100644 docs/conf/codepages/ascii.conf
- delete mode 100644 docs/conf/codepages/latin1.conf
+ delete mode 100644 docs/conf/codepages/iso-8859-1.conf
  delete mode 100644 docs/conf/codepages/rfc1459.conf
  delete mode 100644 docs/conf/codepages/strict-rfc1459.conf
  delete mode 100644 docs/conf/filter.conf
@@ -75,15 +75,15 @@ index 7c5ecdd85..000000000
 -<cpcase lower="120" upper="88"> # x => X
 -<cpcase lower="121" upper="89"> # y => Y
 -<cpcase lower="122" upper="90"> # z => Z
-diff --git a/docs/conf/codepages/latin1.conf b/docs/conf/codepages/latin1.conf
+diff --git a/docs/conf/codepages/iso-8859-1.conf b/docs/conf/codepages/iso-8859-1.conf
 deleted file mode 100644
-index f5c6b98dc..000000000
---- a/docs/conf/codepages/latin1.conf
+index e0c90b938..000000000
+--- a/docs/conf/codepages/iso-8859-1.conf
 +++ /dev/null
 @@ -1,42 +0,0 @@
 -# This file contains ISO 8859-1 codepage rules for use with the codepage module.
 -
--<codepage name="latin1">
+-<codepage name="iso-8859-1">
 -
 -<cpchars begin="192" end="214" front="yes"> # ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ
 -<cpchars begin="216" end="246" front="yes"> # ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö
@@ -303,7 +303,7 @@ index fe95687f5..000000000
 -# <exemptfromfilter> tags are only for exempting messages sent *to* the
 -# configured targets.
 diff --git a/docs/conf/inspircd.conf b/docs/conf/inspircd.conf
-index f0d17ceff..17f5cf9c0 100644
+index a731c0c1c..bf72eb274 100644
 --- a/docs/conf/inspircd.conf
 +++ b/docs/conf/inspircd.conf
 @@ -74,8 +74,8 @@
@@ -771,7 +771,7 @@ index f0d17ceff..17f5cf9c0 100644
  #########################################################################
  #                                                                       #
 diff --git a/docs/conf/links.conf b/docs/conf/links.conf
-index 1208253a6..8b6fe9ba6 100644
+index 32986de9d..9b65b35c1 100644
 --- a/docs/conf/links.conf
 +++ b/docs/conf/links.conf
 @@ -7,15 +7,15 @@
@@ -781,11 +781,11 @@ index 1208253a6..8b6fe9ba6 100644
 -<bind address="1.2.3.4"
 -      port="7005"
 -      type="servers"
--      ssl="Servers">
+-      sslprofile="Servers">
 +#<bind address="1.2.3.4"
 +#      port="7005"
 +#      type="servers"
-+#      ssl="Servers">
++#      sslprofile="Servers">
  
  # Plaintext listener that binds on a TCP/IP endpoint:
 -<bind address=""
@@ -824,8 +824,8 @@ index 1208253a6..8b6fe9ba6 100644
        # You will need to load the ssl_openssl module for OpenSSL, ssl_gnutls
        # for GnuTLS and ssl_mbedtls for mbedTLS. The server port that you
        # connect to must be capable of accepting this type of connection.
--      ssl="Servers"
-+      #ssl="Servers"
+-      sslprofile="Servers"
++      #sslprofile="Servers"
  
        # fingerprint: If defined, this option will force servers to be
        # authenticated using TLS (SSL) certificate fingerprints. See
@@ -861,7 +861,7 @@ index 1208253a6..8b6fe9ba6 100644
 -      port="7000"
 -      allowmask="203.0.113.0/24 127.0.0.0/8 2001:db8::/32"
 -      timeout="5m"
--      ssl="Servers"
+-      sslprofile="Servers"
 -      bind="1.2.3.4"
 -      statshidden="no"
 -      hidden="no"
@@ -872,7 +872,7 @@ index 1208253a6..8b6fe9ba6 100644
 +#      port="7000"
 +#      allowmask="203.0.113.0/24 127.0.0.0/8 2001:db8::/32"
 +#      timeout="5m"
-+#      ssl="Servers"
++#      sslprofile="Servers"
 +#      bind="1.2.3.4"
 +#      statshidden="no"
 +#      hidden="no"
@@ -924,7 +924,7 @@ index 1208253a6..8b6fe9ba6 100644
 -<die reason="Using links.conf without editing it is a security risk">
 +#<die reason="Using links.conf without editing it is a security risk">
 diff --git a/docs/conf/modules.conf b/docs/conf/modules.conf
-index 8c80c5352..080c9501e 100644
+index edc0d69e8..0f2d977bf 100644
 --- a/docs/conf/modules.conf
 +++ b/docs/conf/modules.conf
 @@ -46,7 +46,7 @@
@@ -975,7 +975,7 @@ index 8c80c5352..080c9501e 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Channelban: Implements extended ban j:, which stops anyone already
-@@ -684,7 +684,7 @@
+@@ -685,7 +685,7 @@
  # Connectban: Provides IP connection throttling. Any IP range that
  # connects too many times (configurable) in an hour is Z-lined for a
  # (configurable) duration, and their count resets to 0.
@@ -984,7 +984,7 @@ index 8c80c5352..080c9501e 100644
  #
  # ipv4cidr and ipv6cidr allow you to turn the comparison from
  # individual IP addresses (32 and 128 bits) into CIDR masks, to allow
-@@ -696,6 +696,7 @@
+@@ -697,6 +697,7 @@
  #<connectban threshold="10" duration="10m" ipv4cidr="32" ipv6cidr="128"
  # A custom ban message may optionally be specified.
  # banmessage="Your IP range has been attempting to connect too many times in too short a duration. Wait a while, and you will be able to connect.">
@@ -992,7 +992,7 @@ index 8c80c5352..080c9501e 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Connection throttle module.
-@@ -788,7 +789,7 @@
+@@ -789,7 +790,7 @@
  # D - deaf to user messages and notices.
  # The +D user mode is not enabled by default to enable link compatibility
  # with 2.0 servers.
@@ -1001,7 +1001,7 @@ index 8c80c5352..080c9501e 100644
  #
  #-#-#-#-#-#-#-#-#-#-#-#-  DEAF CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-#
  #  bypasschars       - Characters that bypass deaf to a regular user.
-@@ -1046,7 +1047,7 @@
+@@ -1047,7 +1048,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Hide chans module: Allows users to hide their channels list from non-
  # opers by setting user mode +I on themselves.
@@ -1010,7 +1010,7 @@ index 8c80c5352..080c9501e 100644
  #
  # This mode can optionally prevent opers from seeing channels on a +I
  # user, for more privacy if set to yes.
-@@ -1086,11 +1087,11 @@
+@@ -1087,11 +1088,11 @@
  # Hide oper module: Allows opers to hide their oper status from non-
  # opers by setting user mode +H on themselves.
  # This module is oper-only.
@@ -1024,7 +1024,7 @@ index 8c80c5352..080c9501e 100644
  #
  #-#-#-#-#-#-#-#-#-#-#-  HOSTCHANGE  CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1100,6 +1101,7 @@
+@@ -1101,6 +1102,7 @@
  #<hostchange mask="*root@*" action="addnick" prefix="example/users/">
  #<hostchange mask="a@example.com" action="set" value="foo.bar.baz">
  #<hostchange mask="*@localhost" ports="7000,7001,7005-7007" action="set" value="blahblah.foo">
@@ -1032,7 +1032,7 @@ index 8c80c5352..080c9501e 100644
  
  # hostcycle: If loaded, when a user gets a host or ident set, it will
  # cycle them in all their channels. If not loaded it will simply change
-@@ -1244,7 +1246,7 @@
+@@ -1245,7 +1247,7 @@
  # extension which allows capable clients to get an acknowledgement when
  # their messages are delivered and learn what modifications, if any,
  # were applied to them.
@@ -1041,7 +1041,7 @@ index 8c80c5352..080c9501e 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # IRCv3 invite-notify module: Provides the invite-notify IRCv3
-@@ -1314,11 +1316,11 @@
+@@ -1315,11 +1317,11 @@
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Anti auto rejoin: Adds support for prevention of auto-rejoin (+J).
@@ -1055,7 +1055,7 @@ index 8c80c5352..080c9501e 100644
  #
  # This setting specifies what to do when someone successfully /KNOCKs.
  # If set to "notice", then a NOTICE will be sent to the channel.
-@@ -1327,7 +1329,7 @@
+@@ -1328,7 +1330,7 @@
  # If set to "numeric" then a 710 numeric will be sent to the channel.
  # This allows easier scripting but not all clients support it.
  # If set to "both" then (surprise!) both will be sent.
@@ -1064,7 +1064,7 @@ index 8c80c5352..080c9501e 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # LDAP module: Allows other SQL modules to access a LDAP database
-@@ -1446,7 +1448,7 @@
+@@ -1447,7 +1449,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Message flood module: Adds message/notice flood protection via
  # channel mode +f.
@@ -1073,7 +1073,7 @@ index 8c80c5352..080c9501e 100644
  #
  # The weight to give each message type. TAGMSGs are considered to be
  # 1/5 of a NOTICE or PRIVMSG to avoid users being accidentally flooded
-@@ -1537,7 +1539,7 @@
+@@ -1538,7 +1540,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # No CTCP module: Adds the channel mode +C and user mode +T to block
  # CTCPs and extban 'C' to block CTCPs sent by specific users.
@@ -1082,7 +1082,7 @@ index 8c80c5352..080c9501e 100644
  #
  # The +T user mode is not enabled by default to enable link compatibility
  # with 2.0 servers. You can enable it by uncommenting this:
-@@ -1682,7 +1684,7 @@
+@@ -1683,7 +1685,7 @@
  # and/or as the 'modes' parameter of the <oper> tag.
  # This module is oper-only. For the user equivalent, see the
  # conn_umodes module.
@@ -1091,7 +1091,7 @@ index 8c80c5352..080c9501e 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Password forwarding module: Forwards a password users can send on
-@@ -1691,19 +1693,19 @@
+@@ -1692,19 +1694,19 @@
  # using their connect password.
  #<module name="passforward">
  
@@ -1115,7 +1115,7 @@ index 8c80c5352..080c9501e 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Password hash module: Allows hashed passwords to be used.
-@@ -1805,7 +1807,7 @@
+@@ -1806,7 +1808,7 @@
  # Optional - If you specify to use the randquote module, then specify #
  # below the path to the quotes file.                                  #
  #                                                                     #
@@ -1124,7 +1124,7 @@ index 8c80c5352..080c9501e 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Redirect module: Adds channel mode +L which redirects users to      #
-@@ -2090,7 +2092,7 @@
+@@ -2091,7 +2093,7 @@
  # +b R: (stop matching account names from joining)
  # +b U:n!u@h (blocks matching unregistered users)
  #
@@ -1133,7 +1133,7 @@ index 8c80c5352..080c9501e 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Sethost module: Adds the /SETHOST command.
-@@ -2222,11 +2224,11 @@
+@@ -2223,11 +2225,11 @@
  #
  # Does not do anything useful without a working TLS (SSL) module and the
  # sslinfo module (see below).
@@ -1147,7 +1147,7 @@ index 8c80c5352..080c9501e 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SSL rehash signal module: Allows the TLS (SSL) modules to be rehashed by
-@@ -2234,7 +2236,7 @@
+@@ -2235,7 +2237,7 @@
  # This module is in extras. Re-run configure with:
  # ./configure --enable-extras sslrehashsignal
  # and run make install, then uncomment this module to enable it.
@@ -1156,7 +1156,7 @@ index 8c80c5352..080c9501e 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # GnuTLS SSL module: Adds support for TLS (SSL) connections using GnuTLS,
-@@ -2262,7 +2264,7 @@
+@@ -2263,7 +2265,7 @@
  # For how to use the oper features, please see the first
  # example <oper> tag in opers.conf.
  #
@@ -1165,7 +1165,7 @@ index 8c80c5352..080c9501e 100644
  #
  # If you want to prevent users from viewing TLS (SSL) certificate information
  # and fingerprints of other users, set operonly to yes.
-@@ -2282,12 +2284,33 @@
+@@ -2283,12 +2285,33 @@
  # if enabled. You must answer 'yes' in ./configure when asked or symlink
  # the source for this module from the directory src/modules/extra, if
  # you want to enable this, or it will not load.
@@ -1200,7 +1200,7 @@ index 8c80c5352..080c9501e 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Strip color module: Adds channel mode +S that strips color codes and
-@@ -2358,10 +2381,10 @@
+@@ -2359,10 +2382,10 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SVSHold module: Implements SVSHOLD. Like Q-lines, but can only be   #
  # added/removed by Services.                                          #
@@ -1213,7 +1213,7 @@ index 8c80c5352..080c9501e 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SWHOIS module: Allows you to add arbitrary lines to user WHOIS.
-@@ -2397,7 +2420,7 @@
+@@ -2398,7 +2421,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Uninvite module: Adds the /UNINVITE command which lets users remove
  # pending invites from channels without waiting for the user to join.
@@ -1222,7 +1222,7 @@ index 8c80c5352..080c9501e 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Userip module: Adds the /USERIP command.
-@@ -2488,4 +2511,4 @@
+@@ -2489,4 +2512,4 @@
  # tree protocol (see the READ THIS BIT section above).
  # You will almost always want to load this.
  #
@@ -1455,7 +1455,7 @@ index 69a1ab50a..000000000
 -<alias text="GLOBAL" format="*" replace="SQUERY $requirement :GLOBAL $2-" requires="Global" uline="yes" operonly="yes">
 diff --git a/docs/sql/sqloper.mysql.sql b/docs/sql/sqloper.mysql.sql
 deleted file mode 100644
-index a8a2b7e1d..000000000
+index 83dfa68a6..000000000
 --- a/docs/sql/sqloper.mysql.sql
 +++ /dev/null
 @@ -1,12 +0,0 @@
@@ -1470,7 +1470,7 @@ index a8a2b7e1d..000000000
 -  autologin tinyint(1) NOT NULL DEFAULT 0,
 -  active tinyint(1) NOT NULL DEFAULT 1,
 -  PRIMARY KEY  (id)
--) ENGINE=MyISAM;
+-) ENGINE=InnoDB;
 diff --git a/docs/sql/sqloper.pgsql.sql b/docs/sql/sqloper.pgsql.sql
 deleted file mode 100644
 index 954bc84fa..000000000
@@ -1507,5 +1507,5 @@ index 6aec5a118..000000000
 -autologin integer NOT NULL DEFAULT 0,
 -active integer NOT NULL DEFAULT 1);
 -- 
-2.26.2
+2.31.1
 
