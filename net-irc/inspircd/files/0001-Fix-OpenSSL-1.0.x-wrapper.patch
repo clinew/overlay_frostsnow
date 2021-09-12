@@ -1,4 +1,4 @@
-From d0fb8a2215ea1ef2736743dd0609726485a7ef6d Mon Sep 17 00:00:00 2001
+From 49ba24e15924ef2664cd11973b8763f3713d86c6 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 22 Dec 2017 20:38:29 -0800
 Subject: [PATCH 1/7] Fix OpenSSL 1.0.x wrapper.
@@ -10,7 +10,7 @@ and be called within another expression.
  1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 0f4e2d713..a1b3158e7 100644
+index 4b76ada89..63af481e3 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -91,9 +91,13 @@
@@ -30,5 +30,5 @@ index 0f4e2d713..a1b3158e7 100644
  // These macros have been renamed in OpenSSL 1.1.
  # define OPENSSL_VERSION SSLEAY_VERSION
 -- 
-2.31.1
+2.32.0
 

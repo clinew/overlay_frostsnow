@@ -1,4 +1,4 @@
-From 14f031aca39d23f715d2dade62c06459a8c4bfb7 Mon Sep 17 00:00:00 2001
+From 8a2cb7fc8e591795a0eb5956dd614557025cdab2 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 6/7] Fix build paths
@@ -59,7 +59,7 @@ diff --git a/docs/conf/codepages/iso-8859-1.conf.example b/docs/conf/codepages/i
 similarity index 97%
 rename from docs/conf/codepages/iso-8859-1.conf.example
 rename to docs/conf/codepages/iso-8859-1.conf
-index 83a772600..e0c90b938 100644
+index a5217cf73..23a5a8621 100644
 --- a/docs/conf/codepages/iso-8859-1.conf.example
 +++ b/docs/conf/codepages/iso-8859-1.conf
 @@ -39,4 +39,4 @@
@@ -72,7 +72,7 @@ diff --git a/docs/conf/codepages/iso-8859-2.conf.example b/docs/conf/codepages/i
 similarity index 97%
 rename from docs/conf/codepages/iso-8859-2.conf.example
 rename to docs/conf/codepages/iso-8859-2.conf
-index df41d88fb..6da773be5 100644
+index 61dd78230..b2d20a95b 100644
 --- a/docs/conf/codepages/iso-8859-2.conf.example
 +++ b/docs/conf/codepages/iso-8859-2.conf
 @@ -57,4 +57,4 @@
@@ -101,10 +101,10 @@ diff --git a/docs/conf/inspircd.conf.example b/docs/conf/inspircd.conf
 similarity index 99%
 rename from docs/conf/inspircd.conf.example
 rename to docs/conf/inspircd.conf
-index f07f21cdd..a731c0c1c 100644
+index 082de6eb4..87f9d2387 100644
 --- a/docs/conf/inspircd.conf.example
 +++ b/docs/conf/inspircd.conf
-@@ -242,7 +242,7 @@
+@@ -245,7 +245,7 @@
  # This can be done by using <connect registered="no">                 #
  
  # To enable IRCCloud on your network uncomment this:
@@ -113,7 +113,7 @@ index f07f21cdd..a731c0c1c 100644
  
  # A connect class with <connect:deny> set denies connections from the specified host/IP range.
  <connect
-@@ -494,11 +494,11 @@
+@@ -497,11 +497,11 @@
  
  # This file has all the information about oper classes, types and o:lines.
  # You *MUST* edit it.
@@ -127,7 +127,7 @@ index f07f21cdd..a731c0c1c 100644
  
  #-#-#-#-#-#-#-#-#-#-  MISCELLANEOUS CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -507,7 +507,7 @@
+@@ -510,7 +510,7 @@
  #
  #   motd - displayed on connect and when a user executes /MOTD
  # Modules can also define their own files
@@ -136,7 +136,7 @@ index f07f21cdd..a731c0c1c 100644
  
  # Example of an executable file include. Note this will be read on rehash,
  # not when the command is run.
-@@ -543,7 +543,7 @@
+@@ -546,7 +546,7 @@
  # default of 'inspircd.pid' is used.                                  #
  #                                                                     #
  
@@ -145,7 +145,7 @@ index f07f21cdd..a731c0c1c 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#- LIST MODE LIMITS #-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -698,7 +698,7 @@
+@@ -701,7 +701,7 @@
           #  - topiclock       Channel mode +t - limits changing the topic to (half)ops
           # You can also configure this on a per-channel basis with a channel mode and
           # even negate the configured exemptions below.
@@ -154,7 +154,7 @@ index f07f21cdd..a731c0c1c 100644
           exemptchanops="censor:o filter:o nickflood:o nonick:v regmoderated:o"
  
           # invitebypassmodes: This allows /INVITE to bypass other channel modes.
-@@ -1041,7 +1041,7 @@
+@@ -1044,7 +1044,7 @@
  # provide almost all the features of InspIRCd. :)                     #
  #                                                                     #
  # The default does nothing -- we include it for simplicity for you.   #
@@ -163,7 +163,7 @@ index f07f21cdd..a731c0c1c 100644
  
  #-#-#-#-#-#-#-#-#-#-#-# SERVICES CONFIGURATION  #-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1050,13 +1050,13 @@
+@@ -1053,13 +1053,13 @@
  # exemptions for services pseudoclients:                              #
  #
  # Anope users should uncomment this:
@@ -197,7 +197,7 @@ diff --git a/docs/conf/modules.conf.example b/docs/conf/modules.conf
 similarity index 99%
 rename from docs/conf/modules.conf.example
 rename to docs/conf/modules.conf
-index 6eb61cc38..edc0d69e8 100644
+index 8668673e6..21a731295 100644
 --- a/docs/conf/modules.conf.example
 +++ b/docs/conf/modules.conf
 @@ -617,11 +617,11 @@
@@ -217,7 +217,7 @@ index 6eb61cc38..edc0d69e8 100644
  #
  # You can also define a custom codepage. For details on how to do this
  # please refer to the docs site:
-@@ -890,13 +890,13 @@
+@@ -908,13 +908,13 @@
  # more of the following example configs for popular DNSBLs:           #
  #                                                                     #
  # DroneBL (https://dronebl.org)                                       #
@@ -234,7 +234,7 @@ index 6eb61cc38..edc0d69e8 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Exempt channel operators module: Provides support for allowing      #
-@@ -905,7 +905,7 @@
+@@ -923,7 +923,7 @@
  # anticaps, auditorium-see, auditorium-vis, blockcaps, blockcolor,    #
  # censor, filter, flood, nickflood, noctcp, nonick, nonotice,         #
  # regmoderated, stripcolor, and topiclock.                            #
@@ -243,7 +243,7 @@ index 6eb61cc38..edc0d69e8 100644
  # detailed list of the restriction modes that can be exempted.        #
  # These are settable using: /MODE #chan +X <restriction>:<status>     #
  # Furthermore, the exemptions configured in <options:exemptchanops>   #
-@@ -943,7 +943,7 @@
+@@ -961,7 +961,7 @@
  # Your choice of regex engine must match on all servers network-wide. #
  #                                                                     #
  # To learn more about the configuration of this module, read          #
@@ -252,7 +252,7 @@ index 6eb61cc38..edc0d69e8 100644
  # filters and shows how to add exemptions.                            #
  #                                                                     #
  #-#-#-#-#-#-#-#-#-#-#-  FILTER  CONFIGURATION  -#-#-#-#-#-#-#-#-#-#-#-#
-@@ -952,7 +952,7 @@
+@@ -970,7 +970,7 @@
  # specify below the path to the filter.conf file, or define some      #
  # <keyword> tags.                                                     #
  #                                                                     #
@@ -261,7 +261,7 @@ index 6eb61cc38..edc0d69e8 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Flash Policy Daemon module: Allows Flash IRC clients (e.g. LightIRC)#
-@@ -1042,7 +1042,7 @@
+@@ -1060,7 +1060,7 @@
  # If you specify to use the helpop module, then specify below the     #
  # path to the helpop.conf file.                                       #
  #                                                                     #
@@ -270,7 +270,7 @@ index 6eb61cc38..edc0d69e8 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Hide chans module: Allows users to hide their channels list from non-
-@@ -1647,7 +1647,7 @@
+@@ -1665,7 +1665,7 @@
  # onoper        - If on, the message is sent on /OPER, otherwise it's #
  #                 only sent when /OPERMOTD is used.                   #
  #                                                                     #
@@ -279,7 +279,7 @@ index 6eb61cc38..edc0d69e8 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Override module: Adds support for oper override.
-@@ -2261,7 +2261,7 @@
+@@ -2282,7 +2282,7 @@
  # connections in order to oper up. It is highly recommended to load
  # this module if you use TLS (SSL) on your network.
  # For how to use the oper features, please see the first
@@ -328,10 +328,10 @@ diff --git a/docs/conf/opers.conf.example b/docs/conf/opers.conf
 similarity index 99%
 rename from docs/conf/opers.conf.example
 rename to docs/conf/opers.conf
-index d8c266b1f..9517b3685 100644
+index 330a366c2..ac54b8b3d 100644
 --- a/docs/conf/opers.conf.example
 +++ b/docs/conf/opers.conf
-@@ -182,4 +182,4 @@
+@@ -184,4 +184,4 @@
  
  # Once you have edited this file you can remove this line. This is just to
  # ensure that you don't hastily include the file without reading it.
@@ -394,42 +394,42 @@ similarity index 100%
 rename from docs/conf/services/generic.conf.example
 rename to docs/conf/services/generic.conf
 diff --git a/make/template/main.mk b/make/template/main.mk
-index a8783aa05..de9bbaa4e 100644
+index 3130cbf06..7e6f37d37 100644
 --- a/make/template/main.mk
 +++ b/make/template/main.mk
-@@ -214,10 +214,10 @@ install: target
- 	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(BINPATH)
- 	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(CONPATH)
- 	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(DATPATH)
--	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(EXAPATH)/codepages
--	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(EXAPATH)/providers
--	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(EXAPATH)/services
--	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(EXAPATH)/sql
-+	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(CONPATH)/codepages
-+	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(CONPATH)/providers
-+	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(CONPATH)/services
-+	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(CONPATH)/sql
- 	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(LOGPATH)
- 	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(MANPATH)
- 	@-$(INSTALL) -d -g @GID@ -o @UID@ -m $(INSTMODE_DIR) $(MODPATH)
-@@ -238,11 +238,11 @@ endif
- 	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/inspircd-testssl.1 $(MANPATH) 2>/dev/null
- 	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_BIN) tools/genssl $(BINPATH)/inspircd-genssl 2>/dev/null
- 	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_BIN) tools/testssl $(BINPATH)/inspircd-testssl 2>/dev/null
--	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/*.example $(EXAPATH)
--	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/codepages/*.example $(EXAPATH)/codepages
--	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/providers/*.example $(EXAPATH)/providers
--	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/services/*.example $(EXAPATH)/services
--	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/sql/*.sql $(EXAPATH)/sql
-+	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/*.{conf,txt} $(CONPATH)
-+	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/codepages/* $(CONPATH)/codepages
-+	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/providers/* $(CONPATH)/providers
-+	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/conf/services/* $(CONPATH)/services
-+	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) docs/sql/*.sql $(CONPATH)/sql
- 	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/help.txt $(CONPATH)
- 	-$(INSTALL) -g @GID@ -o @UID@ -m $(INSTMODE_PRV) @CONFIGURE_DIRECTORY@/*.pem $(CONPATH) 2>/dev/null
+@@ -220,10 +220,10 @@ install: target
+ 	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(BINPATH)
+ 	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(CONPATH)
+ 	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(DATPATH)
+-	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(EXAPATH)/codepages
+-	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(EXAPATH)/providers
+-	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(EXAPATH)/services
+-	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(EXAPATH)/sql
++	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(CONPATH)/codepages
++	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(CONPATH)/providers
++	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(CONPATH)/services
++	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(CONPATH)/sql
+ 	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(LOGPATH)
+ 	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(MANPATH)
+ 	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(MODPATH)
+@@ -245,11 +245,11 @@ endif
+ 	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/inspircd-testssl.1 $(MANPATH) 2>/dev/null
+ 	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_BIN) tools/genssl $(BINPATH)/inspircd-genssl 2>/dev/null
+ 	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_BIN) tools/testssl $(BINPATH)/inspircd-testssl 2>/dev/null
+-	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) docs/conf/*.example $(EXAPATH)
+-	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) docs/conf/codepages/*.example $(EXAPATH)/codepages
+-	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) docs/conf/providers/*.example $(EXAPATH)/providers
+-	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) docs/conf/services/*.example $(EXAPATH)/services
+-	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) docs/sql/*.sql $(EXAPATH)/sql
++	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) docs/conf/*.{conf,txt} $(CONPATH)
++	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) docs/conf/codepages/* $(CONPATH)/codepages
++	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) docs/conf/providers/* $(CONPATH)/providers
++	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) docs/conf/services/* $(CONPATH)/services
++	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) docs/sql/*.sql $(CONPATH)/sql
+ 	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/help.txt $(CONPATH)
+ 	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_PRV) @CONFIGURE_DIRECTORY@/*.pem $(CONPATH) 2>/dev/null
  	@echo ""
-@@ -256,7 +256,6 @@ endif
+@@ -263,7 +263,6 @@ endif
  	@echo '  Data:' $(DATPATH)
  	@echo 'To start the ircd, run:' $(SCRPATH)/inspircd start
  	@echo 'Remember to create your config file:' $(CONPATH)/inspircd.conf
@@ -438,5 +438,5 @@ index a8783aa05..de9bbaa4e 100644
  GNUmakefile: make/template/main.mk src/version.sh configure @CONFIGURE_CACHE_FILE@
  	./configure --update
 -- 
-2.31.1
+2.32.0
 

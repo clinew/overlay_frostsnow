@@ -1,4 +1,4 @@
-From 5654e170518f18d842349cc9410f68699137513a Mon Sep 17 00:00:00 2001
+From 66d4f2bcd756e37e15a5680ada80d9822a2fe0ae Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 2 Mar 2018 22:44:32 -0800
 Subject: [PATCH 4/7] m_ssl_openssl Add strong peer cert validation.
@@ -40,7 +40,7 @@ index 000000000..37bff3159
 +	#peer_sigalg="RSA-SHA512"
 +>
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 9e0607922..e5d6293f0 100644
+index 46e2d3837..8c2b40b9c 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -162,6 +162,13 @@ namespace OpenSSL
@@ -57,7 +57,7 @@ index 9e0607922..e5d6293f0 100644
  	 public:
  		Context(SSL_CTX* context)
  			: ctx(context)
-@@ -281,6 +288,57 @@ namespace OpenSSL
+@@ -291,6 +298,57 @@ namespace OpenSSL
  			}
  		}
  
@@ -115,7 +115,7 @@ index 9e0607922..e5d6293f0 100644
  
  		long GetDefaultContextOptions() const
  		{
-@@ -462,11 +520,20 @@ namespace OpenSSL
+@@ -486,11 +544,20 @@ namespace OpenSSL
  			const std::string crlmode = tag->getString("crlmode", "chain", 1);
  			ctx.SetCRL(crlfile, crlpath, crlmode);
  
@@ -124,7 +124,7 @@ index 9e0607922..e5d6293f0 100644
 +			std::string sigalgstrs = tag->getString("peer_sigalg");
 +			ctx.SetCliCertWL(keymins, sigalgstrs);
 +
- 			clictx.SetVerifyCert();
+ 			clientctx.SetVerifyCert();
  			if (tag->getBool("requestclientcert", true))
  				ctx.SetVerifyCert();
  		}
@@ -135,8 +135,8 @@ index 9e0607922..e5d6293f0 100644
 +
  		const std::string& GetName() const { return name; }
  		SSL* CreateServerSession() { return ctx.CreateServerSession(); }
- 		SSL* CreateClientSession() { return clictx.CreateClientSession(); }
-@@ -710,6 +777,72 @@ class OpenSSLIOHook : public SSLIOHook
+ 		SSL* CreateClientSession() { return clientctx.CreateClientSession(); }
+@@ -734,6 +801,72 @@ class OpenSSLIOHook : public SSLIOHook
  		{
  			certinfo->error = "Not activated, or expired certificate";
  		}
@@ -210,5 +210,5 @@ index 9e0607922..e5d6293f0 100644
  
  	void VerifyChain()
 -- 
-2.31.1
+2.32.0
 
