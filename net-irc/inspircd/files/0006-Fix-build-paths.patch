@@ -1,4 +1,4 @@
-From 8a2cb7fc8e591795a0eb5956dd614557025cdab2 Mon Sep 17 00:00:00 2001
+From 28b8779c8b4795503bb34557328049032a2abd5b Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 6/7] Fix build paths
@@ -197,7 +197,7 @@ diff --git a/docs/conf/modules.conf.example b/docs/conf/modules.conf
 similarity index 99%
 rename from docs/conf/modules.conf.example
 rename to docs/conf/modules.conf
-index 8668673e6..21a731295 100644
+index 2e25f1a22..f7648bc34 100644
 --- a/docs/conf/modules.conf.example
 +++ b/docs/conf/modules.conf
 @@ -617,11 +617,11 @@
@@ -279,7 +279,7 @@ index 8668673e6..21a731295 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Override module: Adds support for oper override.
-@@ -2282,7 +2282,7 @@
+@@ -2285,7 +2285,7 @@
  # connections in order to oper up. It is highly recommended to load
  # this module if you use TLS (SSL) on your network.
  # For how to use the oper features, please see the first
@@ -328,10 +328,10 @@ diff --git a/docs/conf/opers.conf.example b/docs/conf/opers.conf
 similarity index 99%
 rename from docs/conf/opers.conf.example
 rename to docs/conf/opers.conf
-index 330a366c2..ac54b8b3d 100644
+index bed4169b9..cd924440f 100644
 --- a/docs/conf/opers.conf.example
 +++ b/docs/conf/opers.conf
-@@ -184,4 +184,4 @@
+@@ -185,4 +185,4 @@
  
  # Once you have edited this file you can remove this line. This is just to
  # ensure that you don't hastily include the file without reading it.

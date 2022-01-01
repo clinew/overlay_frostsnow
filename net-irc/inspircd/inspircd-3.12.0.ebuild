@@ -115,11 +115,6 @@ pkg_postinst() {
 	fi
 	local pv
 	for pv in ${REPLACING_VERSIONS}; do
-		if ver_test "${pv}" -lt "2.0.24-r1"; then
-			elog "Starting with 2.0.24-r1 the daemon is no longer started"
-			elog "with the --logfile option and you are thus expected to define"
-			elog "logging in the InspIRCd configuration file if you want it."
-		fi
 		if ver_test "${pv}" -lt "3.0.0"; then
 			elog "Version 3.0 is a major upgrade which contains breaking"
 			elog "changes.  You will need to update your configuration files."

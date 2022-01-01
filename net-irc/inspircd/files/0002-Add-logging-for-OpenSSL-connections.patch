@@ -1,4 +1,4 @@
-From d8d608beace74bcbf55c1f9d27bbd9af8e332fe1 Mon Sep 17 00:00:00 2001
+From ebb7b0d518603035aebc24f2c820853dd9136e82 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 2/7] Add logging for OpenSSL connections.
@@ -11,7 +11,7 @@ verification.
  2 files changed, 122 insertions(+), 30 deletions(-)
 
 diff --git a/include/modules/ssl.h b/include/modules/ssl.h
-index 8081adb36..c06a5639d 100644
+index 84e2ab3ef..7693c9b2a 100644
 --- a/include/modules/ssl.h
 +++ b/include/modules/ssl.h
 @@ -46,9 +46,9 @@ class ssl_cert : public refcountbase
@@ -26,20 +26,20 @@ index 8081adb36..c06a5639d 100644
  
  	/** Get certificate distinguished name
  	 * @return Certificate DN
-@@ -167,6 +167,7 @@ class SSLIOHook : public IOHook
+@@ -180,6 +180,7 @@ class SSLIOHook : public IOHook
  	/** Peer TLS (SSL) certificate, set by the TLS (SSL) module
  	 */
  	reference<ssl_cert> certificate;
 +	std::vector<reference<ssl_cert>> chain;
  
- 	/** Reduce elements in a send queue by appending later elements to the first element until there are no more
- 	 * elements to append or a desired length is reached
+ 	/** The status of the TLS (SSL) connection. */
+ 	Status status;
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 63af481e3..9bf760df5 100644
+index 6a0cd4a29..d237c9e65 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -581,37 +581,88 @@ class OpenSSLIOHook : public SSLIOHook
- 	issl_status status;
+@@ -580,37 +580,88 @@ class OpenSSLIOHook : public SSLIOHook
+ 	SSL* sess;
  	bool data_to_write;
  
 +	void PrintCertificate(ssl_cert* cert, int i)
@@ -93,14 +93,14 @@ index 63af481e3..9bf760df5 100644
 +			if (sslerr == SSL_ERROR_WANT_READ)
  			{
  				SocketEngine::ChangeEventMask(user, FD_WANT_POLL_READ | FD_WANT_NO_WRITE);
- 				this->status = ISSL_HANDSHAKING;
+ 				this->status = STATUS_HANDSHAKING;
  				return 0;
  			}
 -			else if (err == SSL_ERROR_WANT_WRITE)
 +			else if (sslerr == SSL_ERROR_WANT_WRITE)
  			{
  				SocketEngine::ChangeEventMask(user, FD_WANT_NO_READ | FD_WANT_SINGLE_WRITE);
- 				this->status = ISSL_HANDSHAKING;
+ 				this->status = STATUS_HANDSHAKING;
  				return 0;
  			}
 -			else
@@ -134,9 +134,9 @@ index 63af481e3..9bf760df5 100644
 +				PrintChain();
 +			}
  
- 			status = ISSL_OPEN;
+ 			status = STATUS_OPEN;
  
-@@ -619,10 +670,13 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -618,10 +669,13 @@ class OpenSSLIOHook : public SSLIOHook
  
  			return 1;
  		}
@@ -154,10 +154,10 @@ index 63af481e3..9bf760df5 100644
  		return -1;
  	}
  
-@@ -636,26 +690,14 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -635,26 +689,14 @@ class OpenSSLIOHook : public SSLIOHook
  		sess = NULL;
  		certificate = NULL;
- 		status = ISSL_NONE;
+ 		status = STATUS_NONE;
 +		chain.clear();
  	}
  
@@ -183,7 +183,7 @@ index 63af481e3..9bf760df5 100644
  		if (!SelfSigned)
  		{
  			certinfo->unknownsigner = false;
-@@ -692,8 +734,55 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -682,8 +724,55 @@ class OpenSSLIOHook : public SSLIOHook
  		{
  			certinfo->error = "Not activated, or expired certificate";
  		}
@@ -238,8 +238,8 @@ index 63af481e3..9bf760df5 100644
 +		}
  	}
  
- 	void SSLInfoCallback(int where, int rc)
-@@ -1072,7 +1161,9 @@ class ModuleSSLOpenSSL : public Module
+ 	static void GetDNString(const X509_NAME* x509name, std::string& out)
+@@ -1070,7 +1159,9 @@ class ModuleSSLOpenSSL : public Module
  	ModuleSSLOpenSSL()
  	{
  		// Initialize OpenSSL

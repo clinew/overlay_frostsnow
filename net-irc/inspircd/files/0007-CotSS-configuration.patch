@@ -1,4 +1,4 @@
-From 798aa4a8a4a55d9981aa002dbaead186ce1ebdd6 Mon Sep 17 00:00:00 2001
+From 4f8c283c7a8d4e1e5f6b933f3506eeae957345fd Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 2 Feb 2020 21:58:12 -0800
 Subject: [PATCH 7/7] CotSS configuration
@@ -17,13 +17,13 @@ Subject: [PATCH 7/7] CotSS configuration
  docs/conf/opers.conf                    |  47 +++----
  docs/conf/providers/dronebl.conf        |  11 --
  docs/conf/providers/efnet-rbl.conf      |  11 --
- docs/conf/providers/irccloud.conf       |  22 ----
+ docs/conf/providers/irccloud.conf       |  23 ----
  docs/conf/providers/torexit.conf        |  12 --
  docs/conf/services/anope.conf           |   9 --
  docs/sql/sqloper.mysql.sql              |  12 --
  docs/sql/sqloper.pgsql.sql              |  13 --
  docs/sql/sqloper.sqlite3.sql            |  10 --
- 19 files changed, 222 insertions(+), 604 deletions(-)
+ 19 files changed, 222 insertions(+), 605 deletions(-)
  delete mode 100644 docs/conf/codepages/ascii.conf
  delete mode 100644 docs/conf/codepages/iso-8859-1.conf
  delete mode 100644 docs/conf/codepages/iso-8859-2.conf
@@ -998,7 +998,7 @@ index 32986de9d..9b65b35c1 100644
 -<die reason="Using links.conf without editing it is a security risk">
 +#<die reason="Using links.conf without editing it is a security risk">
 diff --git a/docs/conf/modules.conf b/docs/conf/modules.conf
-index 21a731295..9620e1a9f 100644
+index f7648bc34..3d4b7d19e 100644
 --- a/docs/conf/modules.conf
 +++ b/docs/conf/modules.conf
 @@ -46,7 +46,7 @@
@@ -1177,32 +1177,34 @@ index 21a731295..9620e1a9f 100644
 +<module name="opermodes">
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
- # Password forwarding module: Forwards a password users can send on
-@@ -1710,19 +1711,19 @@
- # using their connect password.
+ # Password forwarding module: Allows forwarding passwords to services to
+@@ -1710,10 +1711,10 @@
+ # command.
  #<module name="passforward">
  
 -<passforward
 +#<passforward
- 		# nick: nick to forward connect passwords to.
--		nick="NickServ"
-+		#nick="NickServ"
  
- 		# forwardmsg: Message to send to users using a connect password.
- 		# $nick will be the users' nick, $nickrequired will be the nick
- 		# of where the password is going (the nick above).
- 		# You can also use $user for the user ident string.
--		forwardmsg="NOTICE $nick :*** Forwarding PASS to $nickrequired"
-+		#forwardmsg="NOTICE $nick :*** Forwarding PASS to $nickrequired"
+ 	# nick: The nick of the service to forward passwords to.
+-	nick="NickServ"
++	#nick="NickServ"
  
- 		# cmd: Command for the user to run when it receives a connect
- 		# password.
--		cmd="SQUERY $nickrequired :IDENTIFY $pass">
-+		#cmd="PRIVMSG $nickrequired :IDENTIFY $pass">
+ 	# forwardmsg: Message to send to users when forwarding their
+ 	# password. You can use the following variables in this message:
+@@ -1722,10 +1723,10 @@
+ 	# $nickrequired  The nickname of the service to forward to (see above).
+ 	# $pass          The password to forward to services.
+ 	# $user          The username (ident) of the authenticating user.
+-	forwardmsg="NOTICE $nick :*** Forwarding password to $nickrequired"
++	#forwardmsg="NOTICE $nick :*** Forwarding password to $nickrequired"
+ 
+ 	# cmd: The message to send to forward passwords to services.
+-	cmd="SQUERY $nickrequired :IDENTIFY $nick $pass">
++	#cmd="SQUERY $nickrequired :IDENTIFY $nick $pass">
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Password hash module: Allows hashed passwords to be used.
-@@ -1827,7 +1828,7 @@
+@@ -1830,7 +1831,7 @@
  # Optional - If you specify to use the randquote module, then specify #
  # below the path to the quotes file.                                  #
  #                                                                     #
@@ -1211,7 +1213,7 @@ index 21a731295..9620e1a9f 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Redirect module: Adds channel mode +L which redirects users to      #
-@@ -2112,7 +2113,7 @@
+@@ -2115,7 +2116,7 @@
  # +b R: (stop matching account names from joining)
  # +b U:n!u@h (blocks matching unregistered users)
  #
@@ -1220,7 +1222,7 @@ index 21a731295..9620e1a9f 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Sethost module: Adds the /SETHOST command.
-@@ -2244,11 +2245,11 @@
+@@ -2247,11 +2248,11 @@
  #
  # Does not do anything useful without a working TLS (SSL) module and the
  # sslinfo module (see below).
@@ -1234,7 +1236,7 @@ index 21a731295..9620e1a9f 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SSL rehash signal module: Allows the TLS (SSL) modules to be rehashed by
-@@ -2256,7 +2257,7 @@
+@@ -2259,7 +2260,7 @@
  # This module is in extras. Re-run configure with:
  # ./configure --enable-extras sslrehashsignal
  # and run make install, then uncomment this module to enable it.
@@ -1243,7 +1245,7 @@ index 21a731295..9620e1a9f 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # GnuTLS SSL module: Adds support for TLS (SSL) connections using GnuTLS,
-@@ -2284,7 +2285,7 @@
+@@ -2287,7 +2288,7 @@
  # For how to use the oper features, please see the first
  # example <oper> tag in opers.conf.
  #
@@ -1251,8 +1253,8 @@ index 21a731295..9620e1a9f 100644
 +<module name="sslinfo">
  #
  # If you want to prevent users from viewing TLS (SSL) certificate information
- # and fingerprints of other users, set operonly to yes.
-@@ -2304,12 +2305,33 @@
+ # and fingerprints of other users, set operonly to yes. You can also set hash
+@@ -2310,12 +2311,33 @@
  # if enabled. You must answer 'yes' in ./configure when asked or symlink
  # the source for this module from the directory src/modules/extra, if
  # you want to enable this, or it will not load.
@@ -1266,8 +1268,8 @@ index 21a731295..9620e1a9f 100644
 +<sslprofile
 +	name="Clients"
 +	provider="openssl"
-+	cafile="/var/lib/afr/cotss/ca_transitional.pem"
-+	certfile="/var/lib/afr/cotss/certs_transitional.pem"
++	cafile="/var/lib/afr/cotss/ca.pem"
++	certfile="/var/lib/afr/cotss/certs.pem"
 +	keyfile="/var/lib/afr/cotss/service/private/service.pem"
 +	dhfile="/etc/inspircd/dhparams.pem"
 +	hash="sha256"
@@ -1275,7 +1277,7 @@ index 21a731295..9620e1a9f 100644
 +	customcontextoptions="true"
 +	cipherserverpref="on"
 +	compression="false"
-+	crlfile="/var/lib/afr/cotss/crl_transitional.pem"
++	crlfile="/var/lib/afr/cotss/crl.pem"
 +	#crlpath="/etc/ssl/frostsnow.net/crl"
 +	crlmode="chain"
 +	sslv3="false"
@@ -1287,7 +1289,7 @@ index 21a731295..9620e1a9f 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Strip color module: Adds channel mode +S that strips color codes and
-@@ -2380,10 +2402,10 @@
+@@ -2386,10 +2408,10 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SVSHold module: Implements SVSHOLD. Like Q-lines, but can only be   #
  # added/removed by Services.                                          #
@@ -1300,7 +1302,7 @@ index 21a731295..9620e1a9f 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SWHOIS module: Allows you to add arbitrary lines to user WHOIS.
-@@ -2419,7 +2441,7 @@
+@@ -2425,7 +2447,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Uninvite module: Adds the /UNINVITE command which lets users remove
  # pending invites from channels without waiting for the user to join.
@@ -1309,7 +1311,7 @@ index 21a731295..9620e1a9f 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Userip module: Adds the /USERIP command.
-@@ -2511,4 +2533,4 @@
+@@ -2517,4 +2539,4 @@
  # tree protocol (see the READ THIS BIT section above).
  # You will almost always want to load this.
  #
@@ -1359,10 +1361,10 @@ index b0d37f385..000000000
 -      |                        -- The InspIRCd Team |
 -      +---------------------------------------------+
 diff --git a/docs/conf/opers.conf b/docs/conf/opers.conf
-index ac54b8b3d..38fc1f11a 100644
+index cd924440f..8ec44f764 100644
 --- a/docs/conf/opers.conf
 +++ b/docs/conf/opers.conf
-@@ -76,7 +76,7 @@
+@@ -77,7 +77,7 @@
      classes="SACommands OperChat BanControl HostCloak Shutdown ServerLink"
  
      # vhost: Host that opers of this type get when they log in (oper up). This is optional.
@@ -1371,7 +1373,7 @@ index ac54b8b3d..38fc1f11a 100644
  
      # maxchans: Maximum number of channels opers of this type can be in at once.
      maxchans="60"
-@@ -84,10 +84,10 @@
+@@ -85,10 +85,10 @@
      # modes: User modes besides +o that are set on an oper of this type
      # when they oper up. Used for snomasks and other things.
      # Requires the opermodes module to be loaded.
@@ -1385,7 +1387,7 @@ index ac54b8b3d..38fc1f11a 100644
  
  
  #-#-#-#-#-#-#-#-#-#-#-  OPERATOR CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#
-@@ -100,16 +100,16 @@
+@@ -101,16 +101,16 @@
  <oper
        # name: Oper login that is used to oper up (/OPER <username> <password>).
        # Remember: This is case sensitive.
@@ -1405,7 +1407,7 @@ index ac54b8b3d..38fc1f11a 100644
  
        # ** ADVANCED ** This option is disabled by default.
        # fingerprint: When using the sslinfo module, you may specify a space separated
-@@ -119,7 +119,8 @@
+@@ -120,7 +120,8 @@
        # a matching TLS (SSL) client certificate, which is very difficult to
        # forge (impossible unless preimage attacks on the hash exist).
        # If the sslinfo module isn't loaded, this option will be ignored.
@@ -1415,7 +1417,7 @@ index ac54b8b3d..38fc1f11a 100644
  
        # autologin: If a TLS (SSL) client certificate fingerprint for this oper is specified,
        # you can have the oper block automatically log in. This can also be set to
-@@ -127,36 +128,36 @@
+@@ -128,36 +129,36 @@
        # automatically logging in. Otherwise, all security of the oper block rests on the
        # protection of the TLS (SSL) client certificate, so be sure that the private key is
        # well-protected!. Requires the sslinfo module.
@@ -1462,7 +1464,7 @@ index ac54b8b3d..38fc1f11a 100644
  
        # hash: The hash function this password is hashed with. Requires the
        # module for the selected function (bcrypt, md5, sha1, or sha256) and
-@@ -165,23 +166,23 @@
+@@ -166,23 +167,23 @@
        # You may also use any of the above other than bcrypt prefixed with
        # either "hmac-" or "pbkdf2-hmac-" (requires the pbkdf2 module).
        # Create hashed passwords with: /MKPASSWD <hashtype> <plaintext>.
@@ -1527,10 +1529,10 @@ index 78dce53cb..000000000
 -       reason="You are listed in the EFnet RBL. Please visit https://rbl.efnetrbl.org/?i=%ip% for more information.">
 diff --git a/docs/conf/providers/irccloud.conf b/docs/conf/providers/irccloud.conf
 deleted file mode 100644
-index 92358c8b6..000000000
+index 4fbe3da90..000000000
 --- a/docs/conf/providers/irccloud.conf
 +++ /dev/null
-@@ -1,22 +0,0 @@
+@@ -1,23 +0,0 @@
 -# This file contains connect classes which are used by IRCCloud users.
 -# See https://www.irccloud.com for more information on IRCCloud and
 -# https://www.irccloud.com/networks for more information on supporting
@@ -1546,7 +1548,8 @@ index 92358c8b6..000000000
 -
 -<connect name="IRCCloud (IPv4)"
 -         parent="IRCCloud"
--         allow="5.254.36.56/29 192.184.8.103 192.184.9.108 192.184.9.112 192.184.10.118 192.184.10.9">
+-         allow="5.254.36.56/29 192.184.8.103 192.184.9.108 192.184.9.112 192.184.10.118 192.184.10.9"
+-         uniqueusername="yes">
 -
 -# This is not typically needed as each user has their own IPv6 but if you have
 -# <cidr:ipv6clone> set to a value lower than 128 you will need to enable it.

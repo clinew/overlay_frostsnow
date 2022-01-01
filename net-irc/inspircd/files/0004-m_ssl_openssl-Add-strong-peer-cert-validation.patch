@@ -1,4 +1,4 @@
-From 66d4f2bcd756e37e15a5680ada80d9822a2fe0ae Mon Sep 17 00:00:00 2001
+From e1d6b038083a1e5d2daf57f583d3e2b1cb97d346 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 2 Mar 2018 22:44:32 -0800
 Subject: [PATCH 4/7] m_ssl_openssl Add strong peer cert validation.
@@ -40,7 +40,7 @@ index 000000000..37bff3159
 +	#peer_sigalg="RSA-SHA512"
 +>
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 46e2d3837..8c2b40b9c 100644
+index e3058bf69..2fd032a68 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -162,6 +162,13 @@ namespace OpenSSL
@@ -136,7 +136,7 @@ index 46e2d3837..8c2b40b9c 100644
  		const std::string& GetName() const { return name; }
  		SSL* CreateServerSession() { return ctx.CreateServerSession(); }
  		SSL* CreateClientSession() { return clientctx.CreateClientSession(); }
-@@ -734,6 +801,72 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -724,6 +791,72 @@ class OpenSSLIOHook : public SSLIOHook
  		{
  			certinfo->error = "Not activated, or expired certificate";
  		}
