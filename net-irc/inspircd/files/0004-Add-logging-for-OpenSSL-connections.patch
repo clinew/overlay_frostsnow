@@ -1,7 +1,7 @@
-From ebb7b0d518603035aebc24f2c820853dd9136e82 Mon Sep 17 00:00:00 2001
+From 2ae283d28d29199a544a64dfbd01817d788d95de Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
-Subject: [PATCH 2/7] Add logging for OpenSSL connections.
+Subject: [PATCH 4/8] Add logging for OpenSSL connections.
 
 Specifically, log both handshake failures and certificiate
 verification.
@@ -11,7 +11,7 @@ verification.
  2 files changed, 122 insertions(+), 30 deletions(-)
 
 diff --git a/include/modules/ssl.h b/include/modules/ssl.h
-index 84e2ab3ef..7693c9b2a 100644
+index edd75b138..1c966702c 100644
 --- a/include/modules/ssl.h
 +++ b/include/modules/ssl.h
 @@ -46,9 +46,9 @@ class ssl_cert : public refcountbase
@@ -35,10 +35,10 @@ index 84e2ab3ef..7693c9b2a 100644
  	/** The status of the TLS (SSL) connection. */
  	Status status;
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 6a0cd4a29..d237c9e65 100644
+index d8673f5e2..832217eb8 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -580,37 +580,88 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -599,37 +599,88 @@ class OpenSSLIOHook : public SSLIOHook
  	SSL* sess;
  	bool data_to_write;
  
@@ -136,7 +136,7 @@ index 6a0cd4a29..d237c9e65 100644
  
  			status = STATUS_OPEN;
  
-@@ -618,10 +669,13 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -637,10 +688,13 @@ class OpenSSLIOHook : public SSLIOHook
  
  			return 1;
  		}
@@ -154,7 +154,7 @@ index 6a0cd4a29..d237c9e65 100644
  		return -1;
  	}
  
-@@ -635,26 +689,14 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -654,26 +708,14 @@ class OpenSSLIOHook : public SSLIOHook
  		sess = NULL;
  		certificate = NULL;
  		status = STATUS_NONE;
@@ -183,7 +183,7 @@ index 6a0cd4a29..d237c9e65 100644
  		if (!SelfSigned)
  		{
  			certinfo->unknownsigner = false;
-@@ -682,8 +724,55 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -701,8 +743,55 @@ class OpenSSLIOHook : public SSLIOHook
  		{
  			certinfo->error = "Not activated, or expired certificate";
  		}
@@ -238,8 +238,8 @@ index 6a0cd4a29..d237c9e65 100644
 +		}
  	}
  
- 	static void GetDNString(const X509_NAME* x509name, std::string& out)
-@@ -1070,7 +1159,9 @@ class ModuleSSLOpenSSL : public Module
+ 	static void GetDNString(X509_NAME* x509name, std::string& out)
+@@ -1089,7 +1178,9 @@ class ModuleSSLOpenSSL : public Module
  	ModuleSSLOpenSSL()
  	{
  		// Initialize OpenSSL
@@ -251,5 +251,5 @@ index 6a0cd4a29..d237c9e65 100644
  		biomethods = OpenSSL::BIOMethod::alloc();
  	}
 -- 
-2.32.0
+2.35.1
 
