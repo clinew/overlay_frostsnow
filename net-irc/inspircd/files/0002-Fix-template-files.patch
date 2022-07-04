@@ -1,7 +1,7 @@
 From 88ba916190a47cca6d0f182713257b4b94ea6cbc Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 8 May 2022 21:30:13 -0700
-Subject: [PATCH 2/8] Fix template files
+Subject: [PATCH 2/9] Fix template files
 
 ---
  make/template/inspircd.service | 4 ++--

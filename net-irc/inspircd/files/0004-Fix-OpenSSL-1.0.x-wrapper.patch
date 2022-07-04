@@ -1,7 +1,7 @@
-From df656889cfe4a642477da43c4f25ea796f3fcecf Mon Sep 17 00:00:00 2001
+From f247ad8aa37ae36e25f16da49b066656f63bd17e Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 22 Dec 2017 20:38:29 -0800
-Subject: [PATCH 3/8] Fix OpenSSL 1.0.x wrapper.
+Subject: [PATCH 4/9] Fix OpenSSL 1.0.x wrapper.
 
 Make OPENSSL_init_ssl() a wrapper to a function so it can return a value
 and be called within another expression.

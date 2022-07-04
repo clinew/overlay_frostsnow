@@ -1,0 +1,27 @@
+From e5362a8b9b62a9c7f4f8193d5d79f13f638f490c Mon Sep 17 00:00:00 2001
+From: Wade Cline <wadecline@hotmail.com>
+Date: Sun, 3 Jul 2022 22:35:05 -0700
+Subject: [PATCH 3/9] Fix logrotate conf bug
+
+Previously-rotated logfiles would get rotated again, causing multiple
+rehashes and very long file names.
+---
+ make/template/logrotate | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/make/template/logrotate b/make/template/logrotate
+index 3f4a497c4..854a259e2 100644
+--- a/make/template/logrotate
++++ b/make/template/logrotate
+@@ -18,7 +18,7 @@
+ 
+ # To use this file move it to /etc/logrotate.d/inspircd
+ 
+-@LOG_DIR@/* {
++@LOG_DIR@/*.log {
+ 	compress
+ 	create 0644 inspircd inspircd
+ 	dateext
+-- 
+2.35.1
+

@@ -1,7 +1,7 @@
-From 57d5117bbb90d547a9800f720bad5e2ccc0f7563 Mon Sep 17 00:00:00 2001
+From 40653b71561f3204c80754185a7626687fec273e Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 1 Dec 2017 00:15:38 -0800
-Subject: [PATCH 5/8] Add OpenSSL rehash messages.
+Subject: [PATCH 6/9] Add OpenSSL rehash messages.
 
 ---
  src/modules/extra/m_ssl_openssl.cpp | 4 ++++

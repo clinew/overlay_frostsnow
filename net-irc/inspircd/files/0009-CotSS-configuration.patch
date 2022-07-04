@@ -1,7 +1,7 @@
-From 1ec094db2011c9b90d0dd3fd58da31011b805d01 Mon Sep 17 00:00:00 2001
+From c5a4feca1ab4e77916480ced6d901910c7999efe Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 2 Feb 2020 21:58:12 -0800
-Subject: [PATCH 8/8] CotSS configuration
+Subject: [PATCH 9/9] CotSS configuration
 
 ---
  docs/conf/codepages/ascii.conf                |  37 ----

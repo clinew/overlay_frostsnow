@@ -1,7 +1,7 @@
-From 0bec8c6be2b222a59a3f9e545c0ecfb26da2ec07 Mon Sep 17 00:00:00 2001
+From ad97a0895743e65d672a6cf1295e31b11cc1bc59 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 14 Jun 2020 22:28:23 -0700
-Subject: [PATCH 7/8] Warn on old client certificate
+Subject: [PATCH 8/9] Warn on old client certificate
 
 ---
  src/modules/m_sslinfo.cpp | 10 ++++++++++

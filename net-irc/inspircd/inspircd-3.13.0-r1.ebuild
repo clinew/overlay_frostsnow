@@ -35,12 +35,13 @@ DOCS=( docs/. .configure/apparmor )
 PATCHES=(
 	"${FILESDIR}"/0001-Fix-build-paths.patch
 	"${FILESDIR}"/0002-Fix-template-files.patch
-	"${FILESDIR}"/0003-Fix-OpenSSL-1.0.x-wrapper.patch
-	"${FILESDIR}"/0004-Add-logging-for-OpenSSL-connections.patch
-	"${FILESDIR}"/0005-Add-OpenSSL-rehash-messages.patch
-	"${FILESDIR}"/0006-m_ssl_openssl-Add-strong-peer-cert-validation.patch
-	"${FILESDIR}"/0007-Warn-on-old-client-certificate.patch
-	"${FILESDIR}"/0008-CotSS-configuration.patch
+	"${FILESDIR}"/0003-Fix-logrotate-conf-bug.patch
+	"${FILESDIR}"/0004-Fix-OpenSSL-1.0.x-wrapper.patch
+	"${FILESDIR}"/0005-Add-logging-for-OpenSSL-connections.patch
+	"${FILESDIR}"/0006-Add-OpenSSL-rehash-messages.patch
+	"${FILESDIR}"/0007-m_ssl_openssl-Add-strong-peer-cert-validation.patch
+	"${FILESDIR}"/0008-Warn-on-old-client-certificate.patch
+	"${FILESDIR}"/0009-CotSS-configuration.patch
 )
 
 src_configure() {
