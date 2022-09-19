@@ -1,7 +1,7 @@
-From 602ade31ad5ff5d964515253635083082acc8496 Mon Sep 17 00:00:00 2001
+From f862bcb11cb560f452fa08df237e38c81635973d Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
-Subject: [PATCH 1/9] Fix build paths
+Subject: [PATCH 1/7] Fix build paths
 
 ---
  .../{ascii.conf.example => ascii.conf}        |  0
@@ -99,7 +99,7 @@ diff --git a/docs/conf/inspircd.conf.example b/docs/conf/inspircd.conf
 similarity index 99%
 rename from docs/conf/inspircd.conf.example
 rename to docs/conf/inspircd.conf
-index bd5a6050f..d1b697627 100644
+index 096da68d9..190ee8bc7 100644
 --- a/docs/conf/inspircd.conf.example
 +++ b/docs/conf/inspircd.conf
 @@ -245,7 +245,7 @@
@@ -111,7 +111,7 @@ index bd5a6050f..d1b697627 100644
  
  # A connect class with <connect:deny> set denies connections from the specified host/IP range.
  <connect
-@@ -497,11 +497,11 @@
+@@ -498,11 +498,11 @@
  
  # This file has all the information about oper classes, types and o:lines.
  # You *MUST* edit it.
@@ -125,7 +125,7 @@ index bd5a6050f..d1b697627 100644
  
  #-#-#-#-#-#-#-#-#-#-  MISCELLANEOUS CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -510,7 +510,7 @@
+@@ -511,7 +511,7 @@
  #
  #   motd - displayed on connect and when a user executes /MOTD
  # Modules can also define their own files
@@ -134,7 +134,7 @@ index bd5a6050f..d1b697627 100644
  
  # Example of an executable file include. Note this will be read on rehash,
  # not when the command is run.
-@@ -546,7 +546,7 @@
+@@ -547,7 +547,7 @@
  # default of 'inspircd.pid' is used.                                  #
  #                                                                     #
  
@@ -143,7 +143,7 @@ index bd5a6050f..d1b697627 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#- LIST MODE LIMITS #-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -703,7 +703,7 @@
+@@ -704,7 +704,7 @@
           #  - topiclock       Channel mode +t - limits changing the topic to (half)ops
           # You can also configure this on a per-channel basis with a channel mode and
           # even negate the configured exemptions below.
@@ -152,7 +152,7 @@ index bd5a6050f..d1b697627 100644
           exemptchanops="censor:o filter:o nickflood:o nonick:v regmoderated:o"
  
           # invitebypassmodes: This allows /INVITE to bypass other channel modes.
-@@ -1046,7 +1046,7 @@
+@@ -1047,7 +1047,7 @@
  # provide almost all the features of InspIRCd. :)                     #
  #                                                                     #
  # The default does nothing -- we include it for simplicity for you.   #
@@ -161,7 +161,7 @@ index bd5a6050f..d1b697627 100644
  
  #-#-#-#-#-#-#-#-#-#-#-# SERVICES CONFIGURATION  #-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1055,13 +1055,13 @@
+@@ -1056,13 +1056,13 @@
  # exemptions for services pseudoclients:                              #
  #
  # Anope users should uncomment this:
@@ -195,7 +195,7 @@ diff --git a/docs/conf/modules.conf.example b/docs/conf/modules.conf
 similarity index 99%
 rename from docs/conf/modules.conf.example
 rename to docs/conf/modules.conf
-index 69022ebd8..33ea4681c 100644
+index 0ee2d8710..fb412e32f 100644
 --- a/docs/conf/modules.conf.example
 +++ b/docs/conf/modules.conf
 @@ -617,11 +617,11 @@
