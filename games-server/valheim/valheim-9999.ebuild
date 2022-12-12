@@ -1,9 +1,7 @@
-# Copyright 2021 Wade T. Cline
+# Copyright 2021, 2022 Wade T. Cline
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-
-inherit user
+EAPI=8
 
 DESCRIPTION="Server for the Viking survival game Valheim"
 
