@@ -1,4 +1,4 @@
-# Copyright (C) 2019  Wade T. Cline
+# Copyright (C) 2019, 2022  Wade T. Cline
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,9 +14,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-EAPI=7
-
-inherit user
+EAPI=8
 
 DESCRIPTION="Install a script to backup a Minetest server"
 
@@ -25,15 +23,11 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE=""
 
-DEPEND=""
+DEPEND="
+	acct-group/mtbackup
+	acct-user/mtbackup"
 RDEPEND="${DEPEND}
 	sys-process/cronie"
-BDEPEND=""
-
-pkg_setup() {
-	enewgroup mtbackup
-	enewuser mtbackup -1 /bin/bash /home/mtbackup mtbackup
-}
 
 src_unpack() {
 	mkdir ${WORKDIR}/${P}
