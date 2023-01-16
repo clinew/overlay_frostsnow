@@ -1,4 +1,4 @@
-From 9543dc90228366f3d27753fd29ccbd26229da700 Mon Sep 17 00:00:00 2001
+From 9a9618b02b63b8af1b713dbcb5f12ef15f3b1939 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 2 Mar 2018 22:44:32 -0800
 Subject: [PATCH 5/7] m_ssl_openssl Add strong peer cert validation.
@@ -40,7 +40,7 @@ index 000000000..37bff3159
 +	#peer_sigalg="RSA-SHA512"
 +>
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 432430bb3..f5a630f1c 100644
+index e580fef7e..625512092 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -167,6 +167,13 @@ namespace OpenSSL
@@ -115,7 +115,7 @@ index 432430bb3..f5a630f1c 100644
  
  		long GetDefaultContextOptions() const
  		{
-@@ -505,11 +563,20 @@ namespace OpenSSL
+@@ -511,11 +569,20 @@ namespace OpenSSL
  			const std::string crlmode = tag->getString("crlmode", "chain", 1);
  			ctx.SetCRL(crlfile, crlpath, crlmode);
  
@@ -136,7 +136,7 @@ index 432430bb3..f5a630f1c 100644
  		const std::string& GetName() const { return name; }
  		SSL* CreateServerSession() { return ctx.CreateServerSession(); }
  		SSL* CreateClientSession() { return clientctx.CreateClientSession(); }
-@@ -743,6 +810,72 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -749,6 +816,72 @@ class OpenSSLIOHook : public SSLIOHook
  		{
  			certinfo->error = "Not activated, or expired certificate";
  		}
@@ -210,5 +210,5 @@ index 432430bb3..f5a630f1c 100644
  
  	void VerifyChain()
 -- 
-2.35.1
+2.38.2
 

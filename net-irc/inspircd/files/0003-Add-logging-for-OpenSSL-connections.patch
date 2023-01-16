@@ -1,4 +1,4 @@
-From fc6e7abd4cc058a07c9485bfc7d99dfab9e97278 Mon Sep 17 00:00:00 2001
+From b8f8ce2abea440cfddf8537030a6eaa957f343c8 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 3/7] Add logging for OpenSSL connections.
@@ -35,10 +35,10 @@ index edd75b138..1c966702c 100644
  	/** The status of the TLS (SSL) connection. */
  	Status status;
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index d8673f5e2..832217eb8 100644
+index 8b75894c6..0bcd5cd82 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -599,37 +599,88 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -605,37 +605,88 @@ class OpenSSLIOHook : public SSLIOHook
  	SSL* sess;
  	bool data_to_write;
  
@@ -136,7 +136,7 @@ index d8673f5e2..832217eb8 100644
  
  			status = STATUS_OPEN;
  
-@@ -637,10 +688,13 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -643,10 +694,13 @@ class OpenSSLIOHook : public SSLIOHook
  
  			return 1;
  		}
@@ -154,7 +154,7 @@ index d8673f5e2..832217eb8 100644
  		return -1;
  	}
  
-@@ -654,26 +708,14 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -660,26 +714,14 @@ class OpenSSLIOHook : public SSLIOHook
  		sess = NULL;
  		certificate = NULL;
  		status = STATUS_NONE;
@@ -183,7 +183,7 @@ index d8673f5e2..832217eb8 100644
  		if (!SelfSigned)
  		{
  			certinfo->unknownsigner = false;
-@@ -701,8 +743,55 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -707,8 +749,55 @@ class OpenSSLIOHook : public SSLIOHook
  		{
  			certinfo->error = "Not activated, or expired certificate";
  		}
@@ -239,7 +239,7 @@ index d8673f5e2..832217eb8 100644
  	}
  
  	static void GetDNString(X509_NAME* x509name, std::string& out)
-@@ -1089,7 +1178,9 @@ class ModuleSSLOpenSSL : public Module
+@@ -1095,7 +1184,9 @@ class ModuleSSLOpenSSL : public Module
  	ModuleSSLOpenSSL()
  	{
  		// Initialize OpenSSL
@@ -251,5 +251,5 @@ index d8673f5e2..832217eb8 100644
  		biomethods = OpenSSL::BIOMethod::alloc();
  	}
 -- 
-2.35.1
+2.38.2
 

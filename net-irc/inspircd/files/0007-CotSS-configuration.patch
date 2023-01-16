@@ -1,4 +1,4 @@
-From 1173256cb9066cb85fbab96afa338504d82e868e Mon Sep 17 00:00:00 2001
+From dc7b8ce95ee41e57e102448774907ab7e43fd37e Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 2 Feb 2020 21:58:12 -0800
 Subject: [PATCH 7/7] CotSS configuration
@@ -379,7 +379,7 @@ index fe95687f5..000000000
 -# <exemptfromfilter> tags are only for exempting messages sent *to* the
 -# configured targets.
 diff --git a/docs/conf/inspircd.conf b/docs/conf/inspircd.conf
-index 190ee8bc7..886d37b5e 100644
+index 28015c1c7..3225325d0 100644
 --- a/docs/conf/inspircd.conf
 +++ b/docs/conf/inspircd.conf
 @@ -77,8 +77,8 @@
@@ -1000,7 +1000,7 @@ index 32986de9d..9b65b35c1 100644
 -<die reason="Using links.conf without editing it is a security risk">
 +#<die reason="Using links.conf without editing it is a security risk">
 diff --git a/docs/conf/modules.conf b/docs/conf/modules.conf
-index fb412e32f..05853c9ff 100644
+index ea42960c4..57bbc4ffb 100644
 --- a/docs/conf/modules.conf
 +++ b/docs/conf/modules.conf
 @@ -46,7 +46,7 @@
@@ -1215,7 +1215,7 @@ index fb412e32f..05853c9ff 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Redirect module: Adds channel mode +L which redirects users to      #
-@@ -2131,7 +2132,7 @@
+@@ -2138,7 +2139,7 @@
  # +b R: (stop matching account names from joining)
  # +b U:n!u@h (blocks matching unregistered users)
  #
@@ -1224,7 +1224,7 @@ index fb412e32f..05853c9ff 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Sethost module: Adds the /SETHOST command.
-@@ -2263,11 +2264,11 @@
+@@ -2270,11 +2271,11 @@
  #
  # Does not do anything useful without a working TLS (SSL) module and the
  # sslinfo module (see below).
@@ -1238,7 +1238,7 @@ index fb412e32f..05853c9ff 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SSL rehash signal module: Allows the TLS (SSL) modules to be rehashed by
-@@ -2275,7 +2276,7 @@
+@@ -2282,7 +2283,7 @@
  # This module is in extras. Re-run configure with:
  # ./configure --enable-extras sslrehashsignal
  # and run make install, then uncomment this module to enable it.
@@ -1247,7 +1247,7 @@ index fb412e32f..05853c9ff 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # GnuTLS SSL module: Adds support for TLS (SSL) connections using GnuTLS,
-@@ -2303,7 +2304,7 @@
+@@ -2310,7 +2311,7 @@
  # For how to use the oper features, please see the first
  # example <oper> tag in opers.conf.
  #
@@ -1256,7 +1256,7 @@ index fb412e32f..05853c9ff 100644
  #
  # If you want to prevent users from viewing TLS (SSL) certificate information
  # and fingerprints of other users, set operonly to yes. You can also set hash
-@@ -2326,12 +2327,33 @@
+@@ -2333,12 +2334,33 @@
  # if enabled. You must answer 'yes' in ./configure when asked or symlink
  # the source for this module from the directory src/modules/extra, if
  # you want to enable this, or it will not load.
@@ -1291,7 +1291,7 @@ index fb412e32f..05853c9ff 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Strip color module: Adds channel mode +S that strips color codes and
-@@ -2402,10 +2424,10 @@
+@@ -2409,10 +2431,10 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SVSHold module: Implements SVSHOLD. Like Q-lines, but can only be   #
  # added/removed by Services.                                          #
@@ -1304,7 +1304,7 @@ index fb412e32f..05853c9ff 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SWHOIS module: Allows you to add arbitrary lines to user WHOIS.
-@@ -2441,7 +2463,7 @@
+@@ -2448,7 +2470,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Uninvite module: Adds the /UNINVITE command which lets users remove
  # pending invites from channels without waiting for the user to join.
@@ -1313,7 +1313,7 @@ index fb412e32f..05853c9ff 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Userip module: Adds the /USERIP command.
-@@ -2533,4 +2555,4 @@
+@@ -2540,4 +2562,4 @@
  # tree protocol (see the READ THIS BIT section above).
  # You will almost always want to load this.
  #
@@ -1367,10 +1367,10 @@ index b0d37f385..000000000
 -      |                        -- The InspIRCd Team |
 -      +---------------------------------------------+
 diff --git a/docs/conf/opers.conf b/docs/conf/opers.conf
-index d1dc04d51..255a35b1f 100644
+index a71c81545..b30eef6da 100644
 --- a/docs/conf/opers.conf
 +++ b/docs/conf/opers.conf
-@@ -79,7 +79,7 @@
+@@ -80,7 +80,7 @@
      classes="SACommands OperChat BanControl HostCloak Shutdown ServerLink"
  
      # vhost: Host that opers of this type get when they log in (oper up). This is optional.
@@ -1379,7 +1379,7 @@ index d1dc04d51..255a35b1f 100644
  
      # maxchans: Maximum number of channels opers of this type can be in at once.
      maxchans="60"
-@@ -87,10 +87,10 @@
+@@ -88,10 +88,10 @@
      # modes: User modes besides +o that are set on an oper of this type
      # when they oper up. Used for snomasks and other things.
      # Requires the opermodes module to be loaded.
@@ -1393,7 +1393,7 @@ index d1dc04d51..255a35b1f 100644
  
  
  #-#-#-#-#-#-#-#-#-#-#-  OPERATOR CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#
-@@ -103,16 +103,16 @@
+@@ -104,16 +104,16 @@
  <oper
        # name: Oper login that is used to oper up (/OPER <username> <password>).
        # Remember: This is case sensitive.
@@ -1413,7 +1413,7 @@ index d1dc04d51..255a35b1f 100644
  
        # ** ADVANCED ** This option is disabled by default.
        # fingerprint: When using the sslinfo module, you may specify a space separated
-@@ -122,7 +122,8 @@
+@@ -123,7 +123,8 @@
        # a matching TLS (SSL) client certificate, which is very difficult to
        # forge (impossible unless preimage attacks on the hash exist).
        # If the sslinfo module isn't loaded, this option will be ignored.
@@ -1423,7 +1423,7 @@ index d1dc04d51..255a35b1f 100644
  
        # autologin: If a TLS (SSL) client certificate fingerprint for this oper is specified,
        # you can have the oper block automatically log in. This can also be set to
-@@ -130,36 +131,36 @@
+@@ -131,36 +132,36 @@
        # automatically logging in. Otherwise, all security of the oper block rests on the
        # protection of the TLS (SSL) client certificate, so be sure that the private key is
        # well-protected!. Requires the sslinfo module.
@@ -1470,7 +1470,7 @@ index d1dc04d51..255a35b1f 100644
  
        # hash: The hash function this password is hashed with. Requires the
        # module for the selected function (bcrypt, md5, sha1, or sha256) and
-@@ -168,23 +169,23 @@
+@@ -169,23 +170,23 @@
        # You may also use any of the above other than bcrypt prefixed with
        # either "hmac-" or "pbkdf2-hmac-" (requires the pbkdf2 module).
        # Create hashed passwords with: /MKPASSWD <hashtype> <plaintext>.
@@ -1649,5 +1649,5 @@ index 6aec5a118..000000000
 -autologin integer NOT NULL DEFAULT 0,
 -active integer NOT NULL DEFAULT 1);
 -- 
-2.35.1
+2.38.2
 

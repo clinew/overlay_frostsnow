@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -12,18 +12,20 @@ SRC_URI="https://github.com/inspircd/inspircd/archive/v${PV}.tar.gz -> ${P}.tar.
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~arm ~arm64 ~ppc ~ppc64 x86"
-IUSE="debug gnutls ldap maxminddb mbedtls mysql pcre postgres re2 regex-posix regex-stdlib sqlite ssl sslrehashsignal tre"
+IUSE="argon2 debug gnutls ldap maxminddb mbedtls mysql pcre pcre2 postgres re2 regex-posix regex-stdlib sqlite ssl sslrehashsignal tre"
 
 RDEPEND="
 	acct-group/inspircd
 	acct-user/inspircd
 	dev-lang/perl
+	argon2? ( app-crypt/argon2 )
 	gnutls? ( net-libs/gnutls:= dev-libs/libgcrypt:0 )
 	ldap? ( net-nds/openldap:= )
 	maxminddb? ( dev-libs/libmaxminddb:= )
 	mbedtls? ( net-libs/mbedtls:= )
 	mysql? ( dev-db/mysql-connector-c:= )
 	pcre? ( dev-libs/libpcre )
+	pcre2? ( dev-libs/libpcre2 )
 	postgres? ( dev-db/postgresql:= )
 	re2? ( dev-libs/re2:= )
 	sqlite? ( >=dev-db/sqlite-3.0 )
@@ -45,12 +47,14 @@ PATCHES=(
 src_configure() {
 	local extras=""
 
+	use argon2 && extras+="argon2,"
 	use gnutls && extras+="ssl_gnutls,"
 	use ldap && extras+="ldap,"
 	use maxminddb && extras+="geo_maxmind,"
 	use mbedtls && extras+="ssl_mbedtls,"
 	use mysql && extras+="mysql,"
 	use pcre && extras+="regex_pcre,"
+	use pcre2 && extras+="regex_pcre2,"
 	use postgres && extras+="pgsql,"
 	use re2 && extras+="regex_re2,"
 	use regex-posix && extras+="regex_posix,"
