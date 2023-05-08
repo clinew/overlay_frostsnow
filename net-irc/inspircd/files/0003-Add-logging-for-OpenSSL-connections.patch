@@ -1,32 +1,37 @@
-From b8f8ce2abea440cfddf8537030a6eaa957f343c8 Mon Sep 17 00:00:00 2001
+From 59ffc36ea916b299e8bbfb468ee52830be47d9d8 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
-Subject: [PATCH 3/7] Add logging for OpenSSL connections.
+Subject: [PATCH 3/8] Add logging for OpenSSL connections.
 
 Specifically, log both handshake failures and certificiate
 verification.
 ---
- include/modules/ssl.h               |   5 +-
+ include/modules/ssl.h               |   4 +-
  src/modules/extra/m_ssl_openssl.cpp | 147 ++++++++++++++++++++++------
- 2 files changed, 122 insertions(+), 30 deletions(-)
+ 2 files changed, 122 insertions(+), 29 deletions(-)
 
 diff --git a/include/modules/ssl.h b/include/modules/ssl.h
-index edd75b138..1c966702c 100644
+index 570d452c8..76e923112 100644
 --- a/include/modules/ssl.h
 +++ b/include/modules/ssl.h
-@@ -46,9 +46,9 @@ class ssl_cert : public refcountbase
+@@ -46,7 +46,7 @@ class ssl_cert : public refcountbase
  	std::string issuer;
  	std::string error;
  	std::string fingerprint;
 -	bool trusted, invalid, unknownsigner, revoked;
 +	bool trusted, invalid, unknownsigner, revoked, exists;
+ 	time_t activation, expiration;
  
--	ssl_cert() : trusted(false), invalid(true), unknownsigner(true), revoked(false) {}
-+	ssl_cert() : trusted(false), invalid(true), unknownsigner(true), revoked(false), exists(false) {}
- 
- 	/** Get certificate distinguished name
- 	 * @return Certificate DN
-@@ -180,6 +180,7 @@ class SSLIOHook : public IOHook
+ 	ssl_cert()
+@@ -54,6 +54,7 @@ class ssl_cert : public refcountbase
+ 		, invalid(true)
+ 		, unknownsigner(true)
+ 		, revoked(false)
++		, exists(false)
+ 		, activation(0)
+ 		, expiration(0)
+ 	{
+@@ -205,6 +206,7 @@ class SSLIOHook : public IOHook
  	/** Peer TLS (SSL) certificate, set by the TLS (SSL) module
  	 */
  	reference<ssl_cert> certificate;
@@ -35,10 +40,10 @@ index edd75b138..1c966702c 100644
  	/** The status of the TLS (SSL) connection. */
  	Status status;
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 8b75894c6..0bcd5cd82 100644
+index ca1d99cd2..2aca79d7c 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -605,37 +605,88 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -607,37 +607,88 @@ class OpenSSLIOHook : public SSLIOHook
  	SSL* sess;
  	bool data_to_write;
  
@@ -136,7 +141,7 @@ index 8b75894c6..0bcd5cd82 100644
  
  			status = STATUS_OPEN;
  
-@@ -643,10 +694,13 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -645,10 +696,13 @@ class OpenSSLIOHook : public SSLIOHook
  
  			return 1;
  		}
@@ -154,7 +159,7 @@ index 8b75894c6..0bcd5cd82 100644
  		return -1;
  	}
  
-@@ -660,26 +714,14 @@ class OpenSSLIOHook : public SSLIOHook
+@@ -662,26 +716,14 @@ class OpenSSLIOHook : public SSLIOHook
  		sess = NULL;
  		certificate = NULL;
  		status = STATUS_NONE;
@@ -183,10 +188,10 @@ index 8b75894c6..0bcd5cd82 100644
  		if (!SelfSigned)
  		{
  			certinfo->unknownsigner = false;
-@@ -707,8 +749,55 @@ class OpenSSLIOHook : public SSLIOHook
- 		{
- 			certinfo->error = "Not activated, or expired certificate";
- 		}
+@@ -715,8 +757,55 @@ class OpenSSLIOHook : public SSLIOHook
+ 		int expired = ASN1_UTCTIME_cmp_time_t(X509_getm_notAfter(cert), ServerInstance->Time());
+ 		if (expired != 0 && expired != 1)
+ 			certinfo->error = "Certificate has expired";
 +	}
 +
 +	void VerifyChain()
@@ -196,7 +201,7 @@ index 8b75894c6..0bcd5cd82 100644
 +		long x509_ret;
 +		ssl_cert* certinfo = new ssl_cert;
 +		this->certificate = certinfo;
-+
+ 
 +		cert = SSL_get_peer_certificate(sess);
 +		if (!cert)
 +		{
@@ -204,7 +209,7 @@ index 8b75894c6..0bcd5cd82 100644
 +			return;
 +		}
 +		certinfo->exists = true;
- 
++
 +		// Unintuitive, but the result only really applies to the whole
 +		// chain, so call it once here rather than once per cert.
 +		certinfo->invalid = (SSL_get_verify_result(sess) != X509_V_OK);
@@ -239,7 +244,7 @@ index 8b75894c6..0bcd5cd82 100644
  	}
  
  	static void GetDNString(X509_NAME* x509name, std::string& out)
-@@ -1095,7 +1184,9 @@ class ModuleSSLOpenSSL : public Module
+@@ -1120,7 +1209,9 @@ class ModuleSSLOpenSSL : public Module
  	ModuleSSLOpenSSL()
  	{
  		// Initialize OpenSSL
@@ -251,5 +256,5 @@ index 8b75894c6..0bcd5cd82 100644
  		biomethods = OpenSSL::BIOMethod::alloc();
  	}
 -- 
-2.38.2
+2.39.3
 

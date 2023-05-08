@@ -1,7 +1,7 @@
-From 2ce60ebc68a336aa8139090f86f838f57917c1e7 Mon Sep 17 00:00:00 2001
+From 772603ebed6d19a3fea08776d8c2a2917bd34bf4 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
-Subject: [PATCH 1/7] Fix build paths
+Subject: [PATCH 1/8] Fix build paths
 
 ---
  .../{ascii.conf.example => ascii.conf}        |  0
@@ -195,7 +195,7 @@ diff --git a/docs/conf/modules.conf.example b/docs/conf/modules.conf
 similarity index 99%
 rename from docs/conf/modules.conf.example
 rename to docs/conf/modules.conf
-index d02d2fbe2..ea42960c4 100644
+index 874a93210..cfa556323 100644
 --- a/docs/conf/modules.conf.example
 +++ b/docs/conf/modules.conf
 @@ -617,11 +617,11 @@
@@ -268,7 +268,7 @@ index d02d2fbe2..ea42960c4 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Hide chans module: Allows users to hide their channels list from non-
-@@ -1669,7 +1669,7 @@
+@@ -1672,7 +1672,7 @@
  # onoper        - If on, the message is sent on /OPER, otherwise it's #
  #                 only sent when /OPERMOTD is used.                   #
  #                                                                     #
@@ -277,7 +277,7 @@ index d02d2fbe2..ea42960c4 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Override module: Adds support for oper override.
-@@ -2308,7 +2308,7 @@
+@@ -2311,7 +2311,7 @@
  # connections in order to oper up. It is highly recommended to load
  # this module if you use TLS (SSL) on your network.
  # For how to use the oper features, please see the first
@@ -448,5 +448,5 @@ index 4fc7eb3b7..ecb221530 100644
  GNUmakefile: make/template/main.mk src/version.sh configure @CONFIGURE_CACHE_FILE@
  	./configure --update
 -- 
-2.38.2
+2.39.3
 

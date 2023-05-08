@@ -1,7 +1,7 @@
-From 9a9618b02b63b8af1b713dbcb5f12ef15f3b1939 Mon Sep 17 00:00:00 2001
+From fc299079b3fb73383873e819a31e5fcbd1b8d15e Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 2 Mar 2018 22:44:32 -0800
-Subject: [PATCH 5/7] m_ssl_openssl Add strong peer cert validation.
+Subject: [PATCH 5/8] m_ssl_openssl Add strong peer cert validation.
 
 Allow the user to configure a whitelist of key types and minimum key
 size pairs for the client certificate chain.  Also allow a whitelist of
@@ -40,10 +40,10 @@ index 000000000..37bff3159
 +	#peer_sigalg="RSA-SHA512"
 +>
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index e580fef7e..625512092 100644
+index 133b2d076..5c1c6c272 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -167,6 +167,13 @@ namespace OpenSSL
+@@ -169,6 +169,13 @@ namespace OpenSSL
  		SSL_CTX* const ctx;
  		long ctx_options;
  
@@ -57,7 +57,7 @@ index e580fef7e..625512092 100644
  	 public:
  		Context(SSL_CTX* context)
  			: ctx(context)
-@@ -304,6 +311,57 @@ namespace OpenSSL
+@@ -306,6 +313,57 @@ namespace OpenSSL
  			}
  		}
  
@@ -115,7 +115,7 @@ index e580fef7e..625512092 100644
  
  		long GetDefaultContextOptions() const
  		{
-@@ -511,11 +569,20 @@ namespace OpenSSL
+@@ -513,11 +571,20 @@ namespace OpenSSL
  			const std::string crlmode = tag->getString("crlmode", "chain", 1);
  			ctx.SetCRL(crlfile, crlpath, crlmode);
  
@@ -136,10 +136,10 @@ index e580fef7e..625512092 100644
  		const std::string& GetName() const { return name; }
  		SSL* CreateServerSession() { return ctx.CreateServerSession(); }
  		SSL* CreateClientSession() { return clientctx.CreateClientSession(); }
-@@ -749,6 +816,72 @@ class OpenSSLIOHook : public SSLIOHook
- 		{
- 			certinfo->error = "Not activated, or expired certificate";
- 		}
+@@ -757,6 +824,72 @@ class OpenSSLIOHook : public SSLIOHook
+ 		int expired = ASN1_UTCTIME_cmp_time_t(X509_getm_notAfter(cert), ServerInstance->Time());
+ 		if (expired != 0 && expired != 1)
+ 			certinfo->error = "Certificate has expired";
 +
 +		VerifyCertificateStrength(cert, certinfo->error);
 +	}
@@ -210,5 +210,5 @@ index e580fef7e..625512092 100644
  
  	void VerifyChain()
 -- 
-2.38.2
+2.39.3
 
