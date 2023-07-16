@@ -1,7 +1,7 @@
-From 59ffc36ea916b299e8bbfb468ee52830be47d9d8 Mon Sep 17 00:00:00 2001
+From a4a18954cc1015d3840b0d2a3508089fa0c725b9 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
-Subject: [PATCH 3/8] Add logging for OpenSSL connections.
+Subject: [PATCH 3/7] Add logging for OpenSSL connections.
 
 Specifically, log both handshake failures and certificiate
 verification.
@@ -11,7 +11,7 @@ verification.
  2 files changed, 122 insertions(+), 29 deletions(-)
 
 diff --git a/include/modules/ssl.h b/include/modules/ssl.h
-index 570d452c8..76e923112 100644
+index 2b94055d3..79acc09e4 100644
 --- a/include/modules/ssl.h
 +++ b/include/modules/ssl.h
 @@ -46,7 +46,7 @@ class ssl_cert : public refcountbase
@@ -40,7 +40,7 @@ index 570d452c8..76e923112 100644
  	/** The status of the TLS (SSL) connection. */
  	Status status;
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index ca1d99cd2..2aca79d7c 100644
+index 7d4555cf5..43be564c7 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -607,37 +607,88 @@ class OpenSSLIOHook : public SSLIOHook
@@ -188,8 +188,8 @@ index ca1d99cd2..2aca79d7c 100644
  		if (!SelfSigned)
  		{
  			certinfo->unknownsigner = false;
-@@ -715,8 +757,55 @@ class OpenSSLIOHook : public SSLIOHook
- 		int expired = ASN1_UTCTIME_cmp_time_t(X509_getm_notAfter(cert), ServerInstance->Time());
+@@ -719,8 +761,55 @@ class OpenSSLIOHook : public SSLIOHook
+ 		int expired = ASN1_TIME_cmp_time_t(X509_getm_notAfter(cert), ServerInstance->Time());
  		if (expired != 0 && expired != 1)
  			certinfo->error = "Certificate has expired";
 +	}
@@ -244,7 +244,7 @@ index ca1d99cd2..2aca79d7c 100644
  	}
  
  	static void GetDNString(X509_NAME* x509name, std::string& out)
-@@ -1120,7 +1209,9 @@ class ModuleSSLOpenSSL : public Module
+@@ -1124,7 +1213,9 @@ class ModuleSSLOpenSSL : public Module
  	ModuleSSLOpenSSL()
  	{
  		// Initialize OpenSSL

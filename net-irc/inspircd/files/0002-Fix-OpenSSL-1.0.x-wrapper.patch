@@ -1,7 +1,7 @@
-From 063808814bf34b9f779d3b97804eafb97c2fa208 Mon Sep 17 00:00:00 2001
+From 3c9e1f41703c01212e99c52fd48bc19114a5e7e7 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 22 Dec 2017 20:38:29 -0800
-Subject: [PATCH 2/8] Fix OpenSSL 1.0.x wrapper.
+Subject: [PATCH 2/7] Fix OpenSSL 1.0.x wrapper.
 
 Make OPENSSL_init_ssl() a wrapper to a function so it can return a value
 and be called within another expression.
@@ -10,7 +10,7 @@ and be called within another expression.
  1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 906b09529..ca1d99cd2 100644
+index 9f3ff0b31..7d4555cf5 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -95,9 +95,13 @@

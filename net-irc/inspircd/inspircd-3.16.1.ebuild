@@ -42,7 +42,6 @@ PATCHES=(
 	"${FILESDIR}"/0005-m_ssl_openssl-Add-strong-peer-cert-validation.patch
 	"${FILESDIR}"/0006-Warn-on-old-client-certificate.patch
 	"${FILESDIR}"/0007-CotSS-configuration.patch
-	"${FILESDIR}"/0008-Fix-cert-expiration-for-dates-after-year-2049.patch
 )
 
 src_configure() {

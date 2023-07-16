@@ -1,17 +1,17 @@
-From 66b97f128168d84f26849d481e61c7bc9365b066 Mon Sep 17 00:00:00 2001
+From d920b719562614d9a6b3900aafb12e98fe5001b3 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 1 Dec 2017 00:15:38 -0800
-Subject: [PATCH 4/8] Add OpenSSL rehash messages.
+Subject: [PATCH 4/7] Add OpenSSL rehash messages.
 
 ---
  src/modules/extra/m_ssl_openssl.cpp | 4 ++++
  1 file changed, 4 insertions(+)
 
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 2aca79d7c..133b2d076 100644
+index 43be564c7..5eb6720dc 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -1245,6 +1245,10 @@ class ModuleSSLOpenSSL : public Module
+@@ -1249,6 +1249,10 @@ class ModuleSSLOpenSSL : public Module
  		if (!irc::equals(param, "tls") && !irc::equals(param, "ssl"))
  			return;
  

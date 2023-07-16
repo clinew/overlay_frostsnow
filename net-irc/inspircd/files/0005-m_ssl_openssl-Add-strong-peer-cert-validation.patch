@@ -1,7 +1,7 @@
-From fc299079b3fb73383873e819a31e5fcbd1b8d15e Mon Sep 17 00:00:00 2001
+From 110fcbc8cba8054a4569bae16e39491cc51b321f Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 2 Mar 2018 22:44:32 -0800
-Subject: [PATCH 5/8] m_ssl_openssl Add strong peer cert validation.
+Subject: [PATCH 5/7] m_ssl_openssl Add strong peer cert validation.
 
 Allow the user to configure a whitelist of key types and minimum key
 size pairs for the client certificate chain.  Also allow a whitelist of
@@ -40,7 +40,7 @@ index 000000000..37bff3159
 +	#peer_sigalg="RSA-SHA512"
 +>
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 133b2d076..5c1c6c272 100644
+index 5eb6720dc..121f902cd 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -169,6 +169,13 @@ namespace OpenSSL
@@ -136,8 +136,8 @@ index 133b2d076..5c1c6c272 100644
  		const std::string& GetName() const { return name; }
  		SSL* CreateServerSession() { return ctx.CreateServerSession(); }
  		SSL* CreateClientSession() { return clientctx.CreateClientSession(); }
-@@ -757,6 +824,72 @@ class OpenSSLIOHook : public SSLIOHook
- 		int expired = ASN1_UTCTIME_cmp_time_t(X509_getm_notAfter(cert), ServerInstance->Time());
+@@ -761,6 +828,72 @@ class OpenSSLIOHook : public SSLIOHook
+ 		int expired = ASN1_TIME_cmp_time_t(X509_getm_notAfter(cert), ServerInstance->Time());
  		if (expired != 0 && expired != 1)
  			certinfo->error = "Certificate has expired";
 +
