@@ -1,0 +1,33 @@
+From 72ded2b9a40ddb3ccc0744a8405a54a5ef6d347c Mon Sep 17 00:00:00 2001
+From: Wade Cline <wadecline@hotmail.com>
+Date: Sun, 14 Jun 2020 22:28:23 -0700
+Subject: [PATCH 5/6] Warn on old client certificate
+
+---
+ src/modules/m_sslinfo.cpp | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/src/modules/m_sslinfo.cpp b/src/modules/m_sslinfo.cpp
+index 6ea50a564..289e824b3 100644
+--- a/src/modules/m_sslinfo.cpp
++++ b/src/modules/m_sslinfo.cpp
+@@ -407,6 +407,16 @@ public:
+ 		if (!cert || !warnexpiring || !cert->GetExpirationTime())
+ 			return;
+ 
++		// CotSS hack: Warn user if they are using an old client
++		// certificate.
++		if (cert && cert->GetIssuer() == "/CN=frostsnow.net") {
++			user->WriteNotice("WARNING: You are using an old "
++				"client certificate; please update your "
++				"client certificate to the new PKI using the "
++				"instructions located at: "
++				"https://www.frostsnow.net/contact/irc.pdf");
++		}
++
+ 		if (ServerInstance->Time() > cert->GetExpirationTime())
+ 		{
+ 			user->WriteNotice("*** Your TLS (SSL) client certificate has expired.");
+-- 
+2.41.0
+
