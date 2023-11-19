@@ -1,14 +1,14 @@
 # Copyright 1999-2019 Gentoo Authors
-# Copyright 2019-2022 Wade T. Cline
+# Copyright 2019-2023 Wade T. Cline
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 inherit git-r3
 
-DESCRIPTION="Frostsnow's version of the main game for the Minetest Game engine"
+DESCRIPTION="Frostsnow's version of the main game for the Minetest game engine"
 EGIT_REPO_URI="https://github.com/clinew/minetest_game"
-EGIT_BRANCH="frostsnow"
-EGIT_COMMIT="6769fd0e22d61a42641abed94efd3b4fba7f0912"
+EGIT_BRANCH="cereal"
+EGIT_COMMIT="e5935d3847993c30d00b51e24a4cc77dcc0b92cc"
 
 LICENSE="CC-BY-3.0 CC-BY-SA-3.0 CC-BY-SA-4.0 CC0-1.0 LGPL-2.1 LGPL-2.1+ MIT"
 SLOT="0"
