@@ -5,10 +5,10 @@
 EAPI=8
 inherit git-r3
 
-DESCRIPTION="Frostsnow's version of the main game for the Minetest game engine"
+DESCRIPTION="Frostsnow's version of the main game for the Minetest Game engine"
 EGIT_REPO_URI="https://github.com/clinew/minetest_game"
-EGIT_BRANCH="cereal"
-EGIT_COMMIT="e5935d3847993c30d00b51e24a4cc77dcc0b92cc"
+EGIT_BRANCH="frostsnow"
+EGIT_COMMIT="f3f589598bca4f496fe71312a9d1823e4ac1451d"
 
 LICENSE="CC-BY-3.0 CC-BY-SA-3.0 CC-BY-SA-4.0 CC0-1.0 LGPL-2.1 LGPL-2.1+ MIT"
 SLOT="0"
@@ -17,7 +17,7 @@ IUSE=""
 
 # FIXME: Will break after version 9.
 RDEPEND="dev-lua/luasocket
-	>=games-action/minetest-${PV/%.?/}"
+	>=games-engines/minetest-${PV/%.?/}"
 
 src_install() {
 	insinto /usr/share/minetest/games/${PN}
