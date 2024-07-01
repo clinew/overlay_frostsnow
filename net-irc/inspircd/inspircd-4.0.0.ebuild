@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -7,13 +7,12 @@ inherit systemd toolchain-funcs
 
 DESCRIPTION="Inspire IRCd - The Stable, High-Performance Modular IRCd"
 HOMEPAGE="https://www.inspircd.org/"
-S="${WORKDIR}/inspircd-4.0.0a23"
-SRC_URI="https://github.com/inspircd/inspircd/archive/v4.0.0a23.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/inspircd/inspircd/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86"
-IUSE="argon2 debug gnutls ldap maxminddb mbedtls mysql pcre pcre2 postgres re2 regex-posix regex-stdlib sqlite ssl sslrehashsignal tre"
+IUSE="argon2 debug gnutls ldap log-json maxminddb mysql pcre2 postgres re2 regex-posix sqlite ssl sslrehashsignal syslog"
 
 RDEPEND="
 	acct-group/inspircd
@@ -22,16 +21,14 @@ RDEPEND="
 	argon2? ( app-crypt/argon2 )
 	gnutls? ( net-libs/gnutls:= dev-libs/libgcrypt:0 )
 	ldap? ( net-nds/openldap:= )
+	log-json? ( dev-libs/rapidjson )
 	maxminddb? ( dev-libs/libmaxminddb:= )
-	mbedtls? ( net-libs/mbedtls:= )
 	mysql? ( dev-db/mysql-connector-c:= )
-	pcre? ( dev-libs/libpcre )
 	pcre2? ( dev-libs/libpcre2 )
 	postgres? ( dev-db/postgresql:= )
 	re2? ( dev-libs/re2:= )
 	sqlite? ( >=dev-db/sqlite-3.0 )
-	ssl? ( dev-libs/openssl:= )
-	tre? ( dev-libs/tre )"
+	ssl? ( dev-libs/openssl:= )"
 DEPEND="${RDEPEND}"
 
 DOCS=( docs/. .configure/apparmor )
@@ -50,19 +47,17 @@ src_configure() {
 	use argon2 && extras+="argon2,"
 	use gnutls && extras+="ssl_gnutls,"
 	use ldap && extras+="ldap,"
+	use log-json && extras+="log_json,"
 	use maxminddb && extras+="geo_maxmind,"
-	use mbedtls && extras+="ssl_mbedtls,"
 	use mysql && extras+="mysql,"
-	use pcre && extras+="regex_pcre,"
 	use pcre2 && extras+="regex_pcre2,"
 	use postgres && extras+="pgsql,"
 	use re2 && extras+="regex_re2,"
 	use regex-posix && extras+="regex_posix,"
-	use regex-stdlib && extras+="regex_stdlib,"
 	use sqlite && extras+="sqlite3,"
 	use ssl && extras+="ssl_openssl,"
 	use sslrehashsignal && extras+="sslrehashsignal,"
-	use tre && extras+="regex_tre,"
+	use syslog && extras+="log_syslog,"
 
 	# The first configuration run enables certain "extra" InspIRCd
 	# modules, the second run generates the actual makefile.
@@ -71,7 +66,6 @@ src_configure() {
 	fi
 
 	local myconf=(
-		--development
 		--disable-auto-extras
 		--disable-ownership
 		--system
@@ -116,5 +110,9 @@ pkg_postinst() {
 		elog "/usr/share/doc/${PN}"
 		elog "Read the ${PN}.conf.example file carefully before "
 		elog "starting the service."
+	fi
+	if has_version "net-irc/atheme-services"; then
+		ewarn "Atheme does not work with InspIRCd version 4"
+		ewarn "See: https://github.com/atheme/atheme/issues/904"
 	fi
 }
