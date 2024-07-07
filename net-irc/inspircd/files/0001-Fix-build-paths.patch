@@ -1,4 +1,4 @@
-From 63fa18d2f255a61376228628678ab8eff4386315 Mon Sep 17 00:00:00 2001
+From e48659c76ef5d951f293785234eb6d32999a91a2 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 1/7] Fix build paths
@@ -25,8 +25,8 @@ Subject: [PATCH 1/7] Fix build paths
  .../{anope.conf.example => anope.conf}        |  2 +-
  .../{atheme.conf.example => atheme.conf}      |  2 +-
  .../{generic.conf.example => generic.conf}    |  0
- make/template/main.mk                         | 26 ++++++-----------
- 22 files changed, 41 insertions(+), 49 deletions(-)
+ make/template/main.mk                         | 23 ++++++---------
+ 22 files changed, 41 insertions(+), 46 deletions(-)
  rename docs/conf/codepages/{ascii.conf.example => ascii.conf} (100%)
  rename docs/conf/codepages/{iso-8859-1.conf.example => iso-8859-1.conf} (97%)
  rename docs/conf/codepages/{iso-8859-2.conf.example => iso-8859-2.conf} (97%)
@@ -99,7 +99,7 @@ diff --git a/docs/conf/inspircd.conf.example b/docs/conf/inspircd.conf
 similarity index 99%
 rename from docs/conf/inspircd.conf.example
 rename to docs/conf/inspircd.conf
-index 177e5c4ed..28015c1c7 100644
+index 5cc7c341a..d5ddfe923 100644
 --- a/docs/conf/inspircd.conf.example
 +++ b/docs/conf/inspircd.conf
 @@ -245,7 +245,7 @@
@@ -111,7 +111,7 @@ index 177e5c4ed..28015c1c7 100644
  
  # A connect class with <connect:deny> set denies connections from the specified host/IP range.
  <connect
-@@ -498,11 +498,11 @@
+@@ -502,11 +502,11 @@
  
  # This file has all the information about oper classes, types and o:lines.
  # You *MUST* edit it.
@@ -125,7 +125,7 @@ index 177e5c4ed..28015c1c7 100644
  
  #-#-#-#-#-#-#-#-#-#-  MISCELLANEOUS CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -511,7 +511,7 @@
+@@ -515,7 +515,7 @@
  #
  #   motd - displayed on connect and when a user executes /MOTD
  # Modules can also define their own files
@@ -134,7 +134,7 @@ index 177e5c4ed..28015c1c7 100644
  
  # Example of an executable file include. Note this will be read on rehash,
  # not when the command is run.
-@@ -547,7 +547,7 @@
+@@ -551,7 +551,7 @@
  # default of 'inspircd.pid' is used.                                  #
  #                                                                     #
  
@@ -143,7 +143,7 @@ index 177e5c4ed..28015c1c7 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#- LIST MODE LIMITS #-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -704,7 +704,7 @@
+@@ -712,7 +712,7 @@
           #  - topiclock       Channel mode +t - limits changing the topic to (half)ops
           # You can also configure this on a per-channel basis with a channel mode and
           # even negate the configured exemptions below.
@@ -152,7 +152,7 @@ index 177e5c4ed..28015c1c7 100644
           exemptchanops="censor:o filter:o nickflood:o nonick:v regmoderated:o"
  
           # invitebypassmodes: This allows /INVITE to bypass other channel modes.
-@@ -1047,7 +1047,7 @@
+@@ -1055,7 +1055,7 @@
  # provide almost all the features of InspIRCd. :)                     #
  #                                                                     #
  # The default does nothing -- we include it for simplicity for you.   #
@@ -161,7 +161,7 @@ index 177e5c4ed..28015c1c7 100644
  
  #-#-#-#-#-#-#-#-#-#-#-# SERVICES CONFIGURATION  #-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1056,13 +1056,13 @@
+@@ -1064,13 +1064,13 @@
  # exemptions for services pseudoclients:                              #
  #
  # Anope users should uncomment this:
@@ -195,7 +195,7 @@ diff --git a/docs/conf/modules.conf.example b/docs/conf/modules.conf
 similarity index 99%
 rename from docs/conf/modules.conf.example
 rename to docs/conf/modules.conf
-index 874a93210..cfa556323 100644
+index 9f7a16c69..bca177ebe 100644
 --- a/docs/conf/modules.conf.example
 +++ b/docs/conf/modules.conf
 @@ -617,11 +617,11 @@
@@ -388,10 +388,10 @@ similarity index 100%
 rename from docs/conf/services/generic.conf.example
 rename to docs/conf/services/generic.conf
 diff --git a/make/template/main.mk b/make/template/main.mk
-index 4fc7eb3b7..ecb221530 100644
+index 47ab10891..32e82d8b4 100644
 --- a/make/template/main.mk
 +++ b/make/template/main.mk
-@@ -220,10 +220,10 @@ install: target
+@@ -224,10 +224,10 @@ install: target
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(BINPATH)
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(CONPATH)
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(DATPATH)
@@ -406,13 +406,8 @@ index 4fc7eb3b7..ecb221530 100644
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(LOGPATH)
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(MANPATH)
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(MODPATH)
-@@ -231,25 +231,19 @@ install: target
- 	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(SCRPATH)
- 	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_BIN) "$(BUILDPATH)/bin/inspircd" $(BINPATH)
- 	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_BIN) "$(BUILDPATH)/modules/"*.so $(MODPATH)
--	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_BIN) @CONFIGURE_DIRECTORY@/inspircd $(SCRPATH) 2>/dev/null
--	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/apparmor $(SCRPATH) 2>/dev/null
--	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/logrotate $(SCRPATH) 2>/dev/null
+@@ -241,20 +241,17 @@ install: target
+ 	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/logrotate $(SCRPATH) 2>/dev/null
  ifeq ($(SYSTEM), darwin)
  	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_BIN) @CONFIGURE_DIRECTORY@/org.inspircd.plist $(SCRPATH) 2>/dev/null
 -endif
@@ -437,7 +432,7 @@ index 4fc7eb3b7..ecb221530 100644
  	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/help.txt $(CONPATH)
  	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_PRV) @CONFIGURE_DIRECTORY@/*.pem $(CONPATH) 2>/dev/null
  	@echo ""
-@@ -261,9 +255,7 @@ endif
+@@ -266,9 +263,7 @@ endif
  	@echo '  Binaries:' $(BINPATH)
  	@echo '  Modules:' $(MODPATH)
  	@echo '  Data:' $(DATPATH)
@@ -448,5 +443,5 @@ index 4fc7eb3b7..ecb221530 100644
  GNUmakefile: make/template/main.mk src/version.sh configure @CONFIGURE_CACHE_FILE@
  	./configure --update
 -- 
-2.39.3
+2.44.2
 

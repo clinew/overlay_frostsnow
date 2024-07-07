@@ -1,4 +1,4 @@
-From fbd2af47c0c733118d47d86febb059c78e4e6aed Mon Sep 17 00:00:00 2001
+From caa1b534e48e2801ceb68e0f2c9a7c7496b6504b Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 2 Feb 2020 21:58:12 -0800
 Subject: [PATCH 7/7] CotSS configuration
@@ -379,7 +379,7 @@ index fe95687f5..000000000
 -# <exemptfromfilter> tags are only for exempting messages sent *to* the
 -# configured targets.
 diff --git a/docs/conf/inspircd.conf b/docs/conf/inspircd.conf
-index 28015c1c7..3225325d0 100644
+index d5ddfe923..726c7049f 100644
 --- a/docs/conf/inspircd.conf
 +++ b/docs/conf/inspircd.conf
 @@ -77,8 +77,8 @@
@@ -525,33 +525,33 @@ index 28015c1c7..3225325d0 100644
  
           # useconnectban: Defines if users in this class should be exempt from connectban limits.
           # This setting only has effect when the connectban module is loaded.
-@@ -320,7 +321,7 @@
-          #usednsbl="yes"
- 
-          # useident: Defines if users in this class MUST respond to a ident query or not.
+@@ -322,7 +323,7 @@
+          # useident: Whether to try to look up the real username of users in this class using
+          # the RFC 1413 identification protocol.
+          # This setting only has effect when the ident module is loaded.
 -         useident="no"
 +         #useident="no"
  
           # usests: Whether a STS policy should be advertised to users in this class.
           # This setting only has effect when the ircv3_sts module is loaded.
-@@ -331,14 +332,14 @@
+@@ -333,14 +334,14 @@
           #webirc="name"
  
           # limit: How many users are allowed in this class
 -         limit="5000"
 +         #limit="5000"
  
-          # modes: User modes that are set on users in this block on connect.
-          # Enabling this option requires that the conn_umodes module be loaded.
-          # This entry is highly recommended to use for/with IP cloaking/masking.
-          # For the example to work, this also requires that the cloaking
-          # module be loaded as well.
--         modes="+x"
-+         #modes="+x"
+          # modes: The modes to set on users in this class when they connect to
+          # the server. See https://docs.inspircd.org/3/user-modes/ for a list of
+          # user modes. The example below sets user modes c (deaf_commonchans)
+          # and x (cloak) which require the commonchans and cloak modules.
+          # This setting only has effect when the conn_umodes module is loaded.
+-         modes="+cx"
++         #modes="+cx"
  
           # requireident: Require that users of this block have a valid ident response.
           # Requires the ident module to be loaded.
-@@ -375,11 +376,33 @@
+@@ -377,11 +378,33 @@
           # Underline:     \u
           # See https://defs.ircdocs.horse/info/formatting.html for more information
           # on client support for formatting characters.
@@ -587,7 +587,7 @@ index 28015c1c7..3225325d0 100644
  
  <connect
           # name: Name to use for this connect block. Mainly used for
-@@ -393,7 +416,7 @@
+@@ -395,7 +418,7 @@
  
           # maxchans: Maximum number of channels a user in this class
           # can be in at one time.
@@ -596,7 +596,7 @@ index 28015c1c7..3225325d0 100644
  
           # timeout: How long the server will wait before disconnecting
           # a user if they do not do anything on connect.
-@@ -402,7 +425,7 @@
+@@ -404,7 +427,7 @@
           timeout="20"
  
           # pingfreq: How often the server tries to ping connecting clients.
@@ -605,7 +605,7 @@ index 28015c1c7..3225325d0 100644
  
           # hardsendq: maximum amount of data allowed in a client's send queue
           # before they are dropped. Keep this value higher than the length of
-@@ -425,7 +448,7 @@
+@@ -427,7 +450,7 @@
           #
           # If you are not using fakelag, this should be at least 20 to avoid excess flood kills
           # from processing some commands.
@@ -614,21 +614,21 @@ index 28015c1c7..3225325d0 100644
  
           # commandrate: This specifies the maximum rate that commands can be processed.
           # If commands are sent more rapidly, the user's penalty will increase and they will
-@@ -450,7 +473,7 @@
+@@ -452,7 +475,7 @@
  
           # resolvehostnames: If disabled, no DNS lookups will be performed on connecting users
           # in this class. This can save a lot of resources on very busy servers.
 -         resolvehostnames="yes"
 +         resolvehostnames="no"
  
-          # useident: Defines if users in this class must respond to a ident query or not.
-          useident="no"
-@@ -467,8 +490,16 @@
-          # This entry is highly recommended to use for/with IP cloaking/masking.
-          # For the example to work, this also requires that the cloaking
-          # module be loaded as well.
--         modes="+x">
-+         #modes="+x"
+          # useident: Whether to try to look up the real username of users in this class using
+          # the RFC 1413 identification protocol.
+@@ -471,8 +494,16 @@
+          # user modes. The example below sets user modes c (deaf_commonchans)
+          # and x (cloak) which require the commonchans and cloak modules.
+          # This setting only has effect when the conn_umodes module is loaded.
+-         modes="+cx">
++         #modes="+cx">
 +         modes="+I"
  
 +         # requiressl: Require that users of this block use an SSL connection.
@@ -641,7 +641,7 @@ index 28015c1c7..3225325d0 100644
  
  
  #-#-#-#-#-#-#-#-#-#-#-#-  CIDR CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-
-@@ -498,11 +529,11 @@
+@@ -502,11 +533,11 @@
  
  # This file has all the information about oper classes, types and o:lines.
  # You *MUST* edit it.
@@ -655,7 +655,7 @@ index 28015c1c7..3225325d0 100644
  
  #-#-#-#-#-#-#-#-#-#-  MISCELLANEOUS CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -521,7 +552,7 @@
+@@ -525,7 +556,7 @@
  # If these values are not defined, InspIRCd uses the default DNS resolver
  # of your system.
  
@@ -664,7 +664,7 @@ index 28015c1c7..3225325d0 100644
       # server: DNS server to use to attempt to resolve IP's to hostnames.
       # in most cases, you won't need to change this, as inspircd will
       # automatically detect the nameserver depending on /etc/resolv.conf
-@@ -532,7 +563,8 @@
+@@ -536,7 +567,8 @@
       # server="127.0.0.1"
  
       # timeout: time to wait to try to resolve DNS/hostname.
@@ -674,7 +674,7 @@ index 28015c1c7..3225325d0 100644
  
  # An example of using an IPv6 nameserver
  #<dns server="::1" timeout="5">
-@@ -547,7 +579,7 @@
+@@ -551,7 +583,7 @@
  # default of 'inspircd.pid' is used.                                  #
  #                                                                     #
  
@@ -683,7 +683,7 @@ index 28015c1c7..3225325d0 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#- LIST MODE LIMITS #-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -579,20 +611,20 @@
+@@ -583,20 +615,20 @@
  <options
           # prefixquit: What (if anything) users' quit messages
           # should be prefixed with.
@@ -708,7 +708,7 @@ index 28015c1c7..3225325d0 100644
  
           # fixedquit: Set all users' quit messages to this value.
           #fixedquit=""
-@@ -631,11 +663,11 @@
+@@ -635,11 +667,11 @@
           # defaultbind: Sets the default for <bind> tags without an address. Choices are
           # ipv4 or ipv6; if not specified, IPv6 will be used if your system has support,
           # falling back to IPv4 otherwise.
@@ -722,7 +722,7 @@ index 28015c1c7..3225325d0 100644
  
           # pingwarning: If a server does not respond to a ping within this period,
           # it will send a notice to opers with snomask +l informing that the server
-@@ -643,7 +675,7 @@
+@@ -647,7 +679,7 @@
           pingwarning="15"
  
           # serverpingfreq: How often pings are sent between servers.
@@ -731,7 +731,7 @@ index 28015c1c7..3225325d0 100644
  
           # splitwhois: Whether to split private/secret channels from normal channels
           # in WHOIS responses. Possible values for this are:
-@@ -658,7 +690,7 @@
+@@ -666,7 +698,7 @@
  
           # xlinemessage: This is the text that is sent to a user when they are
           # banned from the server.
@@ -740,7 +740,7 @@ index 28015c1c7..3225325d0 100644
  
           # allowzerolimit: If enabled then allow a limit of 0 to be set on channels.
           # This is non-standard behaviour and should only be enabled if you need to
-@@ -795,7 +827,7 @@
+@@ -803,7 +835,7 @@
            hidebans="no"
  
            # hidekills: If defined, replaces who executed a /KILL with a custom string.
@@ -749,7 +749,7 @@ index 28015c1c7..3225325d0 100644
  
            # hideulinekills: Hide kills from clients of ulined servers from server notices.
            hideulinekills="yes"
-@@ -940,7 +972,7 @@
+@@ -948,7 +980,7 @@
  # The following log tag is highly default and uncustomised. It is recommended you
  # sort out your own log tags. This is just here so you get some output.
  
@@ -758,7 +758,7 @@ index 28015c1c7..3225325d0 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-  WHOWAS OPTIONS   -#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -962,7 +994,7 @@
+@@ -970,7 +1002,7 @@
          # before being pruned. Time may be specified in seconds,
          # or in the following format: 1y2w3d4h5m6s. Minimum is
          # 1 hour.
@@ -767,7 +767,7 @@ index 28015c1c7..3225325d0 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-  BAN OPTIONS  -#-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -971,39 +1003,39 @@
+@@ -979,39 +1011,39 @@
  # Your server.                                                        #
  #                                                                     #
  
@@ -820,7 +820,7 @@ index 28015c1c7..3225325d0 100644
  
  #-#-#-#-#-#-#-#-#-#-#- INSANE BAN OPTIONS  -#-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1047,7 +1079,7 @@
+@@ -1055,7 +1087,7 @@
  # provide almost all the features of InspIRCd. :)                     #
  #                                                                     #
  # The default does nothing -- we include it for simplicity for you.   #
@@ -829,7 +829,7 @@ index 28015c1c7..3225325d0 100644
  
  #-#-#-#-#-#-#-#-#-#-#-# SERVICES CONFIGURATION  #-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1056,13 +1088,13 @@
+@@ -1064,13 +1096,13 @@
  # exemptions for services pseudoclients:                              #
  #
  # Anope users should uncomment this:
@@ -1000,7 +1000,7 @@ index 32986de9d..9b65b35c1 100644
 -<die reason="Using links.conf without editing it is a security risk">
 +#<die reason="Using links.conf without editing it is a security risk">
 diff --git a/docs/conf/modules.conf b/docs/conf/modules.conf
-index cfa556323..8e618c310 100644
+index bca177ebe..da0440852 100644
 --- a/docs/conf/modules.conf
 +++ b/docs/conf/modules.conf
 @@ -46,7 +46,7 @@
@@ -1649,5 +1649,5 @@ index 6aec5a118..000000000
 -autologin integer NOT NULL DEFAULT 0,
 -active integer NOT NULL DEFAULT 1);
 -- 
-2.39.3
+2.44.2
 

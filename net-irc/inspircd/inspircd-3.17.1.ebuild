@@ -1,9 +1,9 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit systemd toolchain-funcs
+inherit readme.gentoo-r1 systemd toolchain-funcs
 
 DESCRIPTION="Inspire IRCd - The Stable, High-Performance Modular IRCd"
 HOMEPAGE="https://www.inspircd.org/"
@@ -33,6 +33,9 @@ RDEPEND="
 	tre? ( dev-libs/tre )"
 DEPEND="${RDEPEND}"
 
+DOC_CONTENTS="
+	You will find example configuration files under /usr/share/doc/${PN}.\n
+	Read the ${PN}.conf file carefully before starting the service."
 DOCS=( docs/. .configure/apparmor )
 PATCHES=(
 	"${FILESDIR}"/0001-Fix-build-paths.patch
@@ -66,8 +69,8 @@ src_configure() {
 
 	# The first configuration run enables certain "extra" InspIRCd
 	# modules, the second run generates the actual makefile.
-	if [[ -n "${extras}" ]]; then
-		./configure --enable-extras=${extras%,}
+	if [[ -n ${extras} ]]; then
+		./configure --enable-extras=${extras%,} || die
 	fi
 
 	local myconf=(
@@ -81,7 +84,7 @@ src_configure() {
 		--example-dir="/usr/share/doc/${PV}"
 		--manual-dir="/usr/share/man"
 		--module-dir="/usr/$(get_libdir)/${PN}/modules")
-	CXX="$(tc-getCXX)" ./configure "${myconf[@]}"
+	CXX="$(tc-getCXX)" ./configure "${myconf[@]}" || die
 }
 
 src_compile() {
@@ -105,15 +108,11 @@ src_install() {
 	diropts -o"${PN}" -g"${PN}" -m0700
 	keepdir "/var/lib/${PN}/data"
 
+	readme.gentoo_create_doc
+
 	rmdir "${ED}"/run{/inspircd,} || die
 }
 
 pkg_postinst() {
-	if [[ -z "${REPLACING_VERSIONS}" ]]; then
-		# This is a new installation
-		elog "You will find example configuration files under "
-		elog "/usr/share/doc/${PN}"
-		elog "Read the ${PN}.conf.example file carefully before "
-		elog "starting the service."
-	fi
+	readme.gentoo_print_elog
 }

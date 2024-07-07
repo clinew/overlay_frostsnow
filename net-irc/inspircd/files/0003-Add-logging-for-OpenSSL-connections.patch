@@ -1,4 +1,4 @@
-From a4a18954cc1015d3840b0d2a3508089fa0c725b9 Mon Sep 17 00:00:00 2001
+From 92eb433fb5d6c5ac86bb5e67862544e9ac683a6a Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 3/7] Add logging for OpenSSL connections.
@@ -256,5 +256,5 @@ index 7d4555cf5..43be564c7 100644
  		biomethods = OpenSSL::BIOMethod::alloc();
  	}
 -- 
-2.39.3
+2.44.2
 
