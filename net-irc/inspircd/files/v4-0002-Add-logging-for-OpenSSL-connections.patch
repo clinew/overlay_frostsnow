@@ -1,4 +1,4 @@
-From 036038ee681f92fb0911a2dcf6588c853f2a4776 Mon Sep 17 00:00:00 2001
+From f71c2398ad70663e3c54c8e7200231d09ece749f Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 2/6] Add logging for OpenSSL connections.
@@ -31,10 +31,10 @@ index 3d4b459c1..525182228 100644
  	/** The status of the TLS connection. */
  	Status status = STATUS_NONE;
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 654057aa3..c7675dbee 100644
+index 4cda94494..68c883a27 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -529,37 +529,88 @@ private:
+@@ -527,37 +527,88 @@ private:
  	SSL* sess;
  	bool data_to_write = false;
  
@@ -132,7 +132,7 @@ index 654057aa3..c7675dbee 100644
  
  			status = STATUS_OPEN;
  
-@@ -567,10 +618,13 @@ private:
+@@ -565,10 +616,13 @@ private:
  
  			return 1;
  		}
@@ -150,7 +150,7 @@ index 654057aa3..c7675dbee 100644
  		return -1;
  	}
  
-@@ -584,26 +638,14 @@ private:
+@@ -582,26 +636,14 @@ private:
  		sess = nullptr;
  		certificate = nullptr;
  		status = STATUS_NONE;
@@ -179,7 +179,7 @@ index 654057aa3..c7675dbee 100644
  		if (!SelfSigned)
  		{
  			certinfo->unknownsigner = false;
-@@ -648,8 +690,55 @@ private:
+@@ -646,8 +688,55 @@ private:
  				Duration::ToString(ServerInstance->Time() - certinfo->expiration),
  				Time::ToString(certinfo->expiration));
  		}
@@ -235,7 +235,7 @@ index 654057aa3..c7675dbee 100644
  	}
  
  	static void GetDNString(X509_NAME* x509name, std::string& out)
-@@ -1024,7 +1113,9 @@ public:
+@@ -1022,7 +1111,9 @@ public:
  		: Module(VF_VENDOR, "Allows TLS encrypted connections using the OpenSSL library.")
  	{
  		// Initialize OpenSSL

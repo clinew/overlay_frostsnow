@@ -1,4 +1,4 @@
-From 3804fff51a0749e7a0f7949c347e495b89474cef Mon Sep 17 00:00:00 2001
+From baf4864dc413996a863275e020f488ee51600baf Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 5 Jul 2024 23:12:42 -0700
 Subject: [PATCH 6/6] CotSS configuration
@@ -1464,7 +1464,7 @@ index f7ddfb672..932250d62 100644
 +#<die reason="Using opers.conf without editing it is a security risk">
 diff --git a/docs/conf/providers/dronebl.conf b/docs/conf/providers/dronebl.conf
 deleted file mode 100644
-index 72055d522..000000000
+index 12c25fcda..000000000
 --- a/docs/conf/providers/dronebl.conf
 +++ /dev/null
 @@ -1,11 +0,0 @@
@@ -1478,7 +1478,7 @@ index 72055d522..000000000
 -       records="3,5,6,7,8,9,10,11,13,14,15,16,17,19"
 -       action="zline"
 -       duration="7d"
--       reason="You are listed in DroneBL. Please visit https://dronebl.org/lookup.do?ip=%ip% for more information.">
+-       reason="You are listed in DroneBL. Please visit https://dronebl.org/lookup.do?ip=%ip%&amp;network=%network.url% for more information.">
 diff --git a/docs/conf/providers/efnet-rbl.conf b/docs/conf/providers/efnet-rbl.conf
 deleted file mode 100644
 index 78dce53cb..000000000

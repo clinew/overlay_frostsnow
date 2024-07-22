@@ -1,4 +1,4 @@
-From 6f84ae918241629d504160b3f6871ce46cbcf79d Mon Sep 17 00:00:00 2001
+From bba18da7deaa996fe8e3df4c155a788e7fd9a1ad Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 1/6] Fix build paths
@@ -398,10 +398,10 @@ similarity index 100%
 rename from docs/conf/services/generic.example.conf
 rename to docs/conf/services/generic.conf
 diff --git a/make/template/main.mk b/make/template/main.mk
-index b52904bc8..e80ace250 100644
+index 1b83a2601..7b13502c3 100644
 --- a/make/template/main.mk
 +++ b/make/template/main.mk
-@@ -254,11 +254,11 @@ install: target
+@@ -255,11 +255,11 @@ install: target
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(BINPATH)
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(CONPATH)
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(DATPATH)
@@ -418,7 +418,7 @@ index b52904bc8..e80ace250 100644
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(LOGPATH)
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(MANPATH)
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(MODPATH)
-@@ -272,19 +272,16 @@ install: target
+@@ -273,19 +273,16 @@ install: target
  	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/logrotate $(SCRPATH) 2>/dev/null
  ifeq ($(SYSTEM), darwin)
  	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_BIN) @CONFIGURE_DIRECTORY@/org.inspircd.plist $(SCRPATH) 2>/dev/null
@@ -444,7 +444,7 @@ index b52904bc8..e80ace250 100644
  	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/help.txt $(CONPATH)
  	@echo ""
  	@echo "*************************************"
-@@ -295,9 +292,7 @@ endif
+@@ -296,9 +293,7 @@ endif
  	@echo '  Binaries:' $(BINPATH)
  	@echo '  Modules:' $(MODPATH)
  	@echo '  Data:' $(DATPATH)
