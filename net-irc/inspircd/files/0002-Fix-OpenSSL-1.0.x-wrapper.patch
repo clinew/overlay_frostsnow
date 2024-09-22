@@ -1,4 +1,4 @@
-From 3c9e1f41703c01212e99c52fd48bc19114a5e7e7 Mon Sep 17 00:00:00 2001
+From bf4e2ae5d2133ce1117062f5e6ea253e658b8aeb Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 22 Dec 2017 20:38:29 -0800
 Subject: [PATCH 2/7] Fix OpenSSL 1.0.x wrapper.
@@ -30,5 +30,5 @@ index 9f3ff0b31..7d4555cf5 100644
  // These macros have been renamed in OpenSSL 1.1.
  # define OPENSSL_VERSION SSLEAY_VERSION
 -- 
-2.39.3
+2.44.2
 
