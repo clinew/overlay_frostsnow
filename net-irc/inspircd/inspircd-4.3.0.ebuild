@@ -18,10 +18,11 @@ RDEPEND="
 	acct-group/inspircd
 	acct-user/inspircd
 	dev-lang/perl
+	net-libs/libpsl
 	argon2? ( app-crypt/argon2 )
 	gnutls? ( net-libs/gnutls:= dev-libs/libgcrypt:0 )
 	ldap? ( net-nds/openldap:= )
-	log-json? ( dev-libs/rapidjson )
+	log-json? ( dev-libs/yyjson )
 	maxminddb? ( dev-libs/libmaxminddb:= )
 	mysql? ( dev-db/mysql-connector-c:= )
 	pcre2? ( dev-libs/libpcre2 )

@@ -1,4 +1,4 @@
-From 1ecb6aa856bb757a446f0919981f2ebec03fec8c Mon Sep 17 00:00:00 2001
+From d65d6ae55676663a1918d023cba9cd26cfe5bc72 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 2 Mar 2018 22:44:32 -0800
 Subject: [PATCH 4/6] m_ssl_openssl Add strong peer cert validation.
