@@ -1,4 +1,4 @@
-From 127b973860bf8d3ba924266c1bd45a0c49021f94 Mon Sep 17 00:00:00 2001
+From bc91e6a3faa820f63d220b9da1f2d4deddd5f53c Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 5 Jul 2024 23:12:42 -0700
 Subject: [PATCH 6/6] CotSS configuration
@@ -16,12 +16,12 @@ Subject: [PATCH 6/6] CotSS configuration
  .../{openssl.conf.example => openssl.conf}    |   0
  docs/conf/opermotd.txt                        |  37 -----
  docs/conf/opers.conf                          |  51 +++---
- docs/conf/providers/dronebl.conf              |  11 --
- docs/conf/providers/efnet-rbl.conf            |  11 --
+ docs/conf/providers/dronebl.conf              |  87 ----------
+ docs/conf/providers/efnet-rbl.conf            |  31 ----
  docs/conf/providers/irccloud.conf             |  30 ----
- docs/conf/providers/torexit.conf              |  12 --
+ docs/conf/providers/torexit.conf              |  16 --
  docs/conf/services/anope.conf                 |   5 -
- 17 files changed, 214 insertions(+), 567 deletions(-)
+ 17 files changed, 214 insertions(+), 667 deletions(-)
  delete mode 100644 docs/conf/codepages/ascii.conf
  delete mode 100644 docs/conf/codepages/iso-8859-1.conf
  delete mode 100644 docs/conf/codepages/iso-8859-2.conf
@@ -373,7 +373,7 @@ index fe95687f5..000000000
 -# <exemptfromfilter> tags are only for exempting messages sent *to* the
 -# configured targets.
 diff --git a/docs/conf/inspircd.conf b/docs/conf/inspircd.conf
-index f07bf6e02..9a9bfff11 100644
+index 728bf113c..0e8101c26 100644
 --- a/docs/conf/inspircd.conf
 +++ b/docs/conf/inspircd.conf
 @@ -68,8 +68,8 @@
@@ -701,9 +701,9 @@ index f07bf6e02..9a9bfff11 100644
 -         xlinemessage="You're banned! Email irc@&networkDomain; with the ERROR line below for help."
 +         xlinemessage="You're banned."
  
-           # xlinequit: The quit message to show to opers and affected users when
-           # a user is [KGZ]-lined. The variables you can use in this are:
-@@ -807,7 +836,7 @@
+          # xlinequit: The quit message to show to opers and affected users when
+          # a user is [KGZ]-lined. The variables you can use in this are:
+@@ -811,7 +840,7 @@
            #publicxlinequit="%fulltype%"
  
            # hidekills: If defined, replaces who executed a /KILL with a custom string.
@@ -712,7 +712,7 @@ index f07bf6e02..9a9bfff11 100644
  
            # hideservicekills: Hide kills from clients of services servers from server notices.
            hideservicekills="yes"
-@@ -930,7 +959,8 @@
+@@ -934,7 +963,8 @@
  <log method="file"
       level="normal"
       type="* -USERINPUT -USEROUTPUT"
@@ -722,7 +722,7 @@ index f07bf6e02..9a9bfff11 100644
  
  #<log method="stderr"
  #     level="normal"
-@@ -974,39 +1004,39 @@
+@@ -978,39 +1008,39 @@
  # Your server.                                                        #
  #                                                                     #
  
@@ -775,7 +775,7 @@ index f07bf6e02..9a9bfff11 100644
  
  #-#-#-#-#-#-#-#-#-#-#- INSANE BAN OPTIONS  -#-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1050,7 +1080,7 @@
+@@ -1054,7 +1084,7 @@
  # provide almost all the features of InspIRCd. :)                     #
  #                                                                     #
  # The default does nothing -- we include it for simplicity for you.   #
@@ -784,7 +784,7 @@ index f07bf6e02..9a9bfff11 100644
  
  #-#-#-#-#-#-#-#-#-#-#-# SERVICES CONFIGURATION  #-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1062,7 +1092,7 @@
+@@ -1066,7 +1096,7 @@
  #<include file="&dir.config;/services/anope.conf">
  #
  # Atheme users should uncomment this:
@@ -948,7 +948,7 @@ index a5cec0c49..18e7dfb3b 100644
 -<die reason="Using links.conf without editing it is a security risk">
 +#<die reason="Using links.conf without editing it is a security risk">
 diff --git a/docs/conf/modules.conf b/docs/conf/modules.conf
-index 0c156a56b..bc9fca4e3 100644
+index 4c72c07fc..5eb8080cf 100644
 --- a/docs/conf/modules.conf
 +++ b/docs/conf/modules.conf
 @@ -139,7 +139,7 @@
@@ -978,7 +978,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # CBAN module: Lets you disallow channels from being used at runtime.
-@@ -344,16 +344,16 @@
+@@ -349,16 +349,16 @@
  # characters in the channel name such as bold, colorcodes, etc. which
  # can be quite annoying and allow users to on occasion have a channel
  # that looks like the name of another channel on the network.
@@ -999,7 +999,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Channelban: Implements extended ban j:, which stops anyone already
-@@ -673,7 +673,7 @@
+@@ -678,7 +678,7 @@
  # Connectban: Provides IP connection throttling. Any IP range that
  # connects too many times (configurable) in an hour is Z-lined for a
  # (configurable) duration, and their count resets to 0.
@@ -1008,7 +1008,7 @@ index 0c156a56b..bc9fca4e3 100644
  #
  # threshold - The number of connections which are allowed before a user
  #             is connectbanned. Defaults to 10.
-@@ -696,13 +696,13 @@
+@@ -701,13 +701,13 @@
  # splitwait - The time period to wait after a netsplit before enforcing
  #             connection bans. Defaults to 2 minutes.
  #
@@ -1029,7 +1029,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Connection throttle module.
-@@ -841,7 +841,7 @@
+@@ -846,7 +846,7 @@
  # Deaf module: Adds support for user modes +d and +D:
  # d - deaf to channel messages and notices.
  # D - deaf to user messages and notices.
@@ -1038,16 +1038,16 @@ index 0c156a56b..bc9fca4e3 100644
  #
  #-#-#-#-#-#-#-#-#-#-#-#-  DEAF CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-#
  #  bypasschars        - Characters that bypass deaf to a regular user.
-@@ -1154,7 +1154,7 @@
+@@ -1165,7 +1165,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Hide chans module: Allows users to hide their channels list from non-
  # opers by setting user mode +I on themselves.
 -#<module name="hidechans">
 +<module name="hidechans">
  #
- # This mode can optionally prevent opers from seeing channels on a +I
- # user, for more privacy if set to yes.
-@@ -1194,7 +1194,7 @@
+ # affectsopers: Whether server operators with the users/auspex privilege
+ #               are exempt from the hideoper (+I) mode. Defaults to no.
+@@ -1210,7 +1210,7 @@
  # Hide oper module: Allows opers to hide their oper status from non-
  # opers by setting user mode +H on themselves.
  # This module is oper-only.
@@ -1056,7 +1056,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # hostcycle module: Sends a fake part and join for users when their
-@@ -1343,7 +1343,7 @@
+@@ -1359,7 +1359,7 @@
  # extension which allows capable clients to get an acknowledgement when
  # their messages are delivered and learn what modifications, if any,
  # were applied to them.
@@ -1065,7 +1065,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # IRCv3 invite-notify module: Provides the invite-notify IRCv3
-@@ -1420,11 +1420,11 @@
+@@ -1436,11 +1436,11 @@
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Anti auto rejoin: Adds support for prevention of auto-rejoin (+J).
@@ -1079,7 +1079,7 @@ index 0c156a56b..bc9fca4e3 100644
  #
  # This setting specifies what to do when someone successfully /KNOCKs.
  # If set to "notice", then a NOTICE will be sent to the channel.
-@@ -1433,7 +1433,7 @@
+@@ -1449,7 +1449,7 @@
  # If set to "numeric" then a 710 numeric will be sent to the channel.
  # This allows easier scripting but not all clients support it.
  # If set to "both" then (surprise!) both will be sent.
@@ -1088,7 +1088,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # LDAP module: Allows other SQL modules to access a LDAP database
-@@ -1615,7 +1615,7 @@
+@@ -1631,7 +1631,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Message flood module: Adds message/notice flood protection via
  # channel mode +f.
@@ -1097,7 +1097,7 @@ index 0c156a56b..bc9fca4e3 100644
  #
  # The weight to give each message type. TAGMSGs are considered to be
  # 1/5 of a NOTICE or PRIVMSG to avoid users being accidentally flooded
-@@ -1697,7 +1697,7 @@
+@@ -1713,7 +1713,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # No CTCP module: Adds the channel mode +C and user mode +T to block
  # CTCPs and extban 'C' to block CTCPs sent by specific users.
@@ -1106,7 +1106,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # No kicks module: Adds the +Q channel mode and the Q: extban to deny
-@@ -1841,10 +1841,10 @@
+@@ -1857,10 +1857,10 @@
  # command.
  #<module name="passforward">
  
@@ -1119,7 +1119,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  	# forwardmsg: Message to send to users when forwarding their
  	# password. You can use the following variables in this message:
-@@ -1853,10 +1853,10 @@
+@@ -1869,10 +1869,10 @@
  	# %nickrequired%  The nickname of the service to forward to (see above).
  	# %pass%          The password to forward to services.
  	# %user%          The username of the authenticating user.
@@ -1132,7 +1132,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Password hash module: Allows hashed passwords to be used.
-@@ -1972,7 +1972,7 @@
+@@ -1988,7 +1988,7 @@
  # Optional - If you specify to use the randquote module, then specify #
  # below the path to the quotes file.                                  #
  #                                                                     #
@@ -1141,7 +1141,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Real name ban: Implements two extended bans:                        #
-@@ -2433,7 +2433,7 @@
+@@ -2450,7 +2450,7 @@
  #
  # This file has all the information about server links and services servers.
  # You *MUST* edit it if you intend to link servers.
@@ -1150,7 +1150,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SQL authentication module: Allows IRCd connections to be tied into
-@@ -2501,12 +2501,33 @@
+@@ -2518,12 +2518,33 @@
  # if enabled. You must answer 'yes' in ./configure when asked or symlink
  # the source for this module from the directory src/modules/extra, if
  # you want to enable this, or it will not load.
@@ -1185,7 +1185,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # TLS info module: Allows users to retrieve information about other
-@@ -2522,7 +2543,7 @@
+@@ -2539,7 +2560,7 @@
  # For how to use the oper features, please see the first
  # example <oper> tag in opers.conf.
  #
@@ -1194,7 +1194,7 @@ index 0c156a56b..bc9fca4e3 100644
  #
  #-#-#-#-#-#-#-#-#-#-#-#- SSLINFO CONFIGURATION -#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -2551,11 +2572,11 @@
+@@ -2568,11 +2589,11 @@
  #                                                                     #
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  #
@@ -1211,7 +1211,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # TLS mode module: Adds support for TLS-only channels via the '+z'
-@@ -2564,7 +2585,7 @@
+@@ -2581,7 +2602,7 @@
  #
  # Does not do anything useful without a working TLS module and the
  # sslinfo module (see below).
@@ -1220,7 +1220,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # TLS rehash signal module: Allows the TLS modules to be rehashed by
-@@ -2579,7 +2600,7 @@
+@@ -2596,7 +2617,7 @@
  #
  # Users of binary packages should consult the documentation for their
  # package to find out whether this module is available.
@@ -1229,7 +1229,7 @@ index 0c156a56b..bc9fca4e3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # StartTLS module: Adds support for the IRCv3 tls capability which    #
-@@ -2622,7 +2643,7 @@
+@@ -2639,7 +2660,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Uninvite module: Adds the /UNINVITE command which lets users remove
  # pending invites from channels without waiting for the user to join.
@@ -1244,7 +1244,7 @@ rename from docs/conf/modules/openssl.conf.example
 rename to docs/conf/modules/openssl.conf
 diff --git a/docs/conf/opermotd.txt b/docs/conf/opermotd.txt
 deleted file mode 100644
-index b7a8eafe6..000000000
+index aef683dac..000000000
 --- a/docs/conf/opermotd.txt
 +++ /dev/null
 @@ -1,37 +0,0 @@
@@ -1274,7 +1274,7 @@ index b7a8eafe6..000000000
 -      +-- To change this see \bopermotd.txt        \x --+
 -      |                                             |
 -      |   * \bWeb:\x https://www.inspircd.org           |
--      |   * \bIRC:\x irc.chatspike.net #inspircd        |
+-      |   * \bIRC:\x ircs://irc.teranova.net/inspircd   |
 -      |   * \bDocs:\x https://docs.inspircd.org         |
 -      |   * \bIssues:\x https://git.io/JIuYi            |
 -      |   * \bDiscussions:\x https://git.io/JIuYv       |
@@ -1435,10 +1435,10 @@ index 89f3c4f64..800b8bea4 100644
 +#<die reason="Using opers.conf without editing it is a security risk">
 diff --git a/docs/conf/providers/dronebl.conf b/docs/conf/providers/dronebl.conf
 deleted file mode 100644
-index 12c25fcda..000000000
+index 5f3b289b1..000000000
 --- a/docs/conf/providers/dronebl.conf
 +++ /dev/null
-@@ -1,11 +0,0 @@
+@@ -1,87 +0,0 @@
 -# This file contains configuration for using the dnsbl module with
 -# the DroneBL DNSBL. See https://dronebl.org/ for more information on
 -# DroneBL.
@@ -1449,13 +1449,89 @@ index 12c25fcda..000000000
 -       records="3,5,6,7,8,9,10,11,13,14,15,16,17,19"
 -       action="zline"
 -       duration="7d"
--       reason="You are listed in DroneBL. Please visit https://dronebl.org/lookup.do?ip=%ip%&amp;network=%network.url% for more information.">
+-       reason="You are listed in DroneBL: %reason%. Please visit https://dronebl.org/lookup.do?ip=%ip%&amp;network=%network.url% for more information.">
+-
+-<dnsblreply name="DroneBL"
+-            reply="1"
+-            description="Testing">
+-
+-<dnsblreply name="DroneBL"
+-            reply="2"
+-            description="Sample data used for heuristical analysis">
+-
+-<dnsblreply name="DroneBL"
+-            reply="3"
+-            description="IRC spam drone (litmus/sdbot/fyle)">
+-
+-<dnsblreply name="DroneBL"
+-            reply="5"
+-            description="Bottler">
+-
+-<dnsblreply name="DroneBL"
+-            reply="6"
+-            description="Unknown worm or spambot">
+-
+-<dnsblreply name="DroneBL"
+-            reply="7"
+-            description="DDoS drone">
+-
+-<dnsblreply name="DroneBL"
+-            reply="8"
+-            description="Open SOCKS proxy">
+-
+-<dnsblreply name="DroneBL"
+-            reply="9"
+-            description="Open HTTP proxy">
+-
+-<dnsblreply name="DroneBL"
+-            reply="10"
+-            description="Proxychain">
+-
+-<dnsblreply name="DroneBL"
+-            reply="11"
+-            description="Webpage proxy">
+-
+-<dnsblreply name="DroneBL"
+-            reply="12"
+-            description="Open DNS resolver">
+-
+-<dnsblreply name="DroneBL"
+-            reply="13"
+-            description="Automated dictionary attack">
+-
+-<dnsblreply name="DroneBL"
+-            reply="14"
+-            description="Open WINGATE proxy">
+-
+-<dnsblreply name="DroneBL"
+-            reply="15"
+-            description="Compromised router / gateway">
+-
+-<dnsblreply name="DroneBL"
+-            reply="16"
+-            description="Autorooting worm">
+-
+-<dnsblreply name="DroneBL"
+-            reply="17"
+-            description="Automatically determined botnet IP">
+-
+-<dnsblreply name="DroneBL"
+-            reply="18"
+-            description="Possibly compromised DNS/MX type hostname detected on IRC">
+-
+-<dnsblreply name="DroneBL"
+-            reply="19"
+-            description="Abused VPN service">
+-
+-<dnsblreply name="DroneBL"
+-            reply="255"
+-            description="Uncategorized threat">
 diff --git a/docs/conf/providers/efnet-rbl.conf b/docs/conf/providers/efnet-rbl.conf
 deleted file mode 100644
-index 78dce53cb..000000000
+index 0130951dc..000000000
 --- a/docs/conf/providers/efnet-rbl.conf
 +++ /dev/null
-@@ -1,11 +0,0 @@
+@@ -1,31 +0,0 @@
 -# This file contains configuration for using the dnsbl module with
 -# the EFnet RBL. See https://rbl.efnetrbl.org/ for more information
 -# on the EFnet RBL.
@@ -1466,7 +1542,27 @@ index 78dce53cb..000000000
 -       records="1,2,3,4,5"
 -       action="zline"
 -       duration="7d"
--       reason="You are listed in the EFnet RBL. Please visit https://rbl.efnetrbl.org/?i=%ip% for more information.">
+-       reason="You are listed in the EFnet RBL: %reason%. Please visit https://rbl.efnetrbl.org/?i=%ip% for more information.">
+-
+-<dnsblreply name="EFnet RBL"
+-            reply="1"
+-            description="Open proxy">
+-
+-<dnsblreply name="EFnet RBL"
+-            reply="2"
+-            description="Spamtrap score of 666">
+-
+-<dnsblreply name="EFnet RBL"
+-            reply="3"
+-            description="Spamtrap score of 50+">
+-
+-<dnsblreply name="EFnet RBL"
+-            reply="4"
+-            description="Tor exit node">
+-
+-<dnsblreply name="EFnet RBL"
+-            reply="5"
+-            description="Drones or flooding">
 diff --git a/docs/conf/providers/irccloud.conf b/docs/conf/providers/irccloud.conf
 deleted file mode 100644
 index 9cc6470d3..000000000
@@ -1505,10 +1601,10 @@ index 9cc6470d3..000000000
 -#       suffix=".irccloud.com">
 diff --git a/docs/conf/providers/torexit.conf b/docs/conf/providers/torexit.conf
 deleted file mode 100644
-index abc35c696..000000000
+index 1be1a5b40..000000000
 --- a/docs/conf/providers/torexit.conf
 +++ /dev/null
-@@ -1,12 +0,0 @@
+@@ -1,16 +0,0 @@
 -# This file contains configuration for using the dnsbl module with
 -# the dan.me.uk Tor exit node DNSBL. See https://www.dan.me.uk/dnsbl
 -# for more information on the dan.me.uk Tor exit node DNSBL.
@@ -1521,6 +1617,10 @@ index abc35c696..000000000
 -       action="zline"
 -       duration="7d"
 -       reason="Tor exit nodes are not allowed on this network. See https://metrics.torproject.org/rs.html#search/%ip% for more information.">
+-
+-<dnsblreply name="torexit.dan.me.uk"
+-            reply="100"
+-            description="Tor exit node">
 diff --git a/docs/conf/services/anope.conf b/docs/conf/services/anope.conf
 deleted file mode 100644
 index 1ddf6ef14..000000000
@@ -1533,5 +1633,5 @@ index 1ddf6ef14..000000000
 -# This file inherits from the generic config to avoid repetition.
 -<include file="&dir.config;/services/generic.conf">
 -- 
-2.44.2
+2.45.2
 

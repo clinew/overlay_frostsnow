@@ -1,4 +1,4 @@
-From 1489fb470a89bbba1078451ace3b6ca5f57e4002 Mon Sep 17 00:00:00 2001
+From 2f4e2e6b8473e03e2114546e8d0a555e4996a14d Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 2/6] Add logging for OpenSSL connections.
@@ -247,5 +247,5 @@ index 4cda94494..68c883a27 100644
  
  		thismod = this;
 -- 
-2.44.2
+2.45.2
 
