@@ -1,4 +1,4 @@
-From caa1b534e48e2801ceb68e0f2c9a7c7496b6504b Mon Sep 17 00:00:00 2001
+From 14ce321e2e08feb1c769d6e83ad3c00ff348cdf9 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 2 Feb 2020 21:58:12 -0800
 Subject: [PATCH 7/7] CotSS configuration
@@ -1325,7 +1325,7 @@ rename from docs/conf/modules/openssl.conf.example
 rename to docs/conf/modules/openssl.conf
 diff --git a/docs/conf/opermotd.txt b/docs/conf/opermotd.txt
 deleted file mode 100644
-index b0d37f385..000000000
+index 398616414..000000000
 --- a/docs/conf/opermotd.txt
 +++ /dev/null
 @@ -1,37 +0,0 @@
@@ -1355,7 +1355,7 @@ index b0d37f385..000000000
 -      +-- To change this see \bopermotd.txt        \x --+
 -      |                                             |
 -      |   * \bWeb:\x https://www.inspircd.org           |
--      |   * \bIRC:\x irc.inspircd.org #inspircd         |
+-      |   * \bIRC:\x ircs://irc.teranova.net/inspircd   |
 -      |   * \bDocs:\x https://docs.inspircd.org         |
 -      |   * \bIssues:\x https://git.io/JIuYi            |
 -      |   * \bDiscussions:\x https://git.io/JIuYv       |
@@ -1649,5 +1649,5 @@ index 6aec5a118..000000000
 -autologin integer NOT NULL DEFAULT 0,
 -active integer NOT NULL DEFAULT 1);
 -- 
-2.44.2
+2.45.2
 

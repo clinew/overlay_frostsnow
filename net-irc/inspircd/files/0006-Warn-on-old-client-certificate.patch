@@ -1,4 +1,4 @@
-From d2774f1967d9235eef1b06a5780cd4ba88ac8b66 Mon Sep 17 00:00:00 2001
+From 8f7f58495eb36beb85dc2d36713c814fad506a49 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 14 Jun 2020 22:28:23 -0700
 Subject: [PATCH 6/7] Warn on old client certificate
@@ -29,5 +29,5 @@ index bc726367b..6d5566356 100644
  			return;
  
 -- 
-2.44.2
+2.45.2
 

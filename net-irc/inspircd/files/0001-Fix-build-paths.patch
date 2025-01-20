@@ -1,4 +1,4 @@
-From e48659c76ef5d951f293785234eb6d32999a91a2 Mon Sep 17 00:00:00 2001
+From 6d242cba515b0e1d98051365038ceb0750d9c98c Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 1/7] Fix build paths
@@ -290,7 +290,7 @@ diff --git a/docs/conf/motd.txt.example b/docs/conf/motd.txt
 similarity index 96%
 rename from docs/conf/motd.txt.example
 rename to docs/conf/motd.txt
-index cd993e9a3..0687a8aa0 100644
+index a441011c1..4673dc0a0 100644
 --- a/docs/conf/motd.txt.example
 +++ b/docs/conf/motd.txt
 @@ -21,7 +21,7 @@
@@ -301,12 +301,12 @@ index cd993e9a3..0687a8aa0 100644
 +      +---- To change this see \bmotd.txt        \x ----+
        |                                             |
        |   * \bWeb:\x https://www.inspircd.org           |
-       |   * \bIRC:\x irc.inspircd.org #inspircd         |
+       |   * \bIRC:\x ircs://irc.teranova.net/inspircd   |
 diff --git a/docs/conf/opermotd.txt.example b/docs/conf/opermotd.txt
 similarity index 96%
 rename from docs/conf/opermotd.txt.example
 rename to docs/conf/opermotd.txt
-index b0d9b4816..b0d37f385 100644
+index 5461d7f40..398616414 100644
 --- a/docs/conf/opermotd.txt.example
 +++ b/docs/conf/opermotd.txt
 @@ -21,7 +21,7 @@
@@ -317,7 +317,7 @@ index b0d9b4816..b0d37f385 100644
 +      +-- To change this see \bopermotd.txt        \x --+
        |                                             |
        |   * \bWeb:\x https://www.inspircd.org           |
-       |   * \bIRC:\x irc.inspircd.org #inspircd         |
+       |   * \bIRC:\x ircs://irc.teranova.net/inspircd   |
 diff --git a/docs/conf/opers.conf.example b/docs/conf/opers.conf
 similarity index 99%
 rename from docs/conf/opers.conf.example
@@ -443,5 +443,5 @@ index 47ab10891..32e82d8b4 100644
  GNUmakefile: make/template/main.mk src/version.sh configure @CONFIGURE_CACHE_FILE@
  	./configure --update
 -- 
-2.44.2
+2.45.2
 
