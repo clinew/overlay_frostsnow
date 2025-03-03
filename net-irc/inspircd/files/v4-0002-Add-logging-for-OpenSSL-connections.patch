@@ -1,4 +1,4 @@
-From 8210cda337d4536221168d4eb434cd2a1120c85b Mon Sep 17 00:00:00 2001
+From e69b84c7d1701565189924b64b62f51afc0eec06 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 2/6] Add logging for OpenSSL connections.
@@ -11,10 +11,10 @@ verification.
  2 files changed, 121 insertions(+), 28 deletions(-)
 
 diff --git a/include/modules/ssl.h b/include/modules/ssl.h
-index 1540f6385..800606b40 100644
+index 3d4b459c1..525182228 100644
 --- a/include/modules/ssl.h
 +++ b/include/modules/ssl.h
-@@ -50,6 +50,7 @@ public:
+@@ -49,6 +49,7 @@ public:
  	bool invalid = true;
  	bool unknownsigner = true;
  	bool revoked = false;
@@ -22,7 +22,7 @@ index 1540f6385..800606b40 100644
  	time_t activation = 0;
  	time_t expiration = 0;
  
-@@ -189,6 +190,7 @@ protected:
+@@ -196,6 +197,7 @@ protected:
  	/** Peer TLS certificate, set by the TLS module
  	 */
  	reference<ssl_cert> certificate;
@@ -31,10 +31,10 @@ index 1540f6385..800606b40 100644
  	/** The status of the TLS connection. */
  	Status status = STATUS_NONE;
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index ed0e58f32..e4798a179 100644
+index 4cda94494..68c883a27 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -522,37 +522,88 @@ private:
+@@ -527,37 +527,88 @@ private:
  	SSL* sess;
  	bool data_to_write = false;
  
@@ -43,11 +43,11 @@ index ed0e58f32..e4798a179 100644
 +		if (!cert->exists)
 +			return;
 +		ServerInstance->Logs.Normal(MODNAME,
-+			"%2d s:%s", i, cert->GetDN().c_str());
++			"{}  s:{}", i, cert->GetDN().c_str());
 +		ServerInstance->Logs.Normal(MODNAME,
-+			"   i:%s", cert->GetIssuer().c_str());
++			"   i:{}", cert->GetIssuer().c_str());
 +		ServerInstance->Logs.Normal(MODNAME,
-+			"   fp:%s", cert->GetFingerprint().c_str());
++			"   fp:{}", cert->GetFingerprint().c_str());
 +	}
 +
 +	void PrintChain()
@@ -115,7 +115,7 @@ index ed0e58f32..e4798a179 100644
 +			{
 +				ServerInstance->Logs.Normal(MODNAME,
 +					"Invalid peer certificate chain from "
-+					"'%s' port '%d' ('%s')%s",
++					"'{}' port '{}' ('{}'){}",
 +					addrstr.c_str(), port,
 +					this->certificate->GetError().c_str(),
 +					this->certificate->exists ? ":" : "");
@@ -125,14 +125,14 @@ index ed0e58f32..e4798a179 100644
 +			{
 +				ServerInstance->Logs.Normal(MODNAME,
 +					"Valid peer certificate chain from "
-+					"'%s' port '%d':",
++					"'{}' port '{}':",
 +					addrstr.c_str(), port);
 +				PrintChain();
 +			}
  
  			status = STATUS_OPEN;
  
-@@ -560,10 +611,13 @@ private:
+@@ -565,10 +616,13 @@ private:
  
  			return 1;
  		}
@@ -142,7 +142,7 @@ index ed0e58f32..e4798a179 100644
 -		}
 +		int errerr = ERR_get_error();
 +		ServerInstance->Logs.Normal(MODNAME,
-+			"OpenSSL handshake %s '%s' for '%s' port '%d'",
++			"OpenSSL handshake {} '{}' for '{}' port '{}'",
 +			ret ? "error" : "failure",
 +			errerr ? ERR_error_string(errerr, NULL) : "unknown",
 +			addrstr.c_str(), port);
@@ -150,7 +150,7 @@ index ed0e58f32..e4798a179 100644
  		return -1;
  	}
  
-@@ -577,26 +631,14 @@ private:
+@@ -582,26 +636,14 @@ private:
  		sess = nullptr;
  		certificate = nullptr;
  		status = STATUS_NONE;
@@ -179,12 +179,12 @@ index ed0e58f32..e4798a179 100644
  		if (!SelfSigned)
  		{
  			certinfo->unknownsigner = false;
-@@ -638,8 +680,55 @@ private:
+@@ -646,8 +688,55 @@ private:
  				Duration::ToString(ServerInstance->Time() - certinfo->expiration),
  				Time::ToString(certinfo->expiration));
  		}
 +	}
-+
+ 
 +	void VerifyChain()
 +	{
 +		// Verify leaf peer cert.
@@ -200,7 +200,7 @@ index ed0e58f32..e4798a179 100644
 +			return;
 +		}
 +		certinfo->exists = true;
- 
++
 +		// Unintuitive, but the result only really applies to the whole
 +		// chain, so call it once here rather than once per cert.
 +		certinfo->invalid = (SSL_get_verify_result(sess) != X509_V_OK);
@@ -235,7 +235,7 @@ index ed0e58f32..e4798a179 100644
  	}
  
  	static void GetDNString(X509_NAME* x509name, std::string& out)
-@@ -1014,7 +1103,9 @@ public:
+@@ -1022,7 +1111,9 @@ public:
  		: Module(VF_VENDOR, "Allows TLS encrypted connections using the OpenSSL library.")
  	{
  		// Initialize OpenSSL
@@ -247,5 +247,5 @@ index ed0e58f32..e4798a179 100644
  
  		thismod = this;
 -- 
-2.41.0
+2.45.2
 

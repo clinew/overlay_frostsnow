@@ -1,4 +1,4 @@
-From 3c1c7e6b8499384fc1949c57fdd59ebae9eefcb4 Mon Sep 17 00:00:00 2001
+From b524e2e6f717cf4bf71ea8f15772474fecac032d Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 2 Mar 2018 22:44:32 -0800
 Subject: [PATCH 4/6] m_ssl_openssl Add strong peer cert validation.
@@ -40,7 +40,7 @@ index 000000000..37bff3159
 +	#peer_sigalg="RSA-SHA512"
 +>
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 151f3c3d9..228dceec7 100644
+index b3ee90bd8..7da5e81a0 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -125,6 +125,12 @@ namespace OpenSSL
@@ -115,7 +115,7 @@ index 151f3c3d9..228dceec7 100644
  		long GetDefaultContextOptions() const
  		{
  			return ctx_options;
-@@ -445,11 +503,20 @@ namespace OpenSSL
+@@ -450,11 +508,20 @@ namespace OpenSSL
  			const std::string crlmode = tag->getString("crlmode", "chain", 1);
  			ctx.SetCRL(crlfile, crlpath, crlmode);
  
@@ -136,7 +136,7 @@ index 151f3c3d9..228dceec7 100644
  		const std::string& GetName() const { return name; }
  		SSL* CreateServerSession() { return ctx.CreateServerSession(); }
  		SSL* CreateClientSession() { return clientctx.CreateClientSession(); }
-@@ -680,6 +747,72 @@ private:
+@@ -688,6 +755,72 @@ private:
  				Duration::ToString(ServerInstance->Time() - certinfo->expiration),
  				Time::ToString(certinfo->expiration));
  		}
@@ -210,5 +210,5 @@ index 151f3c3d9..228dceec7 100644
  
  	void VerifyChain()
 -- 
-2.41.0
+2.45.2
 

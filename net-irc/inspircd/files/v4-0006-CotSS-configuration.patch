@@ -1,30 +1,27 @@
-From 2150ef120857ef3dbbe92c1bcc8a093c667a23fe Mon Sep 17 00:00:00 2001
+From f522a8c609a327504abde48e981b2bbe18269c2c Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
-Date: Sun, 2 Feb 2020 21:58:12 -0800
+Date: Fri, 5 Jul 2024 23:12:42 -0700
 Subject: [PATCH 6/6] CotSS configuration
 
 ---
- docs/conf/codepages/ascii.conf                |  37 ----
+ docs/conf/codepages/ascii.conf                |  37 -----
  docs/conf/codepages/iso-8859-1.conf           |  42 -----
  docs/conf/codepages/iso-8859-2.conf           |  60 -------
  docs/conf/codepages/rfc1459.conf              |  41 -----
  docs/conf/codepages/strict-rfc1459.conf       |  40 -----
- docs/conf/filter.conf                         |  80 ---------
- docs/conf/inspircd.conf                       | 164 +++++++++++-------
- docs/conf/links.conf                          |  74 ++++----
- docs/conf/modules.conf                        |  95 ++++++----
+ docs/conf/filter.conf                         |  80 ----------
+ docs/conf/inspircd.conf                       | 148 +++++++++++-------
+ docs/conf/links.conf                          |  75 ++++-----
+ docs/conf/modules.conf                        | 101 +++++++-----
  .../{openssl.conf.example => openssl.conf}    |   0
- docs/conf/opermotd.txt                        |  37 ----
- docs/conf/opers.conf                          |  47 ++---
- docs/conf/providers/dronebl.conf              |  11 --
- docs/conf/providers/efnet-rbl.conf            |  11 --
+ docs/conf/opermotd.txt                        |  37 -----
+ docs/conf/opers.conf                          |  51 +++---
+ docs/conf/providers/dronebl.conf              |  87 ----------
+ docs/conf/providers/efnet-rbl.conf            |  31 ----
  docs/conf/providers/irccloud.conf             |  30 ----
- docs/conf/providers/torexit.conf              |  12 --
- docs/conf/services/anope.conf                 |   9 -
- docs/sql/sqloper/mysql.sql                    |  12 --
- docs/sql/sqloper/pgsql.sql                    |  13 --
- docs/sql/sqloper/sqlite3.sql                  |  10 --
- 20 files changed, 219 insertions(+), 606 deletions(-)
+ docs/conf/providers/torexit.conf              |  16 --
+ docs/conf/services/anope.conf                 |   5 -
+ 17 files changed, 214 insertions(+), 667 deletions(-)
  delete mode 100644 docs/conf/codepages/ascii.conf
  delete mode 100644 docs/conf/codepages/iso-8859-1.conf
  delete mode 100644 docs/conf/codepages/iso-8859-2.conf
@@ -38,9 +35,6 @@ Subject: [PATCH 6/6] CotSS configuration
  delete mode 100644 docs/conf/providers/irccloud.conf
  delete mode 100644 docs/conf/providers/torexit.conf
  delete mode 100644 docs/conf/services/anope.conf
- delete mode 100644 docs/sql/sqloper/mysql.sql
- delete mode 100644 docs/sql/sqloper/pgsql.sql
- delete mode 100644 docs/sql/sqloper/sqlite3.sql
 
 diff --git a/docs/conf/codepages/ascii.conf b/docs/conf/codepages/ascii.conf
 deleted file mode 100644
@@ -87,7 +81,7 @@ index 7c5ecdd85..000000000
 -<cpcase lower="122" upper="90"> # z => Z
 diff --git a/docs/conf/codepages/iso-8859-1.conf b/docs/conf/codepages/iso-8859-1.conf
 deleted file mode 100644
-index 23a5a8621..000000000
+index bfdc4b7f7..000000000
 --- a/docs/conf/codepages/iso-8859-1.conf
 +++ /dev/null
 @@ -1,42 +0,0 @@
@@ -132,10 +126,10 @@ index 23a5a8621..000000000
 -<cpcase lower="222" upper="254"> # þ => Þ
 -
 -# Include the ASCII rules to avoid duplication.
--<include file="/etc/inspircd/codepages/ascii.conf">
+-<include file="&dir.config;/codepages/ascii.conf">
 diff --git a/docs/conf/codepages/iso-8859-2.conf b/docs/conf/codepages/iso-8859-2.conf
 deleted file mode 100644
-index b2d20a95b..000000000
+index 871df05b9..000000000
 --- a/docs/conf/codepages/iso-8859-2.conf
 +++ /dev/null
 @@ -1,60 +0,0 @@
@@ -198,7 +192,7 @@ index b2d20a95b..000000000
 -<cpcase lower="254" upper="222"> # ţ => Ţ
 -
 -# Include the ASCII rules to avoid duplication.
--<include file="/etc/inspircd/codepages/ascii.conf">
+-<include file="&dir.config;/codepages/ascii.conf">
 diff --git a/docs/conf/codepages/rfc1459.conf b/docs/conf/codepages/rfc1459.conf
 deleted file mode 100644
 index 32f453044..000000000
@@ -379,17 +373,17 @@ index fe95687f5..000000000
 -# <exemptfromfilter> tags are only for exempting messages sent *to* the
 -# configured targets.
 diff --git a/docs/conf/inspircd.conf b/docs/conf/inspircd.conf
-index 81b50bf5f..961ce3a22 100644
+index 728bf113c..0e8101c26 100644
 --- a/docs/conf/inspircd.conf
 +++ b/docs/conf/inspircd.conf
 @@ -68,8 +68,8 @@
  #                                                                     #
  # See https://docs.inspircd.org/4/configuration/#define for a list of #
  # predefined config variables.                                        #
--<define name="bindip" value="1.2.2.3">
--<define name="localips" value="&bindip;/24">
-+#<define name="bindip" value="1.2.2.3">
-+#<define name="localips" value="&bindip;/24">
+-<define name="networkDomain" value="example.com">
+-<define name="networkName" value="ExampleNet">
++<define name="networkDomain" value="frostsnow.net">
++<define name="networkName" value="CotSS">
  
  #-#-#-#-#-#-#-#-#-#-#-#-  SERVER DESCRIPTION  -#-#-#-#-#-#-#-#-#-#-#-#-
  #                                                                     #
@@ -397,24 +391,15 @@ index 81b50bf5f..961ce3a22 100644
  <server
          # name: Hostname of your server. Does not need to resolve, but
          # does need to be correct syntax (something.somethingelse.tld).
--        name="penguin.omega.example.org"
-+        name="frostsnow.net"
+-        name="irc.&networkDomain;"
++        name="&networkDomain;"
  
          # description: Server description. Spaces are allowed.
--        description="Waddle World"
-+        description="Hesse"
+-        description="&networkName; IRC server"
++        description="&networkName; IRC server (Hesse)"
  
          # id: The SID to use for this server. This should not be uncommented
          # unless there is a SID conflict. This must be three characters long.
-@@ -92,7 +92,7 @@
- 
-         # network: Network name given on connect to clients.
-         # Should be the same on all servers on the network.
--        network="Omega">
-+        network="CotSS">
- 
- 
- #-#-#-#-#-#-#-#-#-#-#-#-   ADMIN INFORMATION   -#-#-#-#-#-#-#-#-#-#-#-#
 @@ -102,14 +102,14 @@
  
  <admin
@@ -427,12 +412,12 @@ index 81b50bf5f..961ce3a22 100644
  
         # email: An email address at which the server admin(s) can be contacted
         #        in case of issues.
--       email="irc@example.com">
+-       email="irc@&networkDomain;">
 +       email="/msg HelpServ help">
  
  
  #-#-#-#-#-#-#-#-#-#-#-#-   PORT CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-
-@@ -164,7 +164,7 @@
+@@ -163,7 +163,7 @@
        free="no">
  
  # Plaintext listener that binds on a TCP/IP endpoint:
@@ -441,16 +426,16 @@ index 81b50bf5f..961ce3a22 100644
  
  
  # Listener that binds on a UNIX endpoint (not supported on Windows):
-@@ -206,6 +206,7 @@
- # completely link-compatible and can be used alongside each other on each end
- # of the link without any significant issues.
+@@ -206,7 +206,6 @@
+ # link-compatible and can be used alongside each other on each end of the link
+ # without any significant issues.
  
-+<bind address="127.0.0.1" port="7000" type="servers">
- 
+-
  #-#-#-#-#-#-#-#-#-#-  CONNECTIONS CONFIGURATION  -#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -231,29 +232,29 @@
- #<include file="/etc/inspircd/providers/irccloud.conf">
+ #   This is where you can configure which connections are allowed     #
+@@ -231,29 +230,29 @@
+ #<include file="&dir.config;/providers/irccloud.conf">
  
  # A connect class with <connect:deny> set denies connections from the specified host/IP range.
 -<connect
@@ -486,7 +471,7 @@ index 81b50bf5f..961ce3a22 100644
  
           # hash: the hash function this password is hashed with. Requires the
           # module for the selected function (bcrypt, md5, sha1, or sha256) and
-@@ -265,30 +266,30 @@
+@@ -265,30 +264,30 @@
           #hash="bcrypt"
  
           # password: Password to use for this block/user(s)
@@ -524,7 +509,7 @@ index 81b50bf5f..961ce3a22 100644
  
           # useconnectban: Defines if users in this class should be exempt from connectban limits.
           # This setting only has effect when the connectban module is loaded.
-@@ -305,7 +306,7 @@
+@@ -305,7 +304,7 @@
           # useident: Whether to try to look up the real username of users in this class using
           # the RFC 1413 identification protocol.
           # This setting only has effect when the ident module is loaded.
@@ -533,7 +518,7 @@ index 81b50bf5f..961ce3a22 100644
  
           # usests: Whether a STS policy should be advertised to users in this class.
           # This setting only has effect when the ircv3_sts module is loaded.
-@@ -316,14 +317,14 @@
+@@ -316,14 +315,14 @@
           #webirc="name"
  
           # limit: How many users are allowed in this class
@@ -550,8 +535,8 @@ index 81b50bf5f..961ce3a22 100644
  
           # requireident: Require that users of this block have a valid ident response.
           # Requires the ident module to be loaded.
-@@ -362,11 +363,33 @@
-          # Underline:     \u
+@@ -369,11 +368,33 @@
+          #
           # See https://defs.ircdocs.horse/info/formatting.html for more information
           # on client support for formatting characters.
 -         motd="secretmotd"
@@ -586,7 +571,7 @@ index 81b50bf5f..961ce3a22 100644
  
  <connect
           # name: Name to use for this connect block. Mainly used for
-@@ -380,7 +403,7 @@
+@@ -387,7 +408,7 @@
  
           # maxchans: Maximum number of channels a user in this class
           # can be in at one time.
@@ -595,7 +580,7 @@ index 81b50bf5f..961ce3a22 100644
  
           # timeout: How long the server will wait before disconnecting
           # a user if they do not do anything on connect.
-@@ -389,7 +412,7 @@
+@@ -396,7 +417,7 @@
           timeout="20"
  
           # pingfreq: How often the server tries to ping connecting clients.
@@ -604,7 +589,7 @@ index 81b50bf5f..961ce3a22 100644
  
           # hardsendq: maximum amount of data allowed in a client's send queue
           # before they are dropped. Keep this value higher than the length of
-@@ -412,7 +435,7 @@
+@@ -419,7 +440,7 @@
           #
           # If you are not using fakelag, this should be at least 20 to avoid excess flood kills
           # from processing some commands.
@@ -613,7 +598,7 @@ index 81b50bf5f..961ce3a22 100644
  
           # commandrate: This specifies the maximum rate that commands can be processed.
           # If commands are sent more rapidly, the user's penalty will increase and they will
-@@ -437,7 +460,7 @@
+@@ -444,7 +465,7 @@
  
           # resolvehostnames: If disabled, no DNS lookups will be performed on connecting users
           # in this class. This can save a lot of resources on very busy servers.
@@ -622,12 +607,12 @@ index 81b50bf5f..961ce3a22 100644
  
           # useident: Whether to try to look up the real username of users in this class using
           # the RFC 1413 identification protocol.
-@@ -456,8 +479,15 @@
+@@ -463,8 +484,15 @@
           # user modes. The example below sets user modes c (deaf_commonchans)
           # and x (cloak) which require the commonchans and cloak modules.
           # This setting only has effect when the conn_umodes module is loaded.
 -         modes="+cx">
-+         modes="+I">
++         modes="+I"
  
 +         # requiressl: Require that users of this block use an SSL connection.
 +         # This can also be set to "trusted", as to only accept certificates
@@ -639,20 +624,16 @@ index 81b50bf5f..961ce3a22 100644
  
  
  #-#-#-#-#-#-#-#-#-#-#-#-  CIDR CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-
-@@ -487,7 +517,11 @@
+@@ -494,7 +522,7 @@
  
  # This file has all the information about oper classes, types and o:lines.
  # You *MUST* edit it.
--#<include file="/etc/inspircd/opers.conf">
-+<include file="/etc/inspircd/opers.conf">
-+
-+# This file has all the information about server links and ulined servers.
-+# You *MUST* edit it if you intend to link servers.
-+<include file="/etc/inspircd/links.conf">
+-#<include file="&dir.config;/opers.conf">
++<include file="&dir.config;/opers.conf">
  
  #-#-#-#-#-#-#-#-#-#-  MISCELLANEOUS CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -506,7 +540,7 @@
+@@ -513,7 +541,7 @@
  # If these values are not defined, InspIRCd uses the default DNS resolver
  # of your system.
  
@@ -661,7 +642,7 @@ index 81b50bf5f..961ce3a22 100644
       # server: DNS server to use to attempt to resolve IP's to hostnames.
       # in most cases, you won't need to change this, as inspircd will
       # automatically detect the nameserver depending on /etc/resolv.conf
-@@ -517,7 +551,8 @@
+@@ -524,7 +552,8 @@
       # server="127.0.0.1"
  
       # timeout: time to wait to try to resolve DNS/hostname.
@@ -671,16 +652,7 @@ index 81b50bf5f..961ce3a22 100644
  
  # An example of using an IPv6 nameserver
  #<dns server="::1" timeout="5">
-@@ -532,7 +567,7 @@
- # default of 'inspircd.pid' is used.                                  #
- #                                                                     #
- 
--#<pid file="/var/run/inspircd/inspircd.pid">
-+<pid file="/var/run/inspircd/inspircd.pid">
- 
- #-#-#-#-#-#-#-#-#-#-#-#-#- LIST MODE LIMITS #-#-#-#-#-#-#-#-#-#-#-#-#-#
- #                                                                     #
-@@ -564,19 +599,19 @@
+@@ -571,19 +600,19 @@
  <options
           # prefixquit: What (if anything) users' quit messages
           # should be prefixed with.
@@ -704,21 +676,16 @@ index 81b50bf5f..961ce3a22 100644
  
           # fixedquit: Set all users' quit messages to this value.
           #fixedquit=""
-@@ -607,11 +642,11 @@
+@@ -614,7 +643,7 @@
           # defaultbind: Sets the default for <bind> tags without an address. Choices are
           # ipv4 or ipv6; if not specified, IPv6 will be used if your system has support,
           # falling back to IPv4 otherwise.
 -         defaultbind="auto"
 +         defaultbind="ipv4"
  
-          # hostintopic: If enabled, channels will show the host of the topic setter
-          # in the topic. If set to no, it will only show the nick of the topic setter.
--         hostintopic="yes"
-+         hostintopic="no"
- 
-          # pingwarning: If a server does not respond to a ping within this period,
-          # it will send a notice to opers with snomask +l informing that the server
-@@ -619,7 +654,7 @@
+          # maskinlist: If enabled then channels will show the nick!user@host of a list
+          # mode setter in the mode list instead of just the nick of the list mode setter.
+@@ -630,7 +659,7 @@
           pingwarning="15"
  
           # serverpingfreq: How often pings are sent between servers.
@@ -727,16 +694,16 @@ index 81b50bf5f..961ce3a22 100644
  
           # splitwhois: Whether to split private/secret channels from normal channels
           # in WHOIS responses. Possible values for this are:
-@@ -638,7 +673,7 @@
+@@ -649,7 +678,7 @@
  
           # xlinemessage: This is the text that is sent to a user when they are
           # banned from the server.
--         xlinemessage="You're banned! Email irc@example.com with the ERROR line below for help."
+-         xlinemessage="You're banned! Email irc@&networkDomain; with the ERROR line below for help."
 +         xlinemessage="You're banned."
  
-           # xlinequit: The quit message to show to opers and affected users when
-           # a user is [KGZ]-lined. The variables you can use in this are:
-@@ -796,7 +831,7 @@
+          # xlinequit: The quit message to show to opers and affected users when
+          # a user is [KGZ]-lined. The variables you can use in this are:
+@@ -811,7 +840,7 @@
            #publicxlinequit="%fulltype%"
  
            # hidekills: If defined, replaces who executed a /KILL with a custom string.
@@ -745,26 +712,17 @@ index 81b50bf5f..961ce3a22 100644
  
            # hideservicekills: Hide kills from clients of services servers from server notices.
            hideservicekills="yes"
-@@ -919,7 +954,8 @@
+@@ -934,7 +963,8 @@
  <log method="file"
       level="normal"
       type="* -USERINPUT -USEROUTPUT"
 -     target="inspircd.log">
-+     target="/var/log/inspircd/ircd.log"
++     target="inspircd.log"
 +     flush="1">
  
  #<log method="stderr"
  #     level="normal"
-@@ -949,7 +985,7 @@
-         # before being pruned. Time may be specified in seconds,
-         # or in the following format: 1y2w3d4h5m6s. Minimum is
-         # 1 hour.
--        maxkeep="3d">
-+        maxkeep="1w">
- 
- #-#-#-#-#-#-#-#-#-#-#-#-#-#-  BAN OPTIONS  -#-#-#-#-#-#-#-#-#-#-#-#-#-#
- #                                                                     #
-@@ -958,39 +994,39 @@
+@@ -978,39 +1008,39 @@
  # Your server.                                                        #
  #                                                                     #
  
@@ -817,37 +775,29 @@ index 81b50bf5f..961ce3a22 100644
  
  #-#-#-#-#-#-#-#-#-#-#- INSANE BAN OPTIONS  -#-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1034,7 +1070,7 @@
+@@ -1054,7 +1084,7 @@
  # provide almost all the features of InspIRCd. :)                     #
  #                                                                     #
  # The default does nothing -- we include it for simplicity for you.   #
--#<include file="/etc/inspircd/modules.conf">
-+<include file="/etc/inspircd/modules.conf">
+-#<include file="&dir.config;/modules.conf">
++<include file="&dir.config;/modules.conf">
  
  #-#-#-#-#-#-#-#-#-#-#-# SERVICES CONFIGURATION  #-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1043,13 +1079,13 @@
- # exemptions for services pseudoclients:                              #
- #
- # Anope users should uncomment this:
--#<include file="/etc/inspircd/aliases/anope.conf">
-+#<include file="/etc/inspircd/services/anope.conf">
+@@ -1066,7 +1096,7 @@
+ #<include file="&dir.config;/services/anope.conf">
  #
  # Atheme users should uncomment this:
--#<include file="/etc/inspircd/aliases/atheme.conf">
-+<include file="/etc/inspircd/services/atheme.conf">
+-#<include file="&dir.config;/services/atheme.conf">
++<include file="&dir.config;/services/atheme.conf">
  #
  # Users of other services should uncomment this:
--#<include file="/etc/inspircd/aliases/generic.conf">
-+#<include file="/etc/inspircd/services/generic.conf">
- 
- #########################################################################
- #                                                                       #
+ #<include file="&dir.config;/services/generic.conf">
 diff --git a/docs/conf/links.conf b/docs/conf/links.conf
-index cd5691f8e..bfaee7035 100644
+index a5cec0c49..18e7dfb3b 100644
 --- a/docs/conf/links.conf
 +++ b/docs/conf/links.conf
-@@ -7,15 +7,15 @@
+@@ -7,15 +7,16 @@
  #                                                                     #
  
  # TLS listener that binds on a TCP/IP endpoint:
@@ -859,6 +809,7 @@ index cd5691f8e..bfaee7035 100644
 +#      port="7005"
 +#      type="servers"
 +#      sslprofile="Servers">
++<bind address="127.0.0.1" port="7000" type="servers">
  
  # Plaintext listener that binds on a TCP/IP endpoint:
 -<bind address=""
@@ -870,7 +821,7 @@ index cd5691f8e..bfaee7035 100644
  
  
  #-#-#-#-#-#-#-#-#-#-#-  SERVER LINK CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
-@@ -37,11 +37,11 @@
+@@ -37,11 +38,11 @@
  <link
        # name: The name of the remote server. This must match
        # the <server:name> value of the remote server.
@@ -884,7 +835,7 @@ index cd5691f8e..bfaee7035 100644
  
        # port: The port to connect to the server on.
        # It must be bound as a server port on the other server.
-@@ -49,7 +49,7 @@
+@@ -49,7 +50,7 @@
  
        # allowmask: Range of IP addresses to allow for this link.
        # Can be a CIDR (see example).
@@ -893,25 +844,25 @@ index cd5691f8e..bfaee7035 100644
  
        # timeout: If defined, this option defines how long the server
        # will wait to consider the connect attempt failed and try the
-@@ -67,7 +67,7 @@
-       # You will need to load the ssl_openssl module for OpenSSL, ssl_gnutls
-       # for GnuTLS and ssl_mbedtls for mbedTLS. The server port that you
-       # connect to must be capable of accepting this type of connection.
+@@ -66,7 +67,7 @@
+       # You will need to load the ssl_openssl module for OpenSSL and ssl_gnutls
+       # for GnuTLS. The server port that you connect to must be capable of
+       # accepting this type of connection.
 -      sslprofile="Servers"
 +      #sslprofile="Servers"
  
        # fingerprint: If defined, this option will force servers to be
        # authenticated using TLS certificate fingerprints. See
-@@ -76,7 +76,7 @@
+@@ -75,7 +76,7 @@
        #fingerprint=""
  
        # bind: Local IP address to bind to.
 -      bind="1.2.3.4"
-+      #bind="127.0.0.1"
++      bind="127.0.0.1"
  
        # statshidden: Defines if IP is shown to opers when
        # /STATS c is invoked.
-@@ -84,50 +84,50 @@
+@@ -83,50 +84,50 @@
  
        # hidden: If this is set to yes, this server and its "child"
        # servers will not be shown when users do a /MAP or /LINKS.
@@ -985,7 +936,7 @@ index cd5691f8e..bfaee7035 100644
  
  
  #-#-#-#-#-#-#-#-#-#-#-# SERVICES  CONFIGURATION #-#-#-#-#-#-#-#-#-#-#-#-#
-@@ -139,8 +139,8 @@
+@@ -138,8 +139,8 @@
  # not generate quit and connect notices, which can cut down on noise    #
  # to opers on the network.                                              #
  #                                                                       #
@@ -997,19 +948,10 @@ index cd5691f8e..bfaee7035 100644
 -<die reason="Using links.conf without editing it is a security risk">
 +#<die reason="Using links.conf without editing it is a security risk">
 diff --git a/docs/conf/modules.conf b/docs/conf/modules.conf
-index 85a92009f..101aad621 100644
+index 4c72c07fc..5eb8080cf 100644
 --- a/docs/conf/modules.conf
 +++ b/docs/conf/modules.conf
-@@ -46,7 +46,7 @@
- # function without this module but when it is loaded their features will
- # be enhanced (for example the addition of HMAC authentication).
- #
--#<module name="sha2">
-+<module name="sha256">
- 
- #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
- # Abbreviation module: Provides the ability to abbreviate commands a-la
-@@ -162,7 +162,7 @@
+@@ -139,7 +139,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Allowinvite module: Gives channel mode +A to allow all users to use
  # /INVITE, and extban A to deny invite from specific masks.
@@ -1018,7 +960,7 @@ index 85a92009f..101aad621 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Alltime module: Shows time on all connected servers at once.
-@@ -271,7 +271,7 @@
+@@ -247,7 +247,7 @@
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Block color module: Blocking color-coded messages with chan mode +c.
@@ -1027,7 +969,16 @@ index 85a92009f..101aad621 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Botmode module: Adds the user mode +B. If set on a user, it will
-@@ -429,16 +429,16 @@
+@@ -275,7 +275,7 @@
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # CAP module: Provides the CAP negotiation mechanism required by many
+ # other modules. It is strongly recommended that you load this.
+-#<module name="cap">
++<module name="cap">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # CBAN module: Lets you disallow channels from being used at runtime.
+@@ -349,16 +349,16 @@
  # characters in the channel name such as bold, colorcodes, etc. which
  # can be quite annoying and allow users to on occasion have a channel
  # that looks like the name of another channel on the network.
@@ -1048,7 +999,7 @@ index 85a92009f..101aad621 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Channelban: Implements extended ban j:, which stops anyone already
-@@ -782,7 +782,7 @@
+@@ -678,7 +678,7 @@
  # Connectban: Provides IP connection throttling. Any IP range that
  # connects too many times (configurable) in an hour is Z-lined for a
  # (configurable) duration, and their count resets to 0.
@@ -1057,7 +1008,7 @@ index 85a92009f..101aad621 100644
  #
  # threshold - The number of connections which are allowed before a user
  #             is connectbanned. Defaults to 10.
-@@ -805,13 +805,13 @@
+@@ -701,13 +701,13 @@
  # splitwait - The time period to wait after a netsplit before enforcing
  #             connection bans. Defaults to 2 minutes.
  #
@@ -1078,7 +1029,7 @@ index 85a92009f..101aad621 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Connection throttle module.
-@@ -902,7 +902,7 @@
+@@ -846,7 +846,7 @@
  # Deaf module: Adds support for user modes +d and +D:
  # d - deaf to channel messages and notices.
  # D - deaf to user messages and notices.
@@ -1087,16 +1038,16 @@ index 85a92009f..101aad621 100644
  #
  #-#-#-#-#-#-#-#-#-#-#-#-  DEAF CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-#
  #  bypasschars        - Characters that bypass deaf to a regular user.
-@@ -1155,7 +1155,7 @@
+@@ -1165,7 +1165,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Hide chans module: Allows users to hide their channels list from non-
  # opers by setting user mode +I on themselves.
 -#<module name="hidechans">
 +<module name="hidechans">
  #
- # This mode can optionally prevent opers from seeing channels on a +I
- # user, for more privacy if set to yes.
-@@ -1195,7 +1195,7 @@
+ # affectsopers: Whether server operators with the users/auspex privilege
+ #               are exempt from the hideoper (+I) mode. Defaults to no.
+@@ -1210,7 +1210,7 @@
  # Hide oper module: Allows opers to hide their oper status from non-
  # opers by setting user mode +H on themselves.
  # This module is oper-only.
@@ -1105,7 +1056,7 @@ index 85a92009f..101aad621 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # hostcycle module: Sends a fake part and join for users when their
-@@ -1344,7 +1344,7 @@
+@@ -1359,7 +1359,7 @@
  # extension which allows capable clients to get an acknowledgement when
  # their messages are delivered and learn what modifications, if any,
  # were applied to them.
@@ -1114,7 +1065,7 @@ index 85a92009f..101aad621 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # IRCv3 invite-notify module: Provides the invite-notify IRCv3
-@@ -1421,11 +1421,11 @@
+@@ -1436,11 +1436,11 @@
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Anti auto rejoin: Adds support for prevention of auto-rejoin (+J).
@@ -1128,7 +1079,7 @@ index 85a92009f..101aad621 100644
  #
  # This setting specifies what to do when someone successfully /KNOCKs.
  # If set to "notice", then a NOTICE will be sent to the channel.
-@@ -1434,7 +1434,7 @@
+@@ -1449,7 +1449,7 @@
  # If set to "numeric" then a 710 numeric will be sent to the channel.
  # This allows easier scripting but not all clients support it.
  # If set to "both" then (surprise!) both will be sent.
@@ -1137,7 +1088,7 @@ index 85a92009f..101aad621 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # LDAP module: Allows other SQL modules to access a LDAP database
-@@ -1605,7 +1605,7 @@
+@@ -1631,7 +1631,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Message flood module: Adds message/notice flood protection via
  # channel mode +f.
@@ -1146,7 +1097,7 @@ index 85a92009f..101aad621 100644
  #
  # The weight to give each message type. TAGMSGs are considered to be
  # 1/5 of a NOTICE or PRIVMSG to avoid users being accidentally flooded
-@@ -1683,7 +1683,7 @@
+@@ -1713,7 +1713,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # No CTCP module: Adds the channel mode +C and user mode +T to block
  # CTCPs and extban 'C' to block CTCPs sent by specific users.
@@ -1155,16 +1106,7 @@ index 85a92009f..101aad621 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # No kicks module: Adds the +Q channel mode and the Q: extban to deny
-@@ -1814,7 +1814,7 @@
- # and/or as the 'modes' parameter of the <oper> tag.
- # This module is oper-only. For the user equivalent, see the
- # conn_umodes module.
--#<module name="opermodes">
-+<module name="opermodes">
- 
- #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
- # Op moderated module: Adds channel mode +U and extban u: which allow
-@@ -1829,10 +1829,10 @@
+@@ -1857,10 +1857,10 @@
  # command.
  #<module name="passforward">
  
@@ -1177,7 +1119,7 @@ index 85a92009f..101aad621 100644
  
  	# forwardmsg: Message to send to users when forwarding their
  	# password. You can use the following variables in this message:
-@@ -1841,10 +1841,10 @@
+@@ -1869,10 +1869,10 @@
  	# %nickrequired%  The nickname of the service to forward to (see above).
  	# %pass%          The password to forward to services.
  	# %user%          The username of the authenticating user.
@@ -1190,7 +1132,7 @@ index 85a92009f..101aad621 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Password hash module: Allows hashed passwords to be used.
-@@ -1969,7 +1969,7 @@
+@@ -1988,7 +1988,7 @@
  # Optional - If you specify to use the randquote module, then specify #
  # below the path to the quotes file.                                  #
  #                                                                     #
@@ -1199,34 +1141,16 @@ index 85a92009f..101aad621 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Real name ban: Implements two extended bans:                        #
-@@ -2391,7 +2391,7 @@
+@@ -2450,7 +2450,7 @@
  #
- # Does not do anything useful without a working TLS module and the
- # sslinfo module (see below).
--#<module name="sslmodes">
-+<module name="sslmodes">
+ # This file has all the information about server links and services servers.
+ # You *MUST* edit it if you intend to link servers.
+-#<include file="&dir.config;/links.conf">
++<include file="&dir.config;/links.conf">
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
- # TLS rehash signal module: Allows the TLS modules to be rehashed by
-@@ -2406,7 +2406,7 @@
- #
- # Users of binary packages should consult the documentation for their
- # package to find out whether this module is available.
--#<module name="sslrehashsignal">
-+<module name="sslrehashsignal">
- 
- #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
- # GnuTLS TLS module: Adds support for TLS connections using GnuTLS,
-@@ -2434,7 +2434,7 @@
- # For how to use the oper features, please see the first
- # example <oper> tag in opers.conf.
- #
--#<module name="sslinfo">
-+<module name="sslinfo">
- #
- #-#-#-#-#-#-#-#-#-#-#-#- SSLINFO CONFIGURATION -#-#-#-#-#-#-#-#-#-#-#-#
- #                                                                     #
-@@ -2481,12 +2481,33 @@
+ # SQL authentication module: Allows IRCd connections to be tied into
+@@ -2518,12 +2518,33 @@
  # if enabled. You must answer 'yes' in ./configure when asked or symlink
  # the source for this module from the directory src/modules/extra, if
  # you want to enable this, or it will not load.
@@ -1260,8 +1184,52 @@ index 85a92009f..101aad621 100644
 +>
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
- # Strip color module: Adds channel mode +S that strips color codes and
-@@ -2594,7 +2615,7 @@
+ # TLS info module: Allows users to retrieve information about other
+@@ -2539,7 +2560,7 @@
+ # For how to use the oper features, please see the first
+ # example <oper> tag in opers.conf.
+ #
+-#<module name="sslinfo">
++<module name="sslinfo">
+ #
+ #-#-#-#-#-#-#-#-#-#-#-#- SSLINFO CONFIGURATION -#-#-#-#-#-#-#-#-#-#-#-#
+ #                                                                     #
+@@ -2568,11 +2589,11 @@
+ #                                                                     #
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ #
+-#<sslinfo hash="sha-256"
+-#         localsecure="yes"
+-#         operonly="no"
+-#         warnexpiring="1w"
+-#         welcomemsg="no">
++<sslinfo hash="sha-256"
++         localsecure="no"
++         operonly="no"
++         warnexpiring="4w"
++         welcomemsg="yes">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # TLS mode module: Adds support for TLS-only channels via the '+z'
+@@ -2581,7 +2602,7 @@
+ #
+ # Does not do anything useful without a working TLS module and the
+ # sslinfo module (see below).
+-#<module name="sslmodes">
++<module name="sslmodes">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # TLS rehash signal module: Allows the TLS modules to be rehashed by
+@@ -2596,7 +2617,7 @@
+ #
+ # Users of binary packages should consult the documentation for their
+ # package to find out whether this module is available.
+-#<module name="sslrehashsignal">
++<module name="sslrehashsignal">
+ 
+ #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+ # StartTLS module: Adds support for the IRCv3 tls capability which    #
+@@ -2639,7 +2660,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Uninvite module: Adds the /UNINVITE command which lets users remove
  # pending invites from channels without waiting for the user to join.
@@ -1270,24 +1238,13 @@ index 85a92009f..101aad621 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Vhost module: Adds the VHOST command which allows for adding virtual
-@@ -2686,8 +2707,8 @@
- # tree protocol (see the READ THIS BIT section above).
- # You will almost always want to load this.
- #
--#<module name="spanningtree">
-+<module name="spanningtree">
- #
- # This file has all the information about server links and services servers.
- # You *MUST* edit it if you intend to link servers.
--#<include file="examples/links.conf.example">
-+#<include file="examples/links.conf.example"> # FIXME: Migrate from inspircd.conf
 diff --git a/docs/conf/modules/openssl.conf.example b/docs/conf/modules/openssl.conf
 similarity index 100%
 rename from docs/conf/modules/openssl.conf.example
 rename to docs/conf/modules/openssl.conf
 diff --git a/docs/conf/opermotd.txt b/docs/conf/opermotd.txt
 deleted file mode 100644
-index b0d37f385..000000000
+index aef683dac..000000000
 --- a/docs/conf/opermotd.txt
 +++ /dev/null
 @@ -1,37 +0,0 @@
@@ -1300,7 +1257,7 @@ index b0d37f385..000000000
 - _____________________| |__________________________________
 -|_____________________|_|__________________________________|
 -
--                         \iPowering IRC communities since 2006\x
+-                         \iThe IRC server for the 31st century\x
 -
 -       /\     /\
 -      {  `---'  }  \bWELCOME TO AN \c13I\c04N\c07S\c08P\c03I\c10R\c12C\c06D\c99 NETWORK\x
@@ -1317,7 +1274,7 @@ index b0d37f385..000000000
 -      +-- To change this see \bopermotd.txt        \x --+
 -      |                                             |
 -      |   * \bWeb:\x https://www.inspircd.org           |
--      |   * \bIRC:\x irc.inspircd.org #inspircd         |
+-      |   * \bIRC:\x ircs://irc.teranova.net/inspircd   |
 -      |   * \bDocs:\x https://docs.inspircd.org         |
 -      |   * \bIssues:\x https://git.io/JIuYi            |
 -      |   * \bDiscussions:\x https://git.io/JIuYv       |
@@ -1329,7 +1286,7 @@ index b0d37f385..000000000
 -      |                        -- The InspIRCd Team |
 -      +---------------------------------------------+
 diff --git a/docs/conf/opers.conf b/docs/conf/opers.conf
-index 750d91cfb..cc2be32e7 100644
+index 89f3c4f64..800b8bea4 100644
 --- a/docs/conf/opers.conf
 +++ b/docs/conf/opers.conf
 @@ -83,7 +83,7 @@
@@ -1355,7 +1312,7 @@ index 750d91cfb..cc2be32e7 100644
  
  
  #-#-#-#-#-#-#-#-#-#-#-  OPERATOR CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#
-@@ -118,16 +118,16 @@
+@@ -118,10 +118,10 @@
  <oper
        # name: Oper login that is used to oper up (/OPER <username> <password>).
        # Remember: This is case sensitive.
@@ -1366,6 +1323,15 @@ index 750d91cfb..cc2be32e7 100644
 -      password="s3cret"
 +      #password="s3cret"
  
+       # nopassword: Whether to allow logging into an account without a password.
+       #
+@@ -129,18 +129,18 @@
+       # unless you are certain that nobody other than the intended user will match the
+       # restrictions of this <oper> block. Failure to do this may result in your server
+       # being compromised.
+-      #nopassword="no"
++      nopassword="yes"
+ 
        # host: What hostnames and IPs are allowed to use this operator account.
        # Multiple options can be separated by spaces and CIDRs are allowed.
        # You can use just * or *@* for this section, but it is not recommended
@@ -1375,7 +1341,13 @@ index 750d91cfb..cc2be32e7 100644
  
        # account: A space delimited list of account names or account ids that are allowed
        # to log into this account.
-@@ -141,7 +141,8 @@
+       # Requires the account module.
+-      account="Attila 1234567890"
++      #account="Attila 1234567890"
+ 
+       # fingerprint: When using the sslinfo module, you may specify a space separated
+       # list of TLS client certificate fingerprints here. These can be obtained by using
+@@ -149,7 +149,8 @@
        # a matching TLS client certificate, which is very difficult to
        # forge (impossible unless preimage attacks on the hash exist).
        # If the sslinfo module isn't loaded, this option will be ignored.
@@ -1385,12 +1357,12 @@ index 750d91cfb..cc2be32e7 100644
  
        # autologin: Whether to automatically log this server operator in on connect if all
        # of their details match the ones in this <oper> block. Can be set to "strict" to
-@@ -154,36 +155,36 @@
+@@ -162,36 +163,36 @@
        # unless you are certain that nobody other than the intended user will match the
        # restrictions of this <oper> block. Failure to do this may result in your server
        # being compromised.
 -      #autologin="strict"
-+      autologin="strict"
++      autologin="relaxed"
  
        # sslonly: If enabled, this oper can only oper up if they're using a TLS connection.
        # Setting this option adds a decent bit of security. Highly recommended
@@ -1432,7 +1404,7 @@ index 750d91cfb..cc2be32e7 100644
  
        # hash: The hash function this password is hashed with. Requires the
        # module for the selected function (bcrypt, md5, sha1, or sha256) and
-@@ -192,23 +193,23 @@
+@@ -200,23 +201,23 @@
        # You may also use any of the above other than bcrypt prefixed with
        # either "hmac-" or "pbkdf2-hmac-" (requires the pbkdf2 module).
        # Create hashed passwords with: /MKPASSWD <hashtype> <plaintext>.
@@ -1463,10 +1435,10 @@ index 750d91cfb..cc2be32e7 100644
 +#<die reason="Using opers.conf without editing it is a security risk">
 diff --git a/docs/conf/providers/dronebl.conf b/docs/conf/providers/dronebl.conf
 deleted file mode 100644
-index 72055d522..000000000
+index 5f3b289b1..000000000
 --- a/docs/conf/providers/dronebl.conf
 +++ /dev/null
-@@ -1,11 +0,0 @@
+@@ -1,87 +0,0 @@
 -# This file contains configuration for using the dnsbl module with
 -# the DroneBL DNSBL. See https://dronebl.org/ for more information on
 -# DroneBL.
@@ -1477,13 +1449,89 @@ index 72055d522..000000000
 -       records="3,5,6,7,8,9,10,11,13,14,15,16,17,19"
 -       action="zline"
 -       duration="7d"
--       reason="You are listed in DroneBL. Please visit https://dronebl.org/lookup.do?ip=%ip% for more information.">
+-       reason="You are listed in DroneBL: %reason%. Please visit https://dronebl.org/lookup.do?ip=%ip%&amp;network=%network.url% for more information.">
+-
+-<dnsblreply name="DroneBL"
+-            reply="1"
+-            description="Testing">
+-
+-<dnsblreply name="DroneBL"
+-            reply="2"
+-            description="Sample data used for heuristical analysis">
+-
+-<dnsblreply name="DroneBL"
+-            reply="3"
+-            description="IRC spam drone (litmus/sdbot/fyle)">
+-
+-<dnsblreply name="DroneBL"
+-            reply="5"
+-            description="Bottler">
+-
+-<dnsblreply name="DroneBL"
+-            reply="6"
+-            description="Unknown worm or spambot">
+-
+-<dnsblreply name="DroneBL"
+-            reply="7"
+-            description="DDoS drone">
+-
+-<dnsblreply name="DroneBL"
+-            reply="8"
+-            description="Open SOCKS proxy">
+-
+-<dnsblreply name="DroneBL"
+-            reply="9"
+-            description="Open HTTP proxy">
+-
+-<dnsblreply name="DroneBL"
+-            reply="10"
+-            description="Proxychain">
+-
+-<dnsblreply name="DroneBL"
+-            reply="11"
+-            description="Webpage proxy">
+-
+-<dnsblreply name="DroneBL"
+-            reply="12"
+-            description="Open DNS resolver">
+-
+-<dnsblreply name="DroneBL"
+-            reply="13"
+-            description="Automated dictionary attack">
+-
+-<dnsblreply name="DroneBL"
+-            reply="14"
+-            description="Open WINGATE proxy">
+-
+-<dnsblreply name="DroneBL"
+-            reply="15"
+-            description="Compromised router / gateway">
+-
+-<dnsblreply name="DroneBL"
+-            reply="16"
+-            description="Autorooting worm">
+-
+-<dnsblreply name="DroneBL"
+-            reply="17"
+-            description="Automatically determined botnet IP">
+-
+-<dnsblreply name="DroneBL"
+-            reply="18"
+-            description="Possibly compromised DNS/MX type hostname detected on IRC">
+-
+-<dnsblreply name="DroneBL"
+-            reply="19"
+-            description="Abused VPN service">
+-
+-<dnsblreply name="DroneBL"
+-            reply="255"
+-            description="Uncategorized threat">
 diff --git a/docs/conf/providers/efnet-rbl.conf b/docs/conf/providers/efnet-rbl.conf
 deleted file mode 100644
-index 78dce53cb..000000000
+index 0130951dc..000000000
 --- a/docs/conf/providers/efnet-rbl.conf
 +++ /dev/null
-@@ -1,11 +0,0 @@
+@@ -1,31 +0,0 @@
 -# This file contains configuration for using the dnsbl module with
 -# the EFnet RBL. See https://rbl.efnetrbl.org/ for more information
 -# on the EFnet RBL.
@@ -1494,7 +1542,27 @@ index 78dce53cb..000000000
 -       records="1,2,3,4,5"
 -       action="zline"
 -       duration="7d"
--       reason="You are listed in the EFnet RBL. Please visit https://rbl.efnetrbl.org/?i=%ip% for more information.">
+-       reason="You are listed in the EFnet RBL: %reason%. Please visit https://rbl.efnetrbl.org/?i=%ip% for more information.">
+-
+-<dnsblreply name="EFnet RBL"
+-            reply="1"
+-            description="Open proxy">
+-
+-<dnsblreply name="EFnet RBL"
+-            reply="2"
+-            description="Spamtrap score of 666">
+-
+-<dnsblreply name="EFnet RBL"
+-            reply="3"
+-            description="Spamtrap score of 50+">
+-
+-<dnsblreply name="EFnet RBL"
+-            reply="4"
+-            description="Tor exit node">
+-
+-<dnsblreply name="EFnet RBL"
+-            reply="5"
+-            description="Drones or flooding">
 diff --git a/docs/conf/providers/irccloud.conf b/docs/conf/providers/irccloud.conf
 deleted file mode 100644
 index 9cc6470d3..000000000
@@ -1533,10 +1601,10 @@ index 9cc6470d3..000000000
 -#       suffix=".irccloud.com">
 diff --git a/docs/conf/providers/torexit.conf b/docs/conf/providers/torexit.conf
 deleted file mode 100644
-index abc35c696..000000000
+index 1be1a5b40..000000000
 --- a/docs/conf/providers/torexit.conf
 +++ /dev/null
-@@ -1,12 +0,0 @@
+@@ -1,16 +0,0 @@
 -# This file contains configuration for using the dnsbl module with
 -# the dan.me.uk Tor exit node DNSBL. See https://www.dan.me.uk/dnsbl
 -# for more information on the dan.me.uk Tor exit node DNSBL.
@@ -1549,74 +1617,21 @@ index abc35c696..000000000
 -       action="zline"
 -       duration="7d"
 -       reason="Tor exit nodes are not allowed on this network. See https://metrics.torproject.org/rs.html#search/%ip% for more information.">
+-
+-<dnsblreply name="torexit.dan.me.uk"
+-            reply="100"
+-            description="Tor exit node">
 diff --git a/docs/conf/services/anope.conf b/docs/conf/services/anope.conf
 deleted file mode 100644
-index 558b0d650..000000000
+index 1ddf6ef14..000000000
 --- a/docs/conf/services/anope.conf
 +++ /dev/null
-@@ -1,9 +0,0 @@
+@@ -1,5 +0,0 @@
 -# This file contains aliases and nickname reservations which are used
 -# by Anope. See https://www.anope.org for more information on Anope.
 -
 -# This file inherits from the generic config to avoid repetition.
--<include file="/etc/inspircd/services/generic.conf">
--
--# /GLOBAL <message>
--# Sends a global notice.
--<alias text="GLOBAL" format="*" replace="SQUERY $requirement :GLOBAL $2-" requires="Global" service="yes" operonly="yes">
-diff --git a/docs/sql/sqloper/mysql.sql b/docs/sql/sqloper/mysql.sql
-deleted file mode 100644
-index 83dfa68a6..000000000
---- a/docs/sql/sqloper/mysql.sql
-+++ /dev/null
-@@ -1,12 +0,0 @@
--CREATE TABLE ircd_opers (
--  id bigint(20) NOT NULL auto_increment,
--  name text NOT NULL,
--  password text NOT NULL,
--  hash text,
--  host text NOT NULL,
--  type text NOT NULL,
--  fingerprint text,
--  autologin tinyint(1) NOT NULL DEFAULT 0,
--  active tinyint(1) NOT NULL DEFAULT 1,
--  PRIMARY KEY  (id)
--) ENGINE=InnoDB;
-diff --git a/docs/sql/sqloper/pgsql.sql b/docs/sql/sqloper/pgsql.sql
-deleted file mode 100644
-index 954bc84fa..000000000
---- a/docs/sql/sqloper/pgsql.sql
-+++ /dev/null
-@@ -1,13 +0,0 @@
--CREATE TABLE ircd_opers (
--    "id" serial NOT NULL,
--    "name" text NOT NULL,
--    "password" text NOT NULL,
--    "hash" text,
--    "host" text NOT NULL,
--    "type" text NOT NULL,
--    "fingerprint" text,
--    "autologin" smallint NOT NULL DEFAULT 0,
--    "active" smallint NOT NULL DEFAULT 1
--);
--ALTER TABLE ONLY ircd_opers
--    ADD CONSTRAINT ircd_opers_pkey PRIMARY KEY (id);
-diff --git a/docs/sql/sqloper/sqlite3.sql b/docs/sql/sqloper/sqlite3.sql
-deleted file mode 100644
-index 6aec5a118..000000000
---- a/docs/sql/sqloper/sqlite3.sql
-+++ /dev/null
-@@ -1,10 +0,0 @@
--CREATE TABLE ircd_opers (
--id integer primary key,
--name text NOT NULL,
--password text NOT NULL,
--hash text,
--host text NOT NULL,
--type text NOT NULL,
--fingerprint text,
--autologin integer NOT NULL DEFAULT 0,
--active integer NOT NULL DEFAULT 1);
+-<include file="&dir.config;/services/generic.conf">
 -- 
-2.41.0
+2.45.2
 

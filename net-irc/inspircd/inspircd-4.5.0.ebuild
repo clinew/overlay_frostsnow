@@ -1,39 +1,40 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit systemd toolchain-funcs
+inherit readme.gentoo-r1 systemd toolchain-funcs
 
 DESCRIPTION="Inspire IRCd - The Stable, High-Performance Modular IRCd"
 HOMEPAGE="https://www.inspircd.org/"
-S="${WORKDIR}/inspircd-4.0.0a23"
-SRC_URI="https://github.com/inspircd/inspircd/archive/v4.0.0a23.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/inspircd/inspircd/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86"
-IUSE="argon2 debug gnutls ldap maxminddb mbedtls mysql pcre pcre2 postgres re2 regex-posix regex-stdlib sqlite ssl sslrehashsignal tre"
+IUSE="argon2 debug gnutls ldap log-json maxminddb mysql pcre2 postgres re2 regex-posix sqlite ssl sslrehashsignal syslog"
 
 RDEPEND="
 	acct-group/inspircd
 	acct-user/inspircd
 	dev-lang/perl
+	net-libs/libpsl
 	argon2? ( app-crypt/argon2 )
 	gnutls? ( net-libs/gnutls:= dev-libs/libgcrypt:0 )
 	ldap? ( net-nds/openldap:= )
+	log-json? ( dev-libs/yyjson )
 	maxminddb? ( dev-libs/libmaxminddb:= )
-	mbedtls? ( net-libs/mbedtls:= )
 	mysql? ( dev-db/mysql-connector-c:= )
-	pcre? ( dev-libs/libpcre )
 	pcre2? ( dev-libs/libpcre2 )
 	postgres? ( dev-db/postgresql:= )
 	re2? ( dev-libs/re2:= )
 	sqlite? ( >=dev-db/sqlite-3.0 )
-	ssl? ( dev-libs/openssl:= )
-	tre? ( dev-libs/tre )"
+	ssl? ( dev-libs/openssl:= )"
 DEPEND="${RDEPEND}"
 
+DOC_CONTENTS="
+	You will find example configuration files under /usr/share/doc/${PN}.\n
+	Read the ${PN}.conf file carefully before starting the service."
 DOCS=( docs/. .configure/apparmor )
 PATCHES=(
 	"${FILESDIR}"/v4-0001-Fix-build-paths.patch
@@ -50,28 +51,25 @@ src_configure() {
 	use argon2 && extras+="argon2,"
 	use gnutls && extras+="ssl_gnutls,"
 	use ldap && extras+="ldap,"
+	use log-json && extras+="log_json,"
 	use maxminddb && extras+="geo_maxmind,"
-	use mbedtls && extras+="ssl_mbedtls,"
 	use mysql && extras+="mysql,"
-	use pcre && extras+="regex_pcre,"
 	use pcre2 && extras+="regex_pcre2,"
 	use postgres && extras+="pgsql,"
 	use re2 && extras+="regex_re2,"
 	use regex-posix && extras+="regex_posix,"
-	use regex-stdlib && extras+="regex_stdlib,"
 	use sqlite && extras+="sqlite3,"
 	use ssl && extras+="ssl_openssl,"
 	use sslrehashsignal && extras+="sslrehashsignal,"
-	use tre && extras+="regex_tre,"
+	use syslog && extras+="log_syslog,"
 
 	# The first configuration run enables certain "extra" InspIRCd
 	# modules, the second run generates the actual makefile.
-	if [[ -n "${extras}" ]]; then
-		./configure --enable-extras=${extras%,}
+	if [[ -n ${extras} ]]; then
+		./configure --enable-extras=${extras%,} || die
 	fi
 
 	local myconf=(
-		--development
 		--disable-auto-extras
 		--disable-ownership
 		--system
@@ -79,10 +77,10 @@ src_configure() {
 		--gid ${PN}
 		--binary-dir="/usr/bin"
 		--data-dir="/var/lib/${PN}/data"
-		--example-dir="/usr/share/doc/${PV}"
+		--example-dir="/usr/share/doc/${P}"
 		--manual-dir="/usr/share/man"
 		--module-dir="/usr/$(get_libdir)/${PN}/modules")
-	CXX="$(tc-getCXX)" ./configure "${myconf[@]}"
+	CXX="$(tc-getCXX)" ./configure "${myconf[@]}" || die
 }
 
 src_compile() {
@@ -106,15 +104,15 @@ src_install() {
 	diropts -o"${PN}" -g"${PN}" -m0700
 	keepdir "/var/lib/${PN}/data"
 
+	readme.gentoo_create_doc
+
 	rmdir "${ED}"/run{/inspircd,} || die
 }
 
 pkg_postinst() {
-	if [[ -z "${REPLACING_VERSIONS}" ]]; then
-		# This is a new installation
-		elog "You will find example configuration files under "
-		elog "/usr/share/doc/${PN}"
-		elog "Read the ${PN}.conf.example file carefully before "
-		elog "starting the service."
+	readme.gentoo_print_elog
+	if has_version "net-irc/atheme-services"; then
+		ewarn "Atheme does not work with InspIRCd version 4"
+		ewarn "See: https://github.com/atheme/atheme/issues/904"
 	fi
 }
