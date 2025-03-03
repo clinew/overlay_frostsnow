@@ -1,4 +1,4 @@
-From e809d45f86466f337f2e5d37a89a7a569b115856 Mon Sep 17 00:00:00 2001
+From 110469bc49c614f7d605866dd2a9bb60e4806764 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 1 Dec 2017 00:15:38 -0800
 Subject: [PATCH 3/6] Add OpenSSL rehash messages.

@@ -1,4 +1,4 @@
-From f1b8ae550a8334c29a6e50f27eb65a55602d24f5 Mon Sep 17 00:00:00 2001
+From d4c30fdd5368b469e1ee7dbe489cc10ea5c1a749 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 1/6] Fix build paths

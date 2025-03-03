@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -77,7 +77,7 @@ src_configure() {
 		--gid ${PN}
 		--binary-dir="/usr/bin"
 		--data-dir="/var/lib/${PN}/data"
-		--example-dir="/usr/share/doc/${PV}"
+		--example-dir="/usr/share/doc/${P}"
 		--manual-dir="/usr/share/man"
 		--module-dir="/usr/$(get_libdir)/${PN}/modules")
 	CXX="$(tc-getCXX)" ./configure "${myconf[@]}" || die
