@@ -1,0 +1,27 @@
+IMAPAccount TODO@TODO.COM
+Host 127.0.0.1
+Port 1993
+User TODO@TODO.COM
+Pass REDACTED
+TLSType None
+AuthMechs LOGIN
+CipherString HIGH
+Timeout 300
+
+IMAPStore TODO@TODO.COM-imap
+Account TODO@TODO.COM
+
+MaildirStore TODO@TODO.COM-maildir
+Path ~/TODO@TODO.COM/
+Inbox ~/TODO@TODO.COM/Inbox
+
+Channel TODO@TODO.COM
+Far :TODO@TODO.COM-imap:
+Near :TODO@TODO.COM-maildir:
+Patterns * !Junk
+Sync Pull New Flags
+Create Near
+Remove None
+Expunge None
+SyncState *
+CopyArrivalDate yes
