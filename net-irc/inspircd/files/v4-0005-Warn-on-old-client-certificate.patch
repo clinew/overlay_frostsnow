@@ -1,4 +1,4 @@
-From 499db7c601fa48395419de2e236a0761c7396b1d Mon Sep 17 00:00:00 2001
+From e2d3eb6f70f259714a99dc379d2ffe047a4f00f2 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 14 Jun 2020 22:28:23 -0700
 Subject: [PATCH 5/6] Warn on old client certificate
@@ -29,5 +29,5 @@ index 4a7368972..400233276 100644
  		{
  			user->WriteNotice("*** Your TLS client certificate has expired.");
 -- 
-2.45.2
+2.45.3
 

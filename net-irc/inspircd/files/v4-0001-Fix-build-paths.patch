@@ -1,4 +1,4 @@
-From d4c30fdd5368b469e1ee7dbe489cc10ea5c1a749 Mon Sep 17 00:00:00 2001
+From fda7c4709eed0278601cd90effac33b069cb8f8c Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 1/6] Fix build paths
@@ -11,9 +11,9 @@ Subject: [PATCH 1/6] Fix build paths
  ...c1459.example.conf => strict-rfc1459.conf} |  0
  .../conf/{filter.example.conf => filter.conf} |  0
  docs/conf/{help.example.conf => help.conf}    |  0
- .../{inspircd.example.conf => inspircd.conf}  | 18 ++++++------
+ .../{inspircd.example.conf => inspircd.conf}  | 18 ++++++-------
  docs/conf/{links.example.conf => links.conf}  |  2 +-
- .../{modules.example.conf => modules.conf}    | 28 +++++++++----------
+ .../{modules.example.conf => modules.conf}    | 26 +++++++++---------
  docs/conf/{motd.example.txt => motd.txt}      |  2 +-
  .../{opermotd.example.txt => opermotd.txt}    |  2 +-
  docs/conf/{opers.example.conf => opers.conf}  |  4 +--
@@ -25,8 +25,8 @@ Subject: [PATCH 1/6] Fix build paths
  .../{anope.example.conf => anope.conf}        |  2 +-
  .../{atheme.example.conf => atheme.conf}      |  2 +-
  .../{generic.example.conf => generic.conf}    |  0
- make/template/main.mk                         | 27 ++++++++----------
- 22 files changed, 43 insertions(+), 48 deletions(-)
+ make/template/main.mk                         | 27 ++++++++-----------
+ 22 files changed, 42 insertions(+), 47 deletions(-)
  rename docs/conf/codepages/{ascii.example.conf => ascii.conf} (100%)
  rename docs/conf/codepages/{iso-8859-1.example.conf => iso-8859-1.conf} (96%)
  rename docs/conf/codepages/{iso-8859-2.example.conf => iso-8859-2.conf} (97%)
@@ -190,7 +190,7 @@ diff --git a/docs/conf/modules.example.conf b/docs/conf/modules.conf
 similarity index 99%
 rename from docs/conf/modules.example.conf
 rename to docs/conf/modules.conf
-index 66593afa5..4c72c07fc 100644
+index 4c64899c2..ee25e887d 100644
 --- a/docs/conf/modules.example.conf
 +++ b/docs/conf/modules.conf
 @@ -658,11 +658,11 @@
@@ -227,15 +227,6 @@ index 66593afa5..4c72c07fc 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Exempt channel operators module: Provides support for allowing      #
-@@ -959,7 +959,7 @@
- # anticaps, auditorium-see, auditorium-vis, blockcaps, blockcolor,    #
- # filter, flood, nickflood, noctcp, nonick, nonotice, regmoderated,   #
- # stripcolor, and topiclock.                                          #
--# See <options:exemptchanops> in inspircd.example.conf for a more     #
-+# See <options:exemptchanops> in inspircd.conf for a more             #
- # detailed list of the restriction modes that can be exempted.        #
- # These are settable using: /MODE #chan +X <restriction>:<status>     #
- # Furthermore, the exemptions configured in <options:exemptchanops>   #
 @@ -1002,7 +1002,7 @@
  # Your choice of regex engine must match on all servers network-wide. #
  #                                                                     #
@@ -446,5 +437,5 @@ index 24aaefe48..980baadf6 100644
  GNUmakefile: make/template/main.mk src/version.sh configure @CONFIGURE_CACHE_FILE@
  	./configure --update
 -- 
-2.45.2
+2.45.3
 

@@ -1,4 +1,4 @@
-From f522a8c609a327504abde48e981b2bbe18269c2c Mon Sep 17 00:00:00 2001
+From 4ed47579a1082b0be19d530f66b379c3935791e7 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 5 Jul 2024 23:12:42 -0700
 Subject: [PATCH 6/6] CotSS configuration
@@ -948,7 +948,7 @@ index a5cec0c49..18e7dfb3b 100644
 -<die reason="Using links.conf without editing it is a security risk">
 +#<die reason="Using links.conf without editing it is a security risk">
 diff --git a/docs/conf/modules.conf b/docs/conf/modules.conf
-index 4c72c07fc..5eb8080cf 100644
+index ee25e887d..bb96c3d60 100644
 --- a/docs/conf/modules.conf
 +++ b/docs/conf/modules.conf
 @@ -139,7 +139,7 @@
@@ -1435,7 +1435,7 @@ index 89f3c4f64..800b8bea4 100644
 +#<die reason="Using opers.conf without editing it is a security risk">
 diff --git a/docs/conf/providers/dronebl.conf b/docs/conf/providers/dronebl.conf
 deleted file mode 100644
-index 5f3b289b1..000000000
+index 9bf6dd7e4..000000000
 --- a/docs/conf/providers/dronebl.conf
 +++ /dev/null
 @@ -1,87 +0,0 @@
@@ -1449,7 +1449,7 @@ index 5f3b289b1..000000000
 -       records="3,5,6,7,8,9,10,11,13,14,15,16,17,19"
 -       action="zline"
 -       duration="7d"
--       reason="You are listed in DroneBL: %reason%. Please visit https://dronebl.org/lookup.do?ip=%ip%&amp;network=%network.url% for more information.">
+-       reason="You are listed in DroneBL: %reason%. Please visit https://dronebl.org/lookup?ip=%ip%&amp;network=%network.url% for more information.">
 -
 -<dnsblreply name="DroneBL"
 -            reply="1"
@@ -1633,5 +1633,5 @@ index 1ddf6ef14..000000000
 -# This file inherits from the generic config to avoid repetition.
 -<include file="&dir.config;/services/generic.conf">
 -- 
-2.45.2
+2.45.3
 
