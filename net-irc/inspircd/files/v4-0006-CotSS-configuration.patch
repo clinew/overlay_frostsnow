@@ -1,4 +1,4 @@
-From 4ed47579a1082b0be19d530f66b379c3935791e7 Mon Sep 17 00:00:00 2001
+From e2cf221b2288593cf4e93affe9fa15acd5661966 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 5 Jul 2024 23:12:42 -0700
 Subject: [PATCH 6/6] CotSS configuration
@@ -373,7 +373,7 @@ index fe95687f5..000000000
 -# <exemptfromfilter> tags are only for exempting messages sent *to* the
 -# configured targets.
 diff --git a/docs/conf/inspircd.conf b/docs/conf/inspircd.conf
-index 728bf113c..0e8101c26 100644
+index 22232b609..01701e7bc 100644
 --- a/docs/conf/inspircd.conf
 +++ b/docs/conf/inspircd.conf
 @@ -68,8 +68,8 @@
@@ -703,7 +703,7 @@ index 728bf113c..0e8101c26 100644
  
           # xlinequit: The quit message to show to opers and affected users when
           # a user is [KGZ]-lined. The variables you can use in this are:
-@@ -811,7 +840,7 @@
+@@ -817,7 +846,7 @@
            #publicxlinequit="%fulltype%"
  
            # hidekills: If defined, replaces who executed a /KILL with a custom string.
@@ -712,7 +712,7 @@ index 728bf113c..0e8101c26 100644
  
            # hideservicekills: Hide kills from clients of services servers from server notices.
            hideservicekills="yes"
-@@ -934,7 +963,8 @@
+@@ -940,7 +969,8 @@
  <log method="file"
       level="normal"
       type="* -USERINPUT -USEROUTPUT"
@@ -722,7 +722,7 @@ index 728bf113c..0e8101c26 100644
  
  #<log method="stderr"
  #     level="normal"
-@@ -978,39 +1008,39 @@
+@@ -984,39 +1014,39 @@
  # Your server.                                                        #
  #                                                                     #
  
@@ -775,7 +775,7 @@ index 728bf113c..0e8101c26 100644
  
  #-#-#-#-#-#-#-#-#-#-#- INSANE BAN OPTIONS  -#-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1054,7 +1084,7 @@
+@@ -1060,7 +1090,7 @@
  # provide almost all the features of InspIRCd. :)                     #
  #                                                                     #
  # The default does nothing -- we include it for simplicity for you.   #
@@ -784,7 +784,7 @@ index 728bf113c..0e8101c26 100644
  
  #-#-#-#-#-#-#-#-#-#-#-# SERVICES CONFIGURATION  #-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1066,7 +1096,7 @@
+@@ -1072,7 +1102,7 @@
  #<include file="&dir.config;/services/anope.conf">
  #
  # Atheme users should uncomment this:
@@ -948,7 +948,7 @@ index a5cec0c49..18e7dfb3b 100644
 -<die reason="Using links.conf without editing it is a security risk">
 +#<die reason="Using links.conf without editing it is a security risk">
 diff --git a/docs/conf/modules.conf b/docs/conf/modules.conf
-index ee25e887d..bb96c3d60 100644
+index 7ba873df3..015629319 100644
 --- a/docs/conf/modules.conf
 +++ b/docs/conf/modules.conf
 @@ -139,7 +139,7 @@
@@ -999,7 +999,7 @@ index ee25e887d..bb96c3d60 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Channelban: Implements extended ban j:, which stops anyone already
-@@ -678,7 +678,7 @@
+@@ -679,7 +679,7 @@
  # Connectban: Provides IP connection throttling. Any IP range that
  # connects too many times (configurable) in an hour is Z-lined for a
  # (configurable) duration, and their count resets to 0.
@@ -1008,7 +1008,7 @@ index ee25e887d..bb96c3d60 100644
  #
  # threshold - The number of connections which are allowed before a user
  #             is connectbanned. Defaults to 10.
-@@ -701,13 +701,13 @@
+@@ -702,13 +702,13 @@
  # splitwait - The time period to wait after a netsplit before enforcing
  #             connection bans. Defaults to 2 minutes.
  #
@@ -1029,7 +1029,7 @@ index ee25e887d..bb96c3d60 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Connection throttle module.
-@@ -846,7 +846,7 @@
+@@ -847,7 +847,7 @@
  # Deaf module: Adds support for user modes +d and +D:
  # d - deaf to channel messages and notices.
  # D - deaf to user messages and notices.
@@ -1038,7 +1038,7 @@ index ee25e887d..bb96c3d60 100644
  #
  #-#-#-#-#-#-#-#-#-#-#-#-  DEAF CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-#
  #  bypasschars        - Characters that bypass deaf to a regular user.
-@@ -1165,7 +1165,7 @@
+@@ -1172,7 +1172,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Hide chans module: Allows users to hide their channels list from non-
  # opers by setting user mode +I on themselves.
@@ -1047,7 +1047,7 @@ index ee25e887d..bb96c3d60 100644
  #
  # affectsopers: Whether server operators with the users/auspex privilege
  #               are exempt from the hideoper (+I) mode. Defaults to no.
-@@ -1210,7 +1210,7 @@
+@@ -1217,7 +1217,7 @@
  # Hide oper module: Allows opers to hide their oper status from non-
  # opers by setting user mode +H on themselves.
  # This module is oper-only.
@@ -1056,7 +1056,7 @@ index ee25e887d..bb96c3d60 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # hostcycle module: Sends a fake part and join for users when their
-@@ -1359,7 +1359,7 @@
+@@ -1366,7 +1366,7 @@
  # extension which allows capable clients to get an acknowledgement when
  # their messages are delivered and learn what modifications, if any,
  # were applied to them.
@@ -1065,7 +1065,7 @@ index ee25e887d..bb96c3d60 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # IRCv3 invite-notify module: Provides the invite-notify IRCv3
-@@ -1436,11 +1436,11 @@
+@@ -1443,11 +1443,11 @@
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Anti auto rejoin: Adds support for prevention of auto-rejoin (+J).
@@ -1079,7 +1079,7 @@ index ee25e887d..bb96c3d60 100644
  #
  # This setting specifies what to do when someone successfully /KNOCKs.
  # If set to "notice", then a NOTICE will be sent to the channel.
-@@ -1449,7 +1449,7 @@
+@@ -1456,7 +1456,7 @@
  # If set to "numeric" then a 710 numeric will be sent to the channel.
  # This allows easier scripting but not all clients support it.
  # If set to "both" then (surprise!) both will be sent.
@@ -1088,7 +1088,7 @@ index ee25e887d..bb96c3d60 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # LDAP module: Allows other SQL modules to access a LDAP database
-@@ -1631,7 +1631,7 @@
+@@ -1638,7 +1638,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Message flood module: Adds message/notice flood protection via
  # channel mode +f.
@@ -1097,7 +1097,7 @@ index ee25e887d..bb96c3d60 100644
  #
  # The weight to give each message type. TAGMSGs are considered to be
  # 1/5 of a NOTICE or PRIVMSG to avoid users being accidentally flooded
-@@ -1713,7 +1713,7 @@
+@@ -1720,7 +1720,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # No CTCP module: Adds the channel mode +C and user mode +T to block
  # CTCPs and extban 'C' to block CTCPs sent by specific users.
@@ -1106,7 +1106,7 @@ index ee25e887d..bb96c3d60 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # No kicks module: Adds the +Q channel mode and the Q: extban to deny
-@@ -1857,10 +1857,10 @@
+@@ -1864,10 +1864,10 @@
  # command.
  #<module name="passforward">
  
@@ -1119,7 +1119,7 @@ index ee25e887d..bb96c3d60 100644
  
  	# forwardmsg: Message to send to users when forwarding their
  	# password. You can use the following variables in this message:
-@@ -1869,10 +1869,10 @@
+@@ -1876,10 +1876,10 @@
  	# %nickrequired%  The nickname of the service to forward to (see above).
  	# %pass%          The password to forward to services.
  	# %user%          The username of the authenticating user.
@@ -1132,7 +1132,7 @@ index ee25e887d..bb96c3d60 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Password hash module: Allows hashed passwords to be used.
-@@ -1988,7 +1988,7 @@
+@@ -1995,7 +1995,7 @@
  # Optional - If you specify to use the randquote module, then specify #
  # below the path to the quotes file.                                  #
  #                                                                     #
@@ -1141,7 +1141,7 @@ index ee25e887d..bb96c3d60 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Real name ban: Implements two extended bans:                        #
-@@ -2450,7 +2450,7 @@
+@@ -2463,7 +2463,7 @@
  #
  # This file has all the information about server links and services servers.
  # You *MUST* edit it if you intend to link servers.
@@ -1150,10 +1150,10 @@ index ee25e887d..bb96c3d60 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SQL authentication module: Allows IRCd connections to be tied into
-@@ -2518,12 +2518,33 @@
- # if enabled. You must answer 'yes' in ./configure when asked or symlink
- # the source for this module from the directory src/modules/extra, if
- # you want to enable this, or it will not load.
+@@ -2546,12 +2546,33 @@
+ #
+ # Users of binary packages should consult the documentation for their
+ # package to find out whether this module is available.
 -#<module name="ssl_openssl">
 +<module name="ssl_openssl">
  #
@@ -1185,7 +1185,7 @@ index ee25e887d..bb96c3d60 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # TLS info module: Allows users to retrieve information about other
-@@ -2539,7 +2560,7 @@
+@@ -2567,7 +2588,7 @@
  # For how to use the oper features, please see the first
  # example <oper> tag in opers.conf.
  #
@@ -1194,7 +1194,7 @@ index ee25e887d..bb96c3d60 100644
  #
  #-#-#-#-#-#-#-#-#-#-#-#- SSLINFO CONFIGURATION -#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -2568,11 +2589,11 @@
+@@ -2596,11 +2617,11 @@
  #                                                                     #
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  #
@@ -1211,7 +1211,7 @@ index ee25e887d..bb96c3d60 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # TLS mode module: Adds support for TLS-only channels via the '+z'
-@@ -2581,7 +2602,7 @@
+@@ -2609,7 +2630,7 @@
  #
  # Does not do anything useful without a working TLS module and the
  # sslinfo module (see below).
@@ -1220,7 +1220,7 @@ index ee25e887d..bb96c3d60 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # TLS rehash signal module: Allows the TLS modules to be rehashed by
-@@ -2596,7 +2617,7 @@
+@@ -2624,7 +2645,7 @@
  #
  # Users of binary packages should consult the documentation for their
  # package to find out whether this module is available.
@@ -1229,7 +1229,7 @@ index ee25e887d..bb96c3d60 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # StartTLS module: Adds support for the IRCv3 tls capability which    #
-@@ -2639,7 +2660,7 @@
+@@ -2667,7 +2688,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Uninvite module: Adds the /UNINVITE command which lets users remove
  # pending invites from channels without waiting for the user to join.
@@ -1633,5 +1633,5 @@ index 1ddf6ef14..000000000
 -# This file inherits from the generic config to avoid repetition.
 -<include file="&dir.config;/services/generic.conf">
 -- 
-2.45.3
+2.49.1
 

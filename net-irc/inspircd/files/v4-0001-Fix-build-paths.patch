@@ -1,4 +1,4 @@
-From fda7c4709eed0278601cd90effac33b069cb8f8c Mon Sep 17 00:00:00 2001
+From f8f4f054021bac26a894a5ec50214f47222b40ad Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 1/6] Fix build paths
@@ -13,7 +13,7 @@ Subject: [PATCH 1/6] Fix build paths
  docs/conf/{help.example.conf => help.conf}    |  0
  .../{inspircd.example.conf => inspircd.conf}  | 18 ++++++-------
  docs/conf/{links.example.conf => links.conf}  |  2 +-
- .../{modules.example.conf => modules.conf}    | 26 +++++++++---------
+ .../{modules.example.conf => modules.conf}    | 26 +++++++++----------
  docs/conf/{motd.example.txt => motd.txt}      |  2 +-
  .../{opermotd.example.txt => opermotd.txt}    |  2 +-
  docs/conf/{opers.example.conf => opers.conf}  |  4 +--
@@ -25,8 +25,8 @@ Subject: [PATCH 1/6] Fix build paths
  .../{anope.example.conf => anope.conf}        |  2 +-
  .../{atheme.example.conf => atheme.conf}      |  2 +-
  .../{generic.example.conf => generic.conf}    |  0
- make/template/main.mk                         | 27 ++++++++-----------
- 22 files changed, 42 insertions(+), 47 deletions(-)
+ make/template/main.mk                         | 24 ++++++++---------
+ 22 files changed, 42 insertions(+), 44 deletions(-)
  rename docs/conf/codepages/{ascii.example.conf => ascii.conf} (100%)
  rename docs/conf/codepages/{iso-8859-1.example.conf => iso-8859-1.conf} (96%)
  rename docs/conf/codepages/{iso-8859-2.example.conf => iso-8859-2.conf} (97%)
@@ -99,7 +99,7 @@ diff --git a/docs/conf/inspircd.example.conf b/docs/conf/inspircd.conf
 similarity index 99%
 rename from docs/conf/inspircd.example.conf
 rename to docs/conf/inspircd.conf
-index badc60b35..728bf113c 100644
+index 93b426a21..22232b609 100644
 --- a/docs/conf/inspircd.example.conf
 +++ b/docs/conf/inspircd.conf
 @@ -228,7 +228,7 @@
@@ -138,7 +138,7 @@ index badc60b35..728bf113c 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#- LIST MODE LIMITS #-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -715,7 +715,7 @@
+@@ -719,7 +719,7 @@
           #  - topiclock       Channel mode +t - limits changing the topic to (half)ops
           # You can also configure this on a per-channel basis with a channel mode and
           # even negate the configured exemptions below.
@@ -147,7 +147,7 @@ index badc60b35..728bf113c 100644
           exemptchanops="filter:o nickflood:o nonick:v regmoderated:o"
  
           # invitebypassmodes: This allows /INVITE to bypass other channel modes.
-@@ -1054,7 +1054,7 @@
+@@ -1060,7 +1060,7 @@
  # provide almost all the features of InspIRCd. :)                     #
  #                                                                     #
  # The default does nothing -- we include it for simplicity for you.   #
@@ -156,7 +156,7 @@ index badc60b35..728bf113c 100644
  
  #-#-#-#-#-#-#-#-#-#-#-# SERVICES CONFIGURATION  #-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1063,13 +1063,13 @@
+@@ -1069,13 +1069,13 @@
  # exemptions for services pseudoclients:                              #
  #
  # Anope users should uncomment this:
@@ -190,10 +190,10 @@ diff --git a/docs/conf/modules.example.conf b/docs/conf/modules.conf
 similarity index 99%
 rename from docs/conf/modules.example.conf
 rename to docs/conf/modules.conf
-index 4c64899c2..ee25e887d 100644
+index b8e2774e7..7ba873df3 100644
 --- a/docs/conf/modules.example.conf
 +++ b/docs/conf/modules.conf
-@@ -658,11 +658,11 @@
+@@ -659,11 +659,11 @@
  #<module name="codepage">
  #
  # You should include one of the following files to set your codepage:
@@ -210,7 +210,7 @@ index 4c64899c2..ee25e887d 100644
  #
  # You can also define a custom codepage. For details on how to do this
  # please refer to the docs site:
-@@ -944,13 +944,13 @@
+@@ -945,13 +945,13 @@
  # more of the following example configs for popular DNSBLs:           #
  #                                                                     #
  # DroneBL (https://dronebl.org)                                       #
@@ -227,7 +227,7 @@ index 4c64899c2..ee25e887d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Exempt channel operators module: Provides support for allowing      #
-@@ -1002,7 +1002,7 @@
+@@ -1003,7 +1003,7 @@
  # Your choice of regex engine must match on all servers network-wide. #
  #                                                                     #
  # To learn more about the configuration of this module, read          #
@@ -236,7 +236,7 @@ index 4c64899c2..ee25e887d 100644
  # filters and shows how to add exemptions.                            #
  #                                                                     #
  #-#-#-#-#-#-#-#-#-#-#-  FILTER  CONFIGURATION  -#-#-#-#-#-#-#-#-#-#-#-#
-@@ -1011,7 +1011,7 @@
+@@ -1012,7 +1012,7 @@
  # specify below the path to the filter.conf file, or define some      #
  # <keyword> tags.                                                     #
  #                                                                     #
@@ -245,7 +245,7 @@ index 4c64899c2..ee25e887d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Gateway module: Enables forwarding the real IP address of a user from
-@@ -1149,7 +1149,7 @@
+@@ -1150,7 +1150,7 @@
  # If you specify to use the help module, then specify below the path  #
  # to the help.conf file.                                              #
  #                                                                     #
@@ -254,7 +254,7 @@ index 4c64899c2..ee25e887d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Help mode module: Provides oper-only user mode `h` (helpop) which
-@@ -2450,7 +2450,7 @@
+@@ -2463,7 +2463,7 @@
  #
  # This file has all the information about server links and services servers.
  # You *MUST* edit it if you intend to link servers.
@@ -263,7 +263,7 @@ index 4c64899c2..ee25e887d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SQL authentication module: Allows IRCd connections to be tied into
-@@ -2537,7 +2537,7 @@
+@@ -2565,7 +2565,7 @@
  # connections in order to oper up. It is highly recommended to load
  # this module if you use TLS on your network.
  # For how to use the oper features, please see the first
@@ -380,7 +380,7 @@ similarity index 100%
 rename from docs/conf/services/generic.example.conf
 rename to docs/conf/services/generic.conf
 diff --git a/make/template/main.mk b/make/template/main.mk
-index 24aaefe48..980baadf6 100644
+index 3afd71e86..f718b7c8f 100644
 --- a/make/template/main.mk
 +++ b/make/template/main.mk
 @@ -255,11 +255,11 @@ install: target
@@ -400,14 +400,7 @@ index 24aaefe48..980baadf6 100644
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(LOGPATH)
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(MANPATH)
  	@-$(INSTALL) -d $(INSTFLAGS) -m $(INSTMODE_DIR) $(MODPATH)
-@@ -273,19 +273,16 @@ install: target
- 	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/logrotate $(SCRPATH) 2>/dev/null
- ifeq ($(SYSTEM), darwin)
- 	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_BIN) @CONFIGURE_DIRECTORY@/org.inspircd.plist $(SCRPATH) 2>/dev/null
--endif
--ifeq ($(SYSTEM), linux)
--	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/inspircd.service $(SCRPATH) 2>/dev/null
- endif
+@@ -281,12 +281,12 @@ endif
  	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/inspircd.1 $(MANPATH) 2>/dev/null
  	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/inspircd-testssl.1 $(MANPATH) 2>/dev/null
  	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_BIN) tools/testssl $(BINPATH)/inspircd-testssl 2>/dev/null
@@ -426,7 +419,7 @@ index 24aaefe48..980baadf6 100644
  	-$(INSTALL) $(INSTFLAGS) -m $(INSTMODE_TXT) @CONFIGURE_DIRECTORY@/help.txt $(CONPATH)
  	@echo ""
  	@echo "*************************************"
-@@ -296,9 +293,7 @@ endif
+@@ -297,9 +297,7 @@ endif
  	@echo '  Binaries:' $(BINPATH)
  	@echo '  Modules:' $(MODPATH)
  	@echo '  Data:' $(DATPATH)
@@ -437,5 +430,5 @@ index 24aaefe48..980baadf6 100644
  GNUmakefile: make/template/main.mk src/version.sh configure @CONFIGURE_CACHE_FILE@
  	./configure --update
 -- 
-2.45.3
+2.49.1
 

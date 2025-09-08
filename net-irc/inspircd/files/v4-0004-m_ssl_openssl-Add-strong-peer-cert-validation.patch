@@ -1,4 +1,4 @@
-From e6eef8fd57bfaf3b08e551455bfe0de51cdaf005 Mon Sep 17 00:00:00 2001
+From 59f9e08bafa3ec7d36e6bbab91a9a5666f97c771 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 2 Mar 2018 22:44:32 -0800
 Subject: [PATCH 4/6] m_ssl_openssl Add strong peer cert validation.
@@ -40,10 +40,10 @@ index 000000000..37bff3159
 +	#peer_sigalg="RSA-SHA512"
 +>
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 3b25fbf95..61380d33e 100644
+index 12856ca57..3463f0de0 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -125,6 +125,12 @@ namespace OpenSSL
+@@ -123,6 +123,12 @@ namespace OpenSSL
  		long ctx_options;
  
  	public:
@@ -56,8 +56,8 @@ index 3b25fbf95..61380d33e 100644
  		Context(SSL_CTX* context)
  			: ctx(context)
  		{
-@@ -247,6 +253,58 @@ namespace OpenSSL
- 			}
+@@ -250,6 +256,58 @@ namespace OpenSSL
+ 			SSL_CTX_set_security_level(ctx, securitylevel);
  		}
  
 +		void SetCliCertWL(std::string& keymins, std::string& sigalgstrs) {
@@ -115,7 +115,7 @@ index 3b25fbf95..61380d33e 100644
  		long GetDefaultContextOptions() const
  		{
  			return ctx_options;
-@@ -450,11 +508,20 @@ namespace OpenSSL
+@@ -457,11 +515,20 @@ namespace OpenSSL
  			const std::string crlmode = tag->getString("crlmode", "chain", 1);
  			ctx.SetCRL(crlfile, crlpath, crlmode);
  
@@ -136,8 +136,8 @@ index 3b25fbf95..61380d33e 100644
  		const std::string& GetName() const { return name; }
  		SSL* CreateServerSession() { return ctx.CreateServerSession(); }
  		SSL* CreateClientSession() { return clientctx.CreateClientSession(); }
-@@ -688,6 +755,72 @@ private:
- 				Duration::ToString(ServerInstance->Time() - certinfo->expiration),
+@@ -695,6 +762,72 @@ private:
+ 				Duration::ToLongString(ServerInstance->Time() - certinfo->expiration, true),
  				Time::ToString(certinfo->expiration));
  		}
 +
@@ -210,5 +210,5 @@ index 3b25fbf95..61380d33e 100644
  
  	void VerifyChain()
 -- 
-2.45.3
+2.49.1
 

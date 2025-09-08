@@ -1,4 +1,4 @@
-From d2da7e6060bce1c68530c768ba29b5bbb4061fa4 Mon Sep 17 00:00:00 2001
+From 09f8905e89c5f53b9915bb78270efbfa63802dbc Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 2/6] Add logging for OpenSSL connections.
@@ -31,10 +31,10 @@ index 3d4b459c1..525182228 100644
  	/** The status of the TLS connection. */
  	Status status = STATUS_NONE;
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 7b8edd50d..d4d2d4860 100644
+index 4a62ab316..f78ee8a69 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -527,37 +527,88 @@ private:
+@@ -534,37 +534,88 @@ private:
  	SSL* sess;
  	bool data_to_write = false;
  
@@ -132,7 +132,7 @@ index 7b8edd50d..d4d2d4860 100644
  
  			status = STATUS_OPEN;
  
-@@ -565,10 +616,13 @@ private:
+@@ -572,10 +623,13 @@ private:
  
  			return 1;
  		}
@@ -150,7 +150,7 @@ index 7b8edd50d..d4d2d4860 100644
  		return -1;
  	}
  
-@@ -582,26 +636,14 @@ private:
+@@ -589,26 +643,14 @@ private:
  		sess = nullptr;
  		certificate = nullptr;
  		status = STATUS_NONE;
@@ -179,8 +179,8 @@ index 7b8edd50d..d4d2d4860 100644
  		if (!SelfSigned)
  		{
  			certinfo->unknownsigner = false;
-@@ -646,8 +688,55 @@ private:
- 				Duration::ToString(ServerInstance->Time() - certinfo->expiration),
+@@ -653,8 +695,55 @@ private:
+ 				Duration::ToLongString(ServerInstance->Time() - certinfo->expiration, true),
  				Time::ToString(certinfo->expiration));
  		}
 +	}
@@ -235,7 +235,7 @@ index 7b8edd50d..d4d2d4860 100644
  	}
  
  	static void GetDNString(X509_NAME* x509name, std::string& out)
-@@ -1022,7 +1111,9 @@ public:
+@@ -1029,7 +1118,9 @@ public:
  		: Module(VF_VENDOR, "Allows TLS encrypted connections using the OpenSSL library.")
  	{
  		// Initialize OpenSSL
@@ -247,5 +247,5 @@ index 7b8edd50d..d4d2d4860 100644
  
  		thismod = this;
 -- 
-2.45.3
+2.49.1
 

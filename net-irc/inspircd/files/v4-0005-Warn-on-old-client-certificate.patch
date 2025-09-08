@@ -1,4 +1,4 @@
-From e2d3eb6f70f259714a99dc379d2ffe047a4f00f2 Mon Sep 17 00:00:00 2001
+From d168d6cf1cea3eb31fd5b585267a0ea08565aa8e Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Sun, 14 Jun 2020 22:28:23 -0700
 Subject: [PATCH 5/6] Warn on old client certificate
@@ -8,7 +8,7 @@ Subject: [PATCH 5/6] Warn on old client certificate
  1 file changed, 10 insertions(+)
 
 diff --git a/src/modules/m_sslinfo.cpp b/src/modules/m_sslinfo.cpp
-index 4a7368972..400233276 100644
+index b38931871..73eb67b69 100644
 --- a/src/modules/m_sslinfo.cpp
 +++ b/src/modules/m_sslinfo.cpp
 @@ -452,6 +452,16 @@ public:
@@ -29,5 +29,5 @@ index 4a7368972..400233276 100644
  		{
  			user->WriteNotice("*** Your TLS client certificate has expired.");
 -- 
-2.45.3
+2.49.1
 
