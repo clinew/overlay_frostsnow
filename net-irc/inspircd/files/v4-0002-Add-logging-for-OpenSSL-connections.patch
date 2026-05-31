@@ -1,4 +1,4 @@
-From 09f8905e89c5f53b9915bb78270efbfa63802dbc Mon Sep 17 00:00:00 2001
+From 287bb2d03d458d78ea03d61dcd61c01b7eeae042 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 2/6] Add logging for OpenSSL connections.
@@ -7,14 +7,14 @@ Specifically, log both handshake failures and certificiate
 verification.
 ---
  include/modules/ssl.h               |   2 +
- src/modules/extra/m_ssl_openssl.cpp | 147 ++++++++++++++++++++++------
- 2 files changed, 121 insertions(+), 28 deletions(-)
+ src/modules/extra/m_ssl_openssl.cpp | 188 ++++++++++++++++++++--------
+ 2 files changed, 138 insertions(+), 52 deletions(-)
 
 diff --git a/include/modules/ssl.h b/include/modules/ssl.h
-index 3d4b459c1..525182228 100644
+index 865ad638f..1edd6093f 100644
 --- a/include/modules/ssl.h
 +++ b/include/modules/ssl.h
-@@ -49,6 +49,7 @@ public:
+@@ -48,6 +48,7 @@ public:
  	bool invalid = true;
  	bool unknownsigner = true;
  	bool revoked = false;
@@ -22,7 +22,7 @@ index 3d4b459c1..525182228 100644
  	time_t activation = 0;
  	time_t expiration = 0;
  
-@@ -196,6 +197,7 @@ protected:
+@@ -195,6 +196,7 @@ protected:
  	/** Peer TLS certificate, set by the TLS module
  	 */
  	reference<ssl_cert> certificate;
@@ -31,10 +31,10 @@ index 3d4b459c1..525182228 100644
  	/** The status of the TLS connection. */
  	Status status = STATUS_NONE;
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 4a62ab316..f78ee8a69 100644
+index e5f05b586..39a223593 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -534,37 +534,88 @@ private:
+@@ -546,37 +546,88 @@ private:
  	SSL* sess;
  	bool data_to_write = false;
  
@@ -132,7 +132,7 @@ index 4a62ab316..f78ee8a69 100644
  
  			status = STATUS_OPEN;
  
-@@ -572,10 +623,13 @@ private:
+@@ -584,10 +635,13 @@ private:
  
  			return 1;
  		}
@@ -150,76 +150,138 @@ index 4a62ab316..f78ee8a69 100644
  		return -1;
  	}
  
-@@ -589,26 +643,14 @@ private:
+@@ -601,10 +655,51 @@ private:
  		sess = nullptr;
  		certificate = nullptr;
  		status = STATUS_NONE;
 +		chain.clear();
++	}
++
++	void VerifyCertificate(ssl_cert* certinfo, X509* cert)
++	{
++		GetDNString(X509_get_subject_name(cert), certinfo->dn);
++		GetDNString(X509_get_issuer_name(cert), certinfo->issuer);
++
++		unsigned int mdlen;
++		unsigned char md[EVP_MAX_MD_SIZE];
++		for (const auto* digest : GetProfile().GetDigests())
++		{
++			if (!X509_digest(cert, digest, md, &mdlen))
++			{
++				certinfo->error = "Out of memory generating fingerprint";
++			}
++			else
++			{
++				certinfo->fingerprints.push_back(Hex::Encode(md, mdlen));
++			}
++		}
++
++		certinfo->activation = GetTime(X509_getm_notBefore(cert));
++		certinfo->expiration = GetTime(X509_getm_notAfter(cert));
++
++		int activated = ASN1_TIME_cmp_time_t(X509_getm_notBefore(cert), ServerInstance->Time());
++		if (activated != -1 && activated != 0)
++		{
++			certinfo->error = INSP_FORMAT("Certificate not active for {} (on {})",
++				Duration::ToLongString(certinfo->activation - ServerInstance->Time(), true),
++				Time::ToString(certinfo->activation));
++		}
++
++		int expired = ASN1_TIME_cmp_time_t(X509_getm_notAfter(cert), ServerInstance->Time());
++		if (expired != 0 && expired != 1)
++		{
++			certinfo->error = INSP_FORMAT("Certificate expired {} ago (on {})",
++				Duration::ToLongString(ServerInstance->Time() - certinfo->expiration, true),
++				Time::ToString(certinfo->expiration));
++		}
  	}
  
 -	void VerifyCertificate()
-+	void VerifyCertificate(ssl_cert* certinfo, X509* cert)
- 	{
--		X509* cert;
--		auto* certinfo = new ssl_cert();
--		this->certificate = certinfo;
- 		unsigned int n;
- 		unsigned char md[EVP_MAX_MD_SIZE];
- 
--		cert = SSL_get_peer_certificate(sess);
--
--		if (!cert)
--		{
--			certinfo->error = "Could not get peer certificate: "+std::string(get_error());
--			return;
--		}
--
--		certinfo->invalid = (SSL_get_verify_result(sess) != X509_V_OK);
--
- 		if (!SelfSigned)
- 		{
- 			certinfo->unknownsigner = false;
-@@ -653,8 +695,55 @@ private:
- 				Duration::ToLongString(ServerInstance->Time() - certinfo->expiration, true),
- 				Time::ToString(certinfo->expiration));
- 		}
-+	}
- 
 +	void VerifyChain()
-+	{
+ 	{
 +		// Verify leaf peer cert.
-+		X509* cert;
-+		long x509_ret;
-+		auto* certinfo = new ssl_cert();
-+		this->certificate = certinfo;
-+
-+		cert = SSL_get_peer_certificate(sess);
-+		if (!cert)
-+		{
-+			certinfo->error = "Could not get peer certificate";
-+			return;
-+		}
+ 		auto* certinfo = new ssl_cert();
+ 		this->certificate = certinfo;
+ 
+@@ -614,9 +709,11 @@ private:
+ 			certinfo->error = "Could not get peer certificate: "+std::string(get_error());
+ 			return;
+ 		}
 +		certinfo->exists = true;
-+
+ 
 +		// Unintuitive, but the result only really applies to the whole
 +		// chain, so call it once here rather than once per cert.
-+		certinfo->invalid = (SSL_get_verify_result(sess) != X509_V_OK);
-+		x509_ret = SSL_get_verify_result(sess);
-+		certinfo->invalid = (x509_ret != X509_V_OK);
-+		if (certinfo->invalid)
-+		{
-+			certinfo->error = X509_verify_cert_error_string(x509_ret);
-+		}
+ 		const auto verify = SSL_get_verify_result(sess);
+-
+ 		auto selfsigned = false;
+ 		switch (verify)
+ 		{
+@@ -624,6 +721,7 @@ private:
+ 			case X509_V_ERR_UNABLE_TO_VERIFY_LEAF_SIGNATURE:
+ 			case X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT:
+ 				selfsigned = true;
++				certinfo->error = X509_verify_cert_error_string(verify);
+ 				[[fallthrough]];
+ 
+ 			case X509_V_OK:
+@@ -632,9 +730,9 @@ private:
+ 
+ 			default:
+ 				certinfo->invalid = true;
++				certinfo->error = X509_verify_cert_error_string(verify);
+ 				break;
+ 		}
+-
+ 		if (selfsigned)
+ 		{
+ 			certinfo->unknownsigner = true;
+@@ -645,44 +743,28 @@ private:
+ 			certinfo->unknownsigner = false;
+ 			certinfo->trusted = true;
+ 		}
 +		VerifyCertificate(certinfo, cert);
- 		X509_free(cert);
-+
++		X509_free(cert);
+ 
+-		GetDNString(X509_get_subject_name(cert), certinfo->dn);
+-		GetDNString(X509_get_issuer_name(cert), certinfo->issuer);
+-
+-		unsigned int mdlen;
+-		unsigned char md[EVP_MAX_MD_SIZE];
+-		for (const auto* digest : GetProfile().GetDigests())
+-		{
+-			if (!X509_digest(cert, digest, md, &mdlen))
+-			{
+-				certinfo->error = "Out of memory generating fingerprint";
+-			}
+-			else
+-			{
+-				certinfo->fingerprints.push_back(Hex::Encode(md, mdlen));
+-			}
+-		}
+-
+-		certinfo->activation = GetTime(X509_getm_notBefore(cert));
+-		certinfo->expiration = GetTime(X509_getm_notAfter(cert));
+-
+-		int activated = ASN1_TIME_cmp_time_t(X509_getm_notBefore(cert), ServerInstance->Time());
+-		if (activated != -1 && activated != 0)
+-		{
+-			certinfo->error = INSP_FORMAT("Certificate not active for {} (on {})",
+-				Duration::ToLongString(certinfo->activation - ServerInstance->Time(), true),
+-				Time::ToString(certinfo->activation));
+-		}
+-
+-		int expired = ASN1_TIME_cmp_time_t(X509_getm_notAfter(cert), ServerInstance->Time());
+-		if (expired != 0 && expired != 1)
 +		// Verify peer chain.
 +		STACK_OF(X509)* lchain;
 +		lchain = SSL_get_peer_cert_chain(sess);
 +		if (!lchain)
 +			return;
 +		for (int i = 0; i < sk_X509_num(lchain); i++)
-+		{
+ 		{
+-			certinfo->error = INSP_FORMAT("Certificate expired {} ago (on {})",
+-				Duration::ToLongString(ServerInstance->Time() - certinfo->expiration, true),
+-				Time::ToString(certinfo->expiration));
 +			ssl_cert* chaininfo = new ssl_cert;
 +			chaininfo->exists = true;
 +			chain.push_back(chaininfo);
@@ -231,11 +293,13 @@ index 4a62ab316..f78ee8a69 100644
 +				certinfo->error += ", ";
 +			certinfo->error += "Cert chain #" +
 +				std::to_string(i + 1) + ": " + chaininfo->error;
-+		}
+ 		}
+-
+-		X509_free(cert);
  	}
  
  	static void GetDNString(X509_NAME* x509name, std::string& out)
-@@ -1029,7 +1118,9 @@ public:
+@@ -1065,7 +1147,9 @@ public:
  		: Module(VF_VENDOR, "Allows TLS encrypted connections using the OpenSSL library.")
  	{
  		// Initialize OpenSSL
@@ -247,5 +311,5 @@ index 4a62ab316..f78ee8a69 100644
  
  		thismod = this;
 -- 
-2.49.1
+2.51.2
 

@@ -1,4 +1,4 @@
-From f8f4f054021bac26a894a5ec50214f47222b40ad Mon Sep 17 00:00:00 2001
+From 806383f2614de6ab76c2e659f3ba79d7dd0e9a69 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 1/6] Fix build paths
@@ -99,7 +99,7 @@ diff --git a/docs/conf/inspircd.example.conf b/docs/conf/inspircd.conf
 similarity index 99%
 rename from docs/conf/inspircd.example.conf
 rename to docs/conf/inspircd.conf
-index 93b426a21..22232b609 100644
+index 83b56e459..f4c53fcdb 100644
 --- a/docs/conf/inspircd.example.conf
 +++ b/docs/conf/inspircd.conf
 @@ -228,7 +228,7 @@
@@ -177,10 +177,10 @@ diff --git a/docs/conf/links.example.conf b/docs/conf/links.conf
 similarity index 98%
 rename from docs/conf/links.example.conf
 rename to docs/conf/links.conf
-index 78eb9f4ac..a5cec0c49 100644
+index 0c2c0adf7..031788e31 100644
 --- a/docs/conf/links.example.conf
 +++ b/docs/conf/links.conf
-@@ -142,4 +142,4 @@
+@@ -146,4 +146,4 @@
  
  # Once you have edited this file you can remove this line. This is just to
  # ensure that you don't hastily include the file without reading it.
@@ -190,7 +190,7 @@ diff --git a/docs/conf/modules.example.conf b/docs/conf/modules.conf
 similarity index 99%
 rename from docs/conf/modules.example.conf
 rename to docs/conf/modules.conf
-index b8e2774e7..7ba873df3 100644
+index 8f5127772..54c2362ef 100644
 --- a/docs/conf/modules.example.conf
 +++ b/docs/conf/modules.conf
 @@ -659,11 +659,11 @@
@@ -227,7 +227,7 @@ index b8e2774e7..7ba873df3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Exempt channel operators module: Provides support for allowing      #
-@@ -1003,7 +1003,7 @@
+@@ -1004,7 +1004,7 @@
  # Your choice of regex engine must match on all servers network-wide. #
  #                                                                     #
  # To learn more about the configuration of this module, read          #
@@ -236,7 +236,7 @@ index b8e2774e7..7ba873df3 100644
  # filters and shows how to add exemptions.                            #
  #                                                                     #
  #-#-#-#-#-#-#-#-#-#-#-  FILTER  CONFIGURATION  -#-#-#-#-#-#-#-#-#-#-#-#
-@@ -1012,7 +1012,7 @@
+@@ -1013,7 +1013,7 @@
  # specify below the path to the filter.conf file, or define some      #
  # <keyword> tags.                                                     #
  #                                                                     #
@@ -245,7 +245,7 @@ index b8e2774e7..7ba873df3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Gateway module: Enables forwarding the real IP address of a user from
-@@ -1150,7 +1150,7 @@
+@@ -1151,7 +1151,7 @@
  # If you specify to use the help module, then specify below the path  #
  # to the help.conf file.                                              #
  #                                                                     #
@@ -254,7 +254,7 @@ index b8e2774e7..7ba873df3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Help mode module: Provides oper-only user mode `h` (helpop) which
-@@ -2463,7 +2463,7 @@
+@@ -2473,7 +2473,7 @@
  #
  # This file has all the information about server links and services servers.
  # You *MUST* edit it if you intend to link servers.
@@ -263,7 +263,7 @@ index b8e2774e7..7ba873df3 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SQL authentication module: Allows IRCd connections to be tied into
-@@ -2565,7 +2565,7 @@
+@@ -2575,7 +2575,7 @@
  # connections in order to oper up. It is highly recommended to load
  # this module if you use TLS on your network.
  # For how to use the oper features, please see the first
@@ -430,5 +430,5 @@ index 3afd71e86..f718b7c8f 100644
  GNUmakefile: make/template/main.mk src/version.sh configure @CONFIGURE_CACHE_FILE@
  	./configure --update
 -- 
-2.49.1
+2.51.2
 

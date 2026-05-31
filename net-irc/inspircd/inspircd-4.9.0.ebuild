@@ -12,7 +12,7 @@ SRC_URI="https://github.com/inspircd/inspircd/archive/v${PV}.tar.gz -> ${P}.tar.
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86"
-IUSE="argon2 debug gnutls ldap log-json maxminddb mysql pcre2 postgres re2 regex-posix sqlite ssl sslrehashsignal syslog"
+IUSE="argon2 debug gnutls ldap log-json maxminddb mysql pcre2 postgres re2 regex-posix sqlite ssl sslrehashsignal syslog tre"
 
 RDEPEND="
 	acct-group/inspircd
@@ -29,7 +29,8 @@ RDEPEND="
 	postgres? ( dev-db/postgresql:= )
 	re2? ( dev-libs/re2:= )
 	sqlite? ( >=dev-db/sqlite-3.0 )
-	ssl? ( dev-libs/openssl:= )"
+	ssl? ( dev-libs/openssl:= )
+	tre? ( dev-libs/tre )"
 DEPEND="${RDEPEND}"
 
 DOC_CONTENTS="
@@ -62,6 +63,7 @@ src_configure() {
 	use ssl && extras+="ssl_openssl,"
 	use sslrehashsignal && extras+="sslrehashsignal,"
 	use syslog && extras+="log_syslog,"
+	use tre && extras+="regex_tre,"
 
 	# The first configuration run enables certain "extra" InspIRCd
 	# modules, the second run generates the actual makefile.

@@ -1,4 +1,4 @@
-From 59f9e08bafa3ec7d36e6bbab91a9a5666f97c771 Mon Sep 17 00:00:00 2001
+From f2c85bbbd497df22912704d510ef3302097a1536 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 2 Mar 2018 22:44:32 -0800
 Subject: [PATCH 4/6] m_ssl_openssl Add strong peer cert validation.
@@ -40,10 +40,10 @@ index 000000000..37bff3159
 +	#peer_sigalg="RSA-SHA512"
 +>
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 12856ca57..3463f0de0 100644
+index 5cd721695..a4fc1b7e9 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -123,6 +123,12 @@ namespace OpenSSL
+@@ -122,6 +122,12 @@ namespace OpenSSL
  		long ctx_options;
  
  	public:
@@ -56,7 +56,7 @@ index 12856ca57..3463f0de0 100644
  		Context(SSL_CTX* context)
  			: ctx(context)
  		{
-@@ -250,6 +256,58 @@ namespace OpenSSL
+@@ -260,6 +266,58 @@ namespace OpenSSL
  			SSL_CTX_set_security_level(ctx, securitylevel);
  		}
  
@@ -115,7 +115,7 @@ index 12856ca57..3463f0de0 100644
  		long GetDefaultContextOptions() const
  		{
  			return ctx_options;
-@@ -457,11 +515,20 @@ namespace OpenSSL
+@@ -482,11 +540,20 @@ namespace OpenSSL
  			const std::string crlmode = tag->getString("crlmode", "chain", 1);
  			ctx.SetCRL(crlfile, crlpath, crlmode);
  
@@ -210,5 +210,5 @@ index 12856ca57..3463f0de0 100644
  
  	void VerifyChain()
 -- 
-2.49.1
+2.51.2
 
