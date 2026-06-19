@@ -1,4 +1,4 @@
-From 4078d28cc8b2e244071b87f2a854d2a7a2b1403c Mon Sep 17 00:00:00 2001
+From e099e964a818a2315acc58c8af9d04e09a723f3a Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 5 Jul 2024 23:12:42 -0700
 Subject: [PATCH 6/6] CotSS configuration
@@ -373,7 +373,7 @@ index fe95687f5..000000000
 -# <exemptfromfilter> tags are only for exempting messages sent *to* the
 -# configured targets.
 diff --git a/docs/conf/inspircd.conf b/docs/conf/inspircd.conf
-index f4c53fcdb..afbeb0e25 100644
+index 7c3fdcb1b..03a6c1097 100644
 --- a/docs/conf/inspircd.conf
 +++ b/docs/conf/inspircd.conf
 @@ -68,8 +68,8 @@
@@ -535,7 +535,7 @@ index f4c53fcdb..afbeb0e25 100644
  
           # requireident: Require that users of this block have a valid ident response.
           # Requires the ident module to be loaded.
-@@ -369,11 +368,33 @@
+@@ -372,11 +371,33 @@
           #
           # See https://defs.ircdocs.horse/info/formatting.html for more information
           # on client support for formatting characters.
@@ -571,7 +571,7 @@ index f4c53fcdb..afbeb0e25 100644
  
  <connect
           # name: Name to use for this connect block. Mainly used for
-@@ -387,7 +408,7 @@
+@@ -390,7 +411,7 @@
  
           # maxchans: Maximum number of channels a user in this class
           # can be in at one time.
@@ -580,7 +580,7 @@ index f4c53fcdb..afbeb0e25 100644
  
           # timeout: How long the server will wait before disconnecting
           # a user if they do not do anything on connect.
-@@ -396,7 +417,7 @@
+@@ -399,7 +420,7 @@
           timeout="20"
  
           # pingfreq: How often the server tries to ping connecting clients.
@@ -589,7 +589,7 @@ index f4c53fcdb..afbeb0e25 100644
  
           # hardsendq: maximum amount of data allowed in a client's send queue
           # before they are dropped. Keep this value higher than the length of
-@@ -419,7 +440,7 @@
+@@ -422,7 +443,7 @@
           #
           # If you are not using fakelag, this should be at least 20 to avoid excess flood kills
           # from processing some commands.
@@ -598,7 +598,7 @@ index f4c53fcdb..afbeb0e25 100644
  
           # commandrate: This specifies the maximum rate that commands can be processed.
           # If commands are sent more rapidly, the user's penalty will increase and they will
-@@ -444,7 +465,7 @@
+@@ -447,7 +468,7 @@
  
           # resolvehostnames: If disabled, no DNS lookups will be performed on connecting users
           # in this class. This can save a lot of resources on very busy servers.
@@ -607,7 +607,7 @@ index f4c53fcdb..afbeb0e25 100644
  
           # useident: Whether to try to look up the real username of users in this class using
           # the RFC 1413 identification protocol.
-@@ -463,8 +484,15 @@
+@@ -466,8 +487,15 @@
           # user modes. The example below sets user modes c (deaf_commonchans)
           # and x (cloak) which require the commonchans and cloak modules.
           # This setting only has effect when the conn_umodes module is loaded.
@@ -624,7 +624,7 @@ index f4c53fcdb..afbeb0e25 100644
  
  
  #-#-#-#-#-#-#-#-#-#-#-#-  CIDR CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-
-@@ -494,7 +522,7 @@
+@@ -497,7 +525,7 @@
  
  # This file has all the information about oper classes, types and o:lines.
  # You *MUST* edit it.
@@ -633,7 +633,7 @@ index f4c53fcdb..afbeb0e25 100644
  
  #-#-#-#-#-#-#-#-#-#-  MISCELLANEOUS CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -513,7 +541,7 @@
+@@ -516,7 +544,7 @@
  # If these values are not defined, InspIRCd uses the default DNS resolver
  # of your system.
  
@@ -642,7 +642,7 @@ index f4c53fcdb..afbeb0e25 100644
       # server: DNS server to use to attempt to resolve IP's to hostnames.
       # in most cases, you won't need to change this, as inspircd will
       # automatically detect the nameserver depending on /etc/resolv.conf
-@@ -524,7 +552,8 @@
+@@ -527,7 +555,8 @@
       # server="127.0.0.1"
  
       # timeout: time to wait to try to resolve DNS/hostname.
@@ -652,7 +652,7 @@ index f4c53fcdb..afbeb0e25 100644
  
  # An example of using an IPv6 nameserver
  #<dns server="::1" timeout="5">
-@@ -571,19 +600,19 @@
+@@ -574,19 +603,19 @@
  <options
           # prefixquit: What (if anything) users' quit messages
           # should be prefixed with.
@@ -676,7 +676,7 @@ index f4c53fcdb..afbeb0e25 100644
  
           # fixedquit: Set all users' quit messages to this value.
           #fixedquit=""
-@@ -614,7 +643,7 @@
+@@ -617,7 +646,7 @@
           # defaultbind: Sets the default for <bind> tags without an address. Choices are
           # ipv4 or ipv6; if not specified, IPv6 will be used if your system has support,
           # falling back to IPv4 otherwise.
@@ -685,7 +685,7 @@ index f4c53fcdb..afbeb0e25 100644
  
           # maskinlist: If enabled then channels will show the nick!user@host of a list
           # mode setter in the mode list instead of just the nick of the list mode setter.
-@@ -630,7 +659,7 @@
+@@ -633,7 +662,7 @@
           pingwarning="15"
  
           # serverpingfreq: How often pings are sent between servers.
@@ -694,7 +694,7 @@ index f4c53fcdb..afbeb0e25 100644
  
           # splitwhois: Whether to split private/secret channels from normal channels
           # in WHOIS responses. Possible values for this are:
-@@ -649,7 +678,7 @@
+@@ -652,7 +681,7 @@
  
           # xlinemessage: This is the text that is sent to a user when they are
           # banned from the server.
@@ -703,7 +703,7 @@ index f4c53fcdb..afbeb0e25 100644
  
           # xlinequit: The quit message to show to opers and affected users when
           # a user is [KGZ]-lined. The variables you can use in this are:
-@@ -817,7 +846,7 @@
+@@ -820,7 +849,7 @@
            #publicxlinequit="%fulltype%"
  
            # hidekills: If defined, replaces who executed a /KILL with a custom string.
@@ -712,7 +712,7 @@ index f4c53fcdb..afbeb0e25 100644
  
            # hideservicekills: Hide kills from clients of services servers from server notices.
            hideservicekills="yes"
-@@ -940,7 +969,8 @@
+@@ -943,7 +972,8 @@
  <log method="file"
       level="normal"
       type="* -USERINPUT -USEROUTPUT"
@@ -722,7 +722,7 @@ index f4c53fcdb..afbeb0e25 100644
  
  #<log method="stderr"
  #     level="normal"
-@@ -984,39 +1014,39 @@
+@@ -987,39 +1017,39 @@
  # Your server.                                                        #
  #                                                                     #
  
@@ -775,7 +775,7 @@ index f4c53fcdb..afbeb0e25 100644
  
  #-#-#-#-#-#-#-#-#-#-#- INSANE BAN OPTIONS  -#-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1060,7 +1090,7 @@
+@@ -1063,7 +1093,7 @@
  # provide almost all the features of InspIRCd. :)                     #
  #                                                                     #
  # The default does nothing -- we include it for simplicity for you.   #
@@ -784,7 +784,7 @@ index f4c53fcdb..afbeb0e25 100644
  
  #-#-#-#-#-#-#-#-#-#-#-# SERVICES CONFIGURATION  #-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1072,7 +1102,7 @@
+@@ -1075,7 +1105,7 @@
  #<include file="&dir.config;/services/anope.conf">
  #
  # Atheme users should uncomment this:
@@ -955,7 +955,7 @@ index 031788e31..bbb75fa2f 100644
 -<die reason="Using links.conf without editing it is a security risk">
 +#<die reason="Using links.conf without editing it is a security risk">
 diff --git a/docs/conf/modules.conf b/docs/conf/modules.conf
-index 54c2362ef..a56f1db82 100644
+index 28cc795c7..a05b6637d 100644
 --- a/docs/conf/modules.conf
 +++ b/docs/conf/modules.conf
 @@ -139,7 +139,7 @@
@@ -967,7 +967,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Alltime module: Shows time on all connected servers at once.
-@@ -247,7 +247,7 @@
+@@ -252,7 +252,7 @@
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Block color module: Blocking color-coded messages with chan mode +c.
@@ -976,7 +976,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Botmode module: Adds the user mode +B. If set on a user, it will
-@@ -275,7 +275,7 @@
+@@ -290,7 +290,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # CAP module: Provides the CAP negotiation mechanism required by many
  # other modules. It is strongly recommended that you load this.
@@ -985,7 +985,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # CBAN module: Lets you disallow channels from being used at runtime.
-@@ -349,16 +349,16 @@
+@@ -364,16 +364,16 @@
  # characters in the channel name such as bold, colorcodes, etc. which
  # can be quite annoying and allow users to on occasion have a channel
  # that looks like the name of another channel on the network.
@@ -1006,7 +1006,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Channelban: Implements extended ban j:, which stops anyone already
-@@ -679,7 +679,7 @@
+@@ -698,7 +698,7 @@
  # Connectban: Provides IP connection throttling. Any IP range that
  # connects too many times (configurable) in an hour is Z-lined for a
  # (configurable) duration, and their count resets to 0.
@@ -1015,7 +1015,7 @@ index 54c2362ef..a56f1db82 100644
  #
  # threshold - The number of connections which are allowed before a user
  #             is connectbanned. Defaults to 10.
-@@ -702,13 +702,13 @@
+@@ -721,13 +721,13 @@
  # splitwait - The time period to wait after a netsplit before enforcing
  #             connection bans. Defaults to 2 minutes.
  #
@@ -1036,7 +1036,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Connection throttle module.
-@@ -847,7 +847,7 @@
+@@ -866,7 +866,7 @@
  # Deaf module: Adds support for user modes +d and +D:
  # d - deaf to channel messages and notices.
  # D - deaf to user messages and notices.
@@ -1045,7 +1045,7 @@ index 54c2362ef..a56f1db82 100644
  #
  #-#-#-#-#-#-#-#-#-#-#-#-  DEAF CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-#
  #  bypasschars        - Characters that bypass deaf to a regular user.
-@@ -1173,7 +1173,7 @@
+@@ -1192,7 +1192,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Hide chans module: Allows users to hide their channels list from non-
  # opers by setting user mode +I on themselves.
@@ -1054,7 +1054,7 @@ index 54c2362ef..a56f1db82 100644
  #
  # affectsopers: Whether server operators with the users/auspex privilege
  #               are exempt from the hideoper (+I) mode. Defaults to no.
-@@ -1218,7 +1218,7 @@
+@@ -1237,7 +1237,7 @@
  # Hide oper module: Allows opers to hide their oper status from non-
  # opers by setting user mode +H on themselves.
  # This module is oper-only.
@@ -1063,7 +1063,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # hostcycle module: Sends a fake part and join for users when their
-@@ -1367,7 +1367,7 @@
+@@ -1387,7 +1387,7 @@
  # extension which allows capable clients to get an acknowledgement when
  # their messages are delivered and learn what modifications, if any,
  # were applied to them.
@@ -1072,7 +1072,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # IRCv3 invite-notify module: Provides the invite-notify IRCv3
-@@ -1444,11 +1444,11 @@
+@@ -1470,11 +1470,11 @@
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Anti auto rejoin: Adds support for prevention of auto-rejoin (+J).
@@ -1086,7 +1086,7 @@ index 54c2362ef..a56f1db82 100644
  #
  # This setting specifies what to do when someone successfully /KNOCKs.
  # If set to "notice", then a NOTICE will be sent to the channel.
-@@ -1457,7 +1457,7 @@
+@@ -1483,7 +1483,7 @@
  # If set to "numeric" then a 710 numeric will be sent to the channel.
  # This allows easier scripting but not all clients support it.
  # If set to "both" then (surprise!) both will be sent.
@@ -1095,7 +1095,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # LDAP module: Allows other SQL modules to access a LDAP database
-@@ -1639,7 +1639,7 @@
+@@ -1672,7 +1672,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Message flood module: Adds message/notice flood protection via
  # channel mode +f.
@@ -1104,7 +1104,7 @@ index 54c2362ef..a56f1db82 100644
  #
  # The weight to give each message type. TAGMSGs are considered to be
  # 1/5 of a NOTICE or PRIVMSG to avoid users being accidentally flooded
-@@ -1722,7 +1722,7 @@
+@@ -1772,7 +1772,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # No CTCP module: Adds the channel mode +C and user mode +T to block
  # CTCPs and extban 'C' to block CTCPs sent by specific users.
@@ -1113,7 +1113,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # No kicks module: Adds the +Q channel mode and the Q: extban to deny
-@@ -1866,10 +1866,10 @@
+@@ -1916,10 +1916,10 @@
  # command.
  #<module name="passforward">
  
@@ -1126,7 +1126,7 @@ index 54c2362ef..a56f1db82 100644
  
  	# forwardmsg: Message to send to users when forwarding their
  	# password. You can use the following variables in this message:
-@@ -1878,10 +1878,10 @@
+@@ -1928,10 +1928,10 @@
  	# %nickrequired%  The nickname of the service to forward to (see above).
  	# %pass%          The password to forward to services.
  	# %user%          The username of the authenticating user.
@@ -1139,7 +1139,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Password hash module: Allows hashed passwords to be used.
-@@ -1997,7 +1997,7 @@
+@@ -2054,7 +2054,7 @@
  # Optional - If you specify to use the randquote module, then specify #
  # below the path to the quotes file.                                  #
  #                                                                     #
@@ -1148,7 +1148,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Real name ban: Implements two extended bans:                        #
-@@ -2473,7 +2473,7 @@
+@@ -2557,7 +2557,7 @@
  #
  # This file has all the information about server links and services servers.
  # You *MUST* edit it if you intend to link servers.
@@ -1157,7 +1157,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SQL authentication module: Allows IRCd connections to be tied into
-@@ -2556,12 +2556,33 @@
+@@ -2642,12 +2642,33 @@
  #
  # Users of binary packages should consult the documentation for their
  # package to find out whether this module is available.
@@ -1192,7 +1192,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # TLS info module: Allows users to retrieve information about other
-@@ -2577,7 +2598,7 @@
+@@ -2663,7 +2684,7 @@
  # For how to use the oper features, please see the first
  # example <oper> tag in opers.conf.
  #
@@ -1201,7 +1201,7 @@ index 54c2362ef..a56f1db82 100644
  #
  #-#-#-#-#-#-#-#-#-#-#-#- SSLINFO CONFIGURATION -#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -2606,11 +2627,11 @@
+@@ -2692,11 +2713,11 @@
  #                                                                     #
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  #
@@ -1218,16 +1218,16 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # TLS mode module: Adds support for TLS-only channels via the '+z'
-@@ -2619,7 +2640,7 @@
+@@ -2705,7 +2726,7 @@
  #
  # Does not do anything useful without a working TLS module and the
  # sslinfo module (see below).
 -#<module name="sslmodes">
 +<module name="sslmodes">
- 
- #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
- # TLS rehash signal module: Allows the TLS modules to be rehashed by
-@@ -2634,7 +2655,7 @@
+ #
+ # By default the fingerprint extban can only be used by users who can
+ # see fingerprints of other users (i.e. <sslinfo:operonly>). You can
+@@ -2725,7 +2746,7 @@
  #
  # Users of binary packages should consult the documentation for their
  # package to find out whether this module is available.
@@ -1236,7 +1236,7 @@ index 54c2362ef..a56f1db82 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # StartTLS module: Adds support for the IRCv3 tls capability which    #
-@@ -2677,7 +2698,7 @@
+@@ -2768,7 +2789,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Uninvite module: Adds the /UNINVITE command which lets users remove
  # pending invites from channels without waiting for the user to join.
@@ -1640,5 +1640,5 @@ index 1ddf6ef14..000000000
 -# This file inherits from the generic config to avoid repetition.
 -<include file="&dir.config;/services/generic.conf">
 -- 
-2.51.2
+2.53.0
 

@@ -1,4 +1,4 @@
-From 806383f2614de6ab76c2e659f3ba79d7dd0e9a69 Mon Sep 17 00:00:00 2001
+From 797908d52b64e2e5854d45c6060d00fbaeacd1c7 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 1/6] Fix build paths
@@ -99,7 +99,7 @@ diff --git a/docs/conf/inspircd.example.conf b/docs/conf/inspircd.conf
 similarity index 99%
 rename from docs/conf/inspircd.example.conf
 rename to docs/conf/inspircd.conf
-index 83b56e459..f4c53fcdb 100644
+index 5b8a162fd..7c3fdcb1b 100644
 --- a/docs/conf/inspircd.example.conf
 +++ b/docs/conf/inspircd.conf
 @@ -228,7 +228,7 @@
@@ -111,7 +111,7 @@ index 83b56e459..f4c53fcdb 100644
  
  # A connect class with <connect:deny> set denies connections from the specified host/IP range.
  <connect
-@@ -494,7 +494,7 @@
+@@ -497,7 +497,7 @@
  
  # This file has all the information about oper classes, types and o:lines.
  # You *MUST* edit it.
@@ -120,7 +120,7 @@ index 83b56e459..f4c53fcdb 100644
  
  #-#-#-#-#-#-#-#-#-#-  MISCELLANEOUS CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -503,7 +503,7 @@
+@@ -506,7 +506,7 @@
  #
  #   motd - displayed on connect and when a user executes /MOTD
  # Modules can also define their own files
@@ -129,7 +129,7 @@ index 83b56e459..f4c53fcdb 100644
  
  # Example of an executable file include. Note this will be read on rehash,
  # not when the command is run.
-@@ -539,7 +539,7 @@
+@@ -542,7 +542,7 @@
  # default of 'inspircd.pid' is used.                                  #
  #                                                                     #
  
@@ -138,7 +138,7 @@ index 83b56e459..f4c53fcdb 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#- LIST MODE LIMITS #-#-#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -719,7 +719,7 @@
+@@ -722,7 +722,7 @@
           #  - topiclock       Channel mode +t - limits changing the topic to (half)ops
           # You can also configure this on a per-channel basis with a channel mode and
           # even negate the configured exemptions below.
@@ -147,7 +147,7 @@ index 83b56e459..f4c53fcdb 100644
           exemptchanops="filter:o nickflood:o nonick:v regmoderated:o"
  
           # invitebypassmodes: This allows /INVITE to bypass other channel modes.
-@@ -1060,7 +1060,7 @@
+@@ -1063,7 +1063,7 @@
  # provide almost all the features of InspIRCd. :)                     #
  #                                                                     #
  # The default does nothing -- we include it for simplicity for you.   #
@@ -156,7 +156,7 @@ index 83b56e459..f4c53fcdb 100644
  
  #-#-#-#-#-#-#-#-#-#-#-# SERVICES CONFIGURATION  #-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -1069,13 +1069,13 @@
+@@ -1072,13 +1072,13 @@
  # exemptions for services pseudoclients:                              #
  #
  # Anope users should uncomment this:
@@ -190,10 +190,10 @@ diff --git a/docs/conf/modules.example.conf b/docs/conf/modules.conf
 similarity index 99%
 rename from docs/conf/modules.example.conf
 rename to docs/conf/modules.conf
-index 8f5127772..54c2362ef 100644
+index 0f355b19b..28cc795c7 100644
 --- a/docs/conf/modules.example.conf
 +++ b/docs/conf/modules.conf
-@@ -659,11 +659,11 @@
+@@ -678,11 +678,11 @@
  #<module name="codepage">
  #
  # You should include one of the following files to set your codepage:
@@ -210,7 +210,7 @@ index 8f5127772..54c2362ef 100644
  #
  # You can also define a custom codepage. For details on how to do this
  # please refer to the docs site:
-@@ -945,13 +945,13 @@
+@@ -964,13 +964,13 @@
  # more of the following example configs for popular DNSBLs:           #
  #                                                                     #
  # DroneBL (https://dronebl.org)                                       #
@@ -227,7 +227,7 @@ index 8f5127772..54c2362ef 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Exempt channel operators module: Provides support for allowing      #
-@@ -1004,7 +1004,7 @@
+@@ -1023,7 +1023,7 @@
  # Your choice of regex engine must match on all servers network-wide. #
  #                                                                     #
  # To learn more about the configuration of this module, read          #
@@ -236,7 +236,7 @@ index 8f5127772..54c2362ef 100644
  # filters and shows how to add exemptions.                            #
  #                                                                     #
  #-#-#-#-#-#-#-#-#-#-#-  FILTER  CONFIGURATION  -#-#-#-#-#-#-#-#-#-#-#-#
-@@ -1013,7 +1013,7 @@
+@@ -1032,7 +1032,7 @@
  # specify below the path to the filter.conf file, or define some      #
  # <keyword> tags.                                                     #
  #                                                                     #
@@ -245,7 +245,7 @@ index 8f5127772..54c2362ef 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Gateway module: Enables forwarding the real IP address of a user from
-@@ -1151,7 +1151,7 @@
+@@ -1170,7 +1170,7 @@
  # If you specify to use the help module, then specify below the path  #
  # to the help.conf file.                                              #
  #                                                                     #
@@ -254,7 +254,7 @@ index 8f5127772..54c2362ef 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Help mode module: Provides oper-only user mode `h` (helpop) which
-@@ -2473,7 +2473,7 @@
+@@ -2557,7 +2557,7 @@
  #
  # This file has all the information about server links and services servers.
  # You *MUST* edit it if you intend to link servers.
@@ -263,7 +263,7 @@ index 8f5127772..54c2362ef 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SQL authentication module: Allows IRCd connections to be tied into
-@@ -2575,7 +2575,7 @@
+@@ -2661,7 +2661,7 @@
  # connections in order to oper up. It is highly recommended to load
  # this module if you use TLS on your network.
  # For how to use the oper features, please see the first
@@ -380,7 +380,7 @@ similarity index 100%
 rename from docs/conf/services/generic.example.conf
 rename to docs/conf/services/generic.conf
 diff --git a/make/template/main.mk b/make/template/main.mk
-index 3afd71e86..f718b7c8f 100644
+index 4d56cdbb3..952c77be0 100644
 --- a/make/template/main.mk
 +++ b/make/template/main.mk
 @@ -255,11 +255,11 @@ install: target
@@ -430,5 +430,5 @@ index 3afd71e86..f718b7c8f 100644
  GNUmakefile: make/template/main.mk src/version.sh configure @CONFIGURE_CACHE_FILE@
  	./configure --update
 -- 
-2.51.2
+2.53.0
 

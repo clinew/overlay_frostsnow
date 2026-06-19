@@ -1,4 +1,4 @@
-From f2c85bbbd497df22912704d510ef3302097a1536 Mon Sep 17 00:00:00 2001
+From f5283a18b5aa74e2f71ad5fb6161ff20c83db20a Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 2 Mar 2018 22:44:32 -0800
 Subject: [PATCH 4/6] m_ssl_openssl Add strong peer cert validation.
@@ -40,7 +40,7 @@ index 000000000..37bff3159
 +	#peer_sigalg="RSA-SHA512"
 +>
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 5cd721695..a4fc1b7e9 100644
+index e28c4ad2c..1c43e33a9 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -122,6 +122,12 @@ namespace OpenSSL
@@ -210,5 +210,5 @@ index 5cd721695..a4fc1b7e9 100644
  
  	void VerifyChain()
 -- 
-2.51.2
+2.53.0
 

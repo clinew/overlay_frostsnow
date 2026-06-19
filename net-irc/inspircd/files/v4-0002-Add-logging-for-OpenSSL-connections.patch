@@ -1,4 +1,4 @@
-From 287bb2d03d458d78ea03d61dcd61c01b7eeae042 Mon Sep 17 00:00:00 2001
+From 909b8c0d9fb3ee203cd74d92bcfdc33b8ce04d5a Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 2/6] Add logging for OpenSSL connections.
@@ -11,7 +11,7 @@ verification.
  2 files changed, 138 insertions(+), 52 deletions(-)
 
 diff --git a/include/modules/ssl.h b/include/modules/ssl.h
-index 865ad638f..1edd6093f 100644
+index 60119fae2..276e06647 100644
 --- a/include/modules/ssl.h
 +++ b/include/modules/ssl.h
 @@ -48,6 +48,7 @@ public:
@@ -31,7 +31,7 @@ index 865ad638f..1edd6093f 100644
  	/** The status of the TLS connection. */
  	Status status = STATUS_NONE;
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index e5f05b586..39a223593 100644
+index fa4e6add6..2205d1fdf 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -546,37 +546,88 @@ private:
@@ -311,5 +311,5 @@ index e5f05b586..39a223593 100644
  
  		thismod = this;
 -- 
-2.51.2
+2.53.0
 

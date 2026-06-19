@@ -1,4 +1,4 @@
-From 1c555fd01cd124d0b4ed995b01c2e9f7b87c9ce0 Mon Sep 17 00:00:00 2001
+From cf5fbe9de135079de1c6471ff4c824689666b214 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 1 Dec 2017 00:15:38 -0800
 Subject: [PATCH 3/6] Add OpenSSL rehash messages.
@@ -8,7 +8,7 @@ Subject: [PATCH 3/6] Add OpenSSL rehash messages.
  1 file changed, 4 insertions(+)
 
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index 39a223593..5cd721695 100644
+index 2205d1fdf..e28c4ad2c 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -1192,6 +1192,10 @@ public:
@@ -23,5 +23,5 @@ index 39a223593..5cd721695 100644
  		{
  			ReadProfiles();
 -- 
-2.51.2
+2.53.0
 
