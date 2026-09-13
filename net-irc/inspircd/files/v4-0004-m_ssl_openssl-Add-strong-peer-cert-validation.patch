@@ -1,4 +1,4 @@
-From f5283a18b5aa74e2f71ad5fb6161ff20c83db20a Mon Sep 17 00:00:00 2001
+From c07e5f958b6fa963328a5fee1fe44740badaef46 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 2 Mar 2018 22:44:32 -0800
 Subject: [PATCH 4/6] m_ssl_openssl Add strong peer cert validation.
@@ -40,7 +40,7 @@ index 000000000..37bff3159
 +	#peer_sigalg="RSA-SHA512"
 +>
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index e28c4ad2c..1c43e33a9 100644
+index 365558e75..6d42e3b8c 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
 @@ -122,6 +122,12 @@ namespace OpenSSL
@@ -56,7 +56,7 @@ index e28c4ad2c..1c43e33a9 100644
  		Context(SSL_CTX* context)
  			: ctx(context)
  		{
-@@ -260,6 +266,58 @@ namespace OpenSSL
+@@ -263,6 +269,58 @@ namespace OpenSSL
  			SSL_CTX_set_security_level(ctx, securitylevel);
  		}
  
@@ -115,7 +115,7 @@ index e28c4ad2c..1c43e33a9 100644
  		long GetDefaultContextOptions() const
  		{
  			return ctx_options;
-@@ -482,11 +540,20 @@ namespace OpenSSL
+@@ -485,11 +543,20 @@ namespace OpenSSL
  			const std::string crlmode = tag->getString("crlmode", "chain", 1);
  			ctx.SetCRL(crlfile, crlpath, crlmode);
  
@@ -136,7 +136,7 @@ index e28c4ad2c..1c43e33a9 100644
  		const std::string& GetName() const { return name; }
  		SSL* CreateServerSession() { return ctx.CreateServerSession(); }
  		SSL* CreateClientSession() { return clientctx.CreateClientSession(); }
-@@ -695,6 +762,72 @@ private:
+@@ -698,6 +765,72 @@ private:
  				Duration::ToLongString(ServerInstance->Time() - certinfo->expiration, true),
  				Time::ToString(certinfo->expiration));
  		}
@@ -210,5 +210,5 @@ index e28c4ad2c..1c43e33a9 100644
  
  	void VerifyChain()
 -- 
-2.53.0
+2.55.0
 

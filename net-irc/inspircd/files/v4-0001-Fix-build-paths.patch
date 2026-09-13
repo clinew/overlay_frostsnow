@@ -1,4 +1,4 @@
-From 797908d52b64e2e5854d45c6060d00fbaeacd1c7 Mon Sep 17 00:00:00 2001
+From cf7b336c36ea6f7947535e7864b546627bd8e683 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Mon, 3 Feb 2020 19:10:54 -0800
 Subject: [PATCH 1/6] Fix build paths
@@ -99,7 +99,7 @@ diff --git a/docs/conf/inspircd.example.conf b/docs/conf/inspircd.conf
 similarity index 99%
 rename from docs/conf/inspircd.example.conf
 rename to docs/conf/inspircd.conf
-index 5b8a162fd..7c3fdcb1b 100644
+index ff800cab7..df2bdd1f2 100644
 --- a/docs/conf/inspircd.example.conf
 +++ b/docs/conf/inspircd.conf
 @@ -228,7 +228,7 @@
@@ -190,7 +190,7 @@ diff --git a/docs/conf/modules.example.conf b/docs/conf/modules.conf
 similarity index 99%
 rename from docs/conf/modules.example.conf
 rename to docs/conf/modules.conf
-index 0f355b19b..28cc795c7 100644
+index c2beda6de..faf74ef8a 100644
 --- a/docs/conf/modules.example.conf
 +++ b/docs/conf/modules.conf
 @@ -678,11 +678,11 @@
@@ -245,7 +245,7 @@ index 0f355b19b..28cc795c7 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Gateway module: Enables forwarding the real IP address of a user from
-@@ -1170,7 +1170,7 @@
+@@ -1174,7 +1174,7 @@
  # If you specify to use the help module, then specify below the path  #
  # to the help.conf file.                                              #
  #                                                                     #
@@ -254,7 +254,7 @@ index 0f355b19b..28cc795c7 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Help mode module: Provides oper-only user mode `h` (helpop) which
-@@ -2557,7 +2557,7 @@
+@@ -2561,7 +2561,7 @@
  #
  # This file has all the information about server links and services servers.
  # You *MUST* edit it if you intend to link servers.
@@ -263,7 +263,7 @@ index 0f355b19b..28cc795c7 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SQL authentication module: Allows IRCd connections to be tied into
-@@ -2661,7 +2661,7 @@
+@@ -2665,7 +2665,7 @@
  # connections in order to oper up. It is highly recommended to load
  # this module if you use TLS on your network.
  # For how to use the oper features, please see the first
@@ -430,5 +430,5 @@ index 4d56cdbb3..952c77be0 100644
  GNUmakefile: make/template/main.mk src/version.sh configure @CONFIGURE_CACHE_FILE@
  	./configure --update
 -- 
-2.53.0
+2.55.0
 

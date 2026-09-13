@@ -1,4 +1,4 @@
-From 909b8c0d9fb3ee203cd74d92bcfdc33b8ce04d5a Mon Sep 17 00:00:00 2001
+From e7cc1942eefcbfc9937a0b88094d160e88fc3090 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 3 Feb 2017 21:15:17 -0800
 Subject: [PATCH 2/6] Add logging for OpenSSL connections.
@@ -31,10 +31,10 @@ index 60119fae2..276e06647 100644
  	/** The status of the TLS connection. */
  	Status status = STATUS_NONE;
 diff --git a/src/modules/extra/m_ssl_openssl.cpp b/src/modules/extra/m_ssl_openssl.cpp
-index fa4e6add6..2205d1fdf 100644
+index 2d3d30bab..9d8082345 100644
 --- a/src/modules/extra/m_ssl_openssl.cpp
 +++ b/src/modules/extra/m_ssl_openssl.cpp
-@@ -546,37 +546,88 @@ private:
+@@ -549,37 +549,88 @@ private:
  	SSL* sess;
  	bool data_to_write = false;
  
@@ -132,7 +132,7 @@ index fa4e6add6..2205d1fdf 100644
  
  			status = STATUS_OPEN;
  
-@@ -584,10 +635,13 @@ private:
+@@ -587,10 +638,13 @@ private:
  
  			return 1;
  		}
@@ -150,7 +150,7 @@ index fa4e6add6..2205d1fdf 100644
  		return -1;
  	}
  
-@@ -601,10 +655,51 @@ private:
+@@ -604,10 +658,51 @@ private:
  		sess = nullptr;
  		certificate = nullptr;
  		status = STATUS_NONE;
@@ -203,7 +203,7 @@ index fa4e6add6..2205d1fdf 100644
  		auto* certinfo = new ssl_cert();
  		this->certificate = certinfo;
  
-@@ -614,9 +709,11 @@ private:
+@@ -617,9 +712,11 @@ private:
  			certinfo->error = "Could not get peer certificate: "+std::string(get_error());
  			return;
  		}
@@ -216,7 +216,7 @@ index fa4e6add6..2205d1fdf 100644
  		auto selfsigned = false;
  		switch (verify)
  		{
-@@ -624,6 +721,7 @@ private:
+@@ -627,6 +724,7 @@ private:
  			case X509_V_ERR_UNABLE_TO_VERIFY_LEAF_SIGNATURE:
  			case X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT:
  				selfsigned = true;
@@ -224,7 +224,7 @@ index fa4e6add6..2205d1fdf 100644
  				[[fallthrough]];
  
  			case X509_V_OK:
-@@ -632,9 +730,9 @@ private:
+@@ -635,9 +733,9 @@ private:
  
  			default:
  				certinfo->invalid = true;
@@ -235,7 +235,7 @@ index fa4e6add6..2205d1fdf 100644
  		if (selfsigned)
  		{
  			certinfo->unknownsigner = true;
-@@ -645,44 +743,28 @@ private:
+@@ -648,44 +746,28 @@ private:
  			certinfo->unknownsigner = false;
  			certinfo->trusted = true;
  		}
@@ -298,8 +298,8 @@ index fa4e6add6..2205d1fdf 100644
 -		X509_free(cert);
  	}
  
- 	static void GetDNString(X509_NAME* x509name, std::string& out)
-@@ -1065,7 +1147,9 @@ public:
+ 	static void GetDNString(const X509_NAME* x509name, std::string& out)
+@@ -1068,7 +1150,9 @@ public:
  		: Module(VF_VENDOR, "Allows TLS encrypted connections using the OpenSSL library.")
  	{
  		// Initialize OpenSSL
@@ -311,5 +311,5 @@ index fa4e6add6..2205d1fdf 100644
  
  		thismod = this;
 -- 
-2.53.0
+2.55.0
 

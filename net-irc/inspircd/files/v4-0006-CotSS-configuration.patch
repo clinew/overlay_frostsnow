@@ -1,4 +1,4 @@
-From e099e964a818a2315acc58c8af9d04e09a723f3a Mon Sep 17 00:00:00 2001
+From d51385a7aa4b2770e188023ff6998359d1d51a53 Mon Sep 17 00:00:00 2001
 From: Wade Cline <wadecline@hotmail.com>
 Date: Fri, 5 Jul 2024 23:12:42 -0700
 Subject: [PATCH 6/6] CotSS configuration
@@ -19,9 +19,9 @@ Subject: [PATCH 6/6] CotSS configuration
  docs/conf/providers/dronebl.conf              |  87 ----------
  docs/conf/providers/efnet-rbl.conf            |  31 ----
  docs/conf/providers/irccloud.conf             |  30 ----
- docs/conf/providers/torexit.conf              |  16 --
+ docs/conf/providers/torexit.conf              |  15 --
  docs/conf/services/anope.conf                 |   5 -
- 17 files changed, 217 insertions(+), 670 deletions(-)
+ 17 files changed, 217 insertions(+), 669 deletions(-)
  delete mode 100644 docs/conf/codepages/ascii.conf
  delete mode 100644 docs/conf/codepages/iso-8859-1.conf
  delete mode 100644 docs/conf/codepages/iso-8859-2.conf
@@ -373,7 +373,7 @@ index fe95687f5..000000000
 -# <exemptfromfilter> tags are only for exempting messages sent *to* the
 -# configured targets.
 diff --git a/docs/conf/inspircd.conf b/docs/conf/inspircd.conf
-index 7c3fdcb1b..03a6c1097 100644
+index df2bdd1f2..66b2ec871 100644
 --- a/docs/conf/inspircd.conf
 +++ b/docs/conf/inspircd.conf
 @@ -68,8 +68,8 @@
@@ -646,12 +646,12 @@ index 7c3fdcb1b..03a6c1097 100644
       # server="127.0.0.1"
  
       # timeout: time to wait to try to resolve DNS/hostname.
--     timeout="5">
-+     #timeout="5">
+-     timeout="10s">
++     #timeout="10s">
 +<dns enabled="false">
  
  # An example of using an IPv6 nameserver
- #<dns server="::1" timeout="5">
+ #<dns server="::1" timeout="10s">
 @@ -574,19 +603,19 @@
  <options
           # prefixquit: What (if anything) users' quit messages
@@ -955,7 +955,7 @@ index 031788e31..bbb75fa2f 100644
 -<die reason="Using links.conf without editing it is a security risk">
 +#<die reason="Using links.conf without editing it is a security risk">
 diff --git a/docs/conf/modules.conf b/docs/conf/modules.conf
-index 28cc795c7..a05b6637d 100644
+index faf74ef8a..c159dd880 100644
 --- a/docs/conf/modules.conf
 +++ b/docs/conf/modules.conf
 @@ -139,7 +139,7 @@
@@ -1045,7 +1045,7 @@ index 28cc795c7..a05b6637d 100644
  #
  #-#-#-#-#-#-#-#-#-#-#-#-  DEAF CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-#
  #  bypasschars        - Characters that bypass deaf to a regular user.
-@@ -1192,7 +1192,7 @@
+@@ -1196,7 +1196,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Hide chans module: Allows users to hide their channels list from non-
  # opers by setting user mode +I on themselves.
@@ -1054,7 +1054,7 @@ index 28cc795c7..a05b6637d 100644
  #
  # affectsopers: Whether server operators with the users/auspex privilege
  #               are exempt from the hideoper (+I) mode. Defaults to no.
-@@ -1237,7 +1237,7 @@
+@@ -1241,7 +1241,7 @@
  # Hide oper module: Allows opers to hide their oper status from non-
  # opers by setting user mode +H on themselves.
  # This module is oper-only.
@@ -1063,7 +1063,7 @@ index 28cc795c7..a05b6637d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # hostcycle module: Sends a fake part and join for users when their
-@@ -1387,7 +1387,7 @@
+@@ -1391,7 +1391,7 @@
  # extension which allows capable clients to get an acknowledgement when
  # their messages are delivered and learn what modifications, if any,
  # were applied to them.
@@ -1072,7 +1072,7 @@ index 28cc795c7..a05b6637d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # IRCv3 invite-notify module: Provides the invite-notify IRCv3
-@@ -1470,11 +1470,11 @@
+@@ -1474,11 +1474,11 @@
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Anti auto rejoin: Adds support for prevention of auto-rejoin (+J).
@@ -1086,7 +1086,7 @@ index 28cc795c7..a05b6637d 100644
  #
  # This setting specifies what to do when someone successfully /KNOCKs.
  # If set to "notice", then a NOTICE will be sent to the channel.
-@@ -1483,7 +1483,7 @@
+@@ -1487,7 +1487,7 @@
  # If set to "numeric" then a 710 numeric will be sent to the channel.
  # This allows easier scripting but not all clients support it.
  # If set to "both" then (surprise!) both will be sent.
@@ -1095,7 +1095,7 @@ index 28cc795c7..a05b6637d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # LDAP module: Allows other SQL modules to access a LDAP database
-@@ -1672,7 +1672,7 @@
+@@ -1676,7 +1676,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Message flood module: Adds message/notice flood protection via
  # channel mode +f.
@@ -1104,7 +1104,7 @@ index 28cc795c7..a05b6637d 100644
  #
  # The weight to give each message type. TAGMSGs are considered to be
  # 1/5 of a NOTICE or PRIVMSG to avoid users being accidentally flooded
-@@ -1772,7 +1772,7 @@
+@@ -1776,7 +1776,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # No CTCP module: Adds the channel mode +C and user mode +T to block
  # CTCPs and extban 'C' to block CTCPs sent by specific users.
@@ -1113,7 +1113,7 @@ index 28cc795c7..a05b6637d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # No kicks module: Adds the +Q channel mode and the Q: extban to deny
-@@ -1916,10 +1916,10 @@
+@@ -1920,10 +1920,10 @@
  # command.
  #<module name="passforward">
  
@@ -1126,7 +1126,7 @@ index 28cc795c7..a05b6637d 100644
  
  	# forwardmsg: Message to send to users when forwarding their
  	# password. You can use the following variables in this message:
-@@ -1928,10 +1928,10 @@
+@@ -1932,10 +1932,10 @@
  	# %nickrequired%  The nickname of the service to forward to (see above).
  	# %pass%          The password to forward to services.
  	# %user%          The username of the authenticating user.
@@ -1139,7 +1139,7 @@ index 28cc795c7..a05b6637d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Password hash module: Allows hashed passwords to be used.
-@@ -2054,7 +2054,7 @@
+@@ -2058,7 +2058,7 @@
  # Optional - If you specify to use the randquote module, then specify #
  # below the path to the quotes file.                                  #
  #                                                                     #
@@ -1148,7 +1148,7 @@ index 28cc795c7..a05b6637d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Real name ban: Implements two extended bans:                        #
-@@ -2557,7 +2557,7 @@
+@@ -2561,7 +2561,7 @@
  #
  # This file has all the information about server links and services servers.
  # You *MUST* edit it if you intend to link servers.
@@ -1157,7 +1157,7 @@ index 28cc795c7..a05b6637d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # SQL authentication module: Allows IRCd connections to be tied into
-@@ -2642,12 +2642,33 @@
+@@ -2646,12 +2646,33 @@
  #
  # Users of binary packages should consult the documentation for their
  # package to find out whether this module is available.
@@ -1192,7 +1192,7 @@ index 28cc795c7..a05b6637d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # TLS info module: Allows users to retrieve information about other
-@@ -2663,7 +2684,7 @@
+@@ -2667,7 +2688,7 @@
  # For how to use the oper features, please see the first
  # example <oper> tag in opers.conf.
  #
@@ -1201,7 +1201,7 @@ index 28cc795c7..a05b6637d 100644
  #
  #-#-#-#-#-#-#-#-#-#-#-#- SSLINFO CONFIGURATION -#-#-#-#-#-#-#-#-#-#-#-#
  #                                                                     #
-@@ -2692,11 +2713,11 @@
+@@ -2696,11 +2717,11 @@
  #                                                                     #
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  #
@@ -1218,7 +1218,7 @@ index 28cc795c7..a05b6637d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # TLS mode module: Adds support for TLS-only channels via the '+z'
-@@ -2705,7 +2726,7 @@
+@@ -2709,7 +2730,7 @@
  #
  # Does not do anything useful without a working TLS module and the
  # sslinfo module (see below).
@@ -1227,7 +1227,7 @@ index 28cc795c7..a05b6637d 100644
  #
  # By default the fingerprint extban can only be used by users who can
  # see fingerprints of other users (i.e. <sslinfo:operonly>). You can
-@@ -2725,7 +2746,7 @@
+@@ -2729,7 +2750,7 @@
  #
  # Users of binary packages should consult the documentation for their
  # package to find out whether this module is available.
@@ -1236,7 +1236,7 @@ index 28cc795c7..a05b6637d 100644
  
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # StartTLS module: Adds support for the IRCv3 tls capability which    #
-@@ -2768,7 +2789,7 @@
+@@ -2772,7 +2793,7 @@
  #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
  # Uninvite module: Adds the /UNINVITE command which lets users remove
  # pending invites from channels without waiting for the user to join.
@@ -1608,10 +1608,10 @@ index 9cc6470d3..000000000
 -#       suffix=".irccloud.com">
 diff --git a/docs/conf/providers/torexit.conf b/docs/conf/providers/torexit.conf
 deleted file mode 100644
-index 1be1a5b40..000000000
+index d88afa1d8..000000000
 --- a/docs/conf/providers/torexit.conf
 +++ /dev/null
-@@ -1,16 +0,0 @@
+@@ -1,15 +0,0 @@
 -# This file contains configuration for using the dnsbl module with
 -# the dan.me.uk Tor exit node DNSBL. See https://www.dan.me.uk/dnsbl
 -# for more information on the dan.me.uk Tor exit node DNSBL.
@@ -1620,7 +1620,6 @@ index 1be1a5b40..000000000
 -       domain="torexit.dan.me.uk"
 -       type="record"
 -       records="100"
--       timeout="10s"
 -       action="zline"
 -       duration="7d"
 -       reason="Tor exit nodes are not allowed on this network. See https://metrics.torproject.org/rs.html#search/%ip% for more information.">
@@ -1640,5 +1639,5 @@ index 1ddf6ef14..000000000
 -# This file inherits from the generic config to avoid repetition.
 -<include file="&dir.config;/services/generic.conf">
 -- 
-2.53.0
+2.55.0
 
